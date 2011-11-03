@@ -1,0 +1,92 @@
+@media (max-width: 600px) {
+        .container_12 {
+            width: 100%;
+						margin: 0;
+        }
+	.container_12 .grid_12, .container_12 .grid_4, .container_12 .grid_3 {
+	    float: left;
+            width: 90%;
+						padding: 0px 10px;
+						margin: 20px 0 0 0;
+						min-width: 320px;
+	}
+	h1 {
+		font-size: 30px;
+		margin-top: 20px;
+	}
+	.grid_4 > h2 {
+	    font-size: 18px;
+			font-weight: bold;
+	}
+	.grid_4 > ul > li {
+		font-size: 14px;
+	}
+	#top-header, #header #headertabs, #related, #adunit {
+	    display: none;
+	}
+	#header {
+		margin: 0 10px;
+	}
+	#framing {
+		height: 150px;
+		margin: 10px;
+	}
+	#framing > p {
+		font-size: 20px;
+	}
+	#river > section > .graphic, #river > section.reverse > .graphic {
+		float: none;
+		display: block;
+		margin-left: 0;
+		max-width: 60%;
+		height: 130px;
+	}
+	#river > section.reverse > h3, #river > section.reverse > p {
+		text-align: left;
+	}
+	#river > section > h3 {
+		font-size: 20px;
+	}
+	#plandetails {
+		display: none;
+	}
+	#footer p {
+		text-align: left;
+	}
+	#footer > nav > div {
+		height: 100%;
+		text-align: left;
+	}
+	#footer > nav > div > h3 {
+	    font-size: 18px;
+			font-weight: bold;
+			text-transform: none;
+			color: black;
+			text-align: center;
+	}
+	#footer > nav ul > li {
+		font-size: 14px;
+	cursor: pointer;
+	list-style: none;
+	padding: 15px;
+	margin: 0px;
+	font-size: 16px;
+	background-color: #eee;
+	border-top: 1px solid #ccc;
+	}
+	#actionbar {
+		margin: 20px 10px 0;
+	}
+	#actionbar .grid_4, #actionbar .grid_3 {
+		margin-top: 0;
+		text-align: left;
+	}
+	#actionbar .tweet {
+		top: 0;
+		left: 0;
+		position: relative;
+	}
+	#actionbar .grid_4 p {
+		margin: 0;
+	}
+}
