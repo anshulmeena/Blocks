@@ -17,7 +17,7 @@ li{margin-left:30px}
 button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;font:14px/18px 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif}
 
 @font-face {
-    font-family: 'MuseoSlab700';
+    font-family: 'MuseoSlab500';
     src: url('museoslab/museo_slab_500-webfont.eot');
     src: url('museoslab/museo_slab_500-webfont.eot?#iefix') format('embedded-opentype'),
          url('museoslab/museo_slab_500-webfont.woff') format('woff'),
@@ -534,10 +534,12 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb > section.sets.thumbnail > section > article:nth-child(4) {
 	z-index: -1;
 	-moz-transform: rotate(3deg);
+	-webkit-transform: rotate(3deg);
 }
 #esb > section.sets.thumbnail > section > article:nth-child(5) {
 	z-index: -2;
 	-moz-transform: rotate(-3deg);
+	-webkit-transform: rotate(-3deg);
 }
 #esb > section.sets.thumbnail > section > article > header {
 	display: none;
@@ -553,6 +555,8 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	-moz-transform-origin: top left;
 	-webkit-transform: scale(0.15);
 	-webkit-transform-origin: top left;
+	transform: scale(0.15);
+	transform-origin: top left;
 	display: inline-block;
 	margin: 0;
 	background-color: white;
@@ -606,11 +610,13 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	left:0;
 	-moz-transform: rotate(1deg);
 	-webkit-transform: rotate(1deg);
+	transform: rotate(1deg);
 }
 #esb > section.sets.grid > section > article:nth-child(4) {
 	z-index: -1;
 	-moz-transform: rotate(4deg);
 	-webkit-transform: rotate(4deg);
+	transform: rotate(4deg);
 	top: 26px;
 	left: 8px;
 }
@@ -712,6 +718,10 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb > section.grid > article > header > button {
 	-moz-transform: scale(0.75);
 	-moz-transform-origin: right top;
+	-webkit-transform: scale(0.75);
+	-webkit-transform-origin: right top;
+	transform: scale(0.75);
+	transform-origin: right top;
 }
 #esb > section.notes > article > header > span {
 	display: none;
@@ -889,6 +899,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	width: 75px;
 	height: 100px;
 	-moz-transform: scale(1);
+	-webkit-transform: scale(1);
 	border: 2px solid gray;
 	margin-bottom: 10px;
 }
@@ -915,10 +926,12 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	display: block;
 	-moz-transform: scale(0.5);
 	-moz-transform-origin: left top;
+	-webkit-transform: scale(0.5);
+	-webkit-transform-origin: left top;
 }
 #esb > section.components.grid > article {
-    width: auto;
-    height: auto;
+  width: auto;
+  height: auto;
 	border: 1px solid rgba(255, 255, 255, 0.1);
 	height: 150px;
 	margin-bottom: 20px;
@@ -1132,6 +1145,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 }
 #esb > section.sets.selected > section.inlineflow > article.page > section.design {
 	-moz-transform: scale(0.8);
+	-webkit-transform: scale(0.8);
 }
 #esb > section.sets.selected > section            > article.page > header > * {
 	display: none;
@@ -1192,9 +1206,11 @@ vertical-align: middle;
 }
 #esb > section.sets.selected > section.inlineflow > article.page.precedes > section.design {
 	-moz-transform: scale(0.4) skewY(30deg);
+	-webkit-transform: scale(0.4) skewY(30deg);
 }
 #esb > section.sets.selected > section.inlineflow > article.page.follows > section.design {
 	-moz-transform: scale(0.4) skewY(-30deg);
+	-webkit-transform: scale(0.4) skewY(-30deg);
 	left: -365px;
 	z-index: -4;
 }
@@ -1248,6 +1264,8 @@ vertical-align: middle;
 #esb > section.pages.notes > article > section.design .component > .esbmarker-wrapper .esbmarker {
 	-moz-transform: scale(1.5);
 	-moz-transform-origin: left top;
+	-webkit-transform: scale(1.5);
+	-webkit-transform-origin: left top;
 }
 
 .esbmarker:hover {

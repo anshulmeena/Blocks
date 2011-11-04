@@ -54,8 +54,8 @@ var ESB = {
 		var componentid;
 		
 		// Add Additional Style Sheets to Header
-		$('head').prepend('<link rel="stylesheet" href="blocks/blocks.css"></link>');
-		$('head').append('<link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.6.custom.css" />');
+		$('head').prepend('<link rel="stylesheet" href="blocks/css/blocks.css"></link>');
+		$('head').append('<link rel="stylesheet" href="blocks/css/ui-lightness/jquery-ui-1.8.6.custom.css" />');
 
 		// Error Check Markup and Setup Overall DOM
 		if (!ESB.markupCore()) return false;
@@ -217,6 +217,7 @@ var ESB = {
 					.css('height',1000*ESB.display.aspectratio*ESB.display.galleryscale+50);
 				$('#esb > section.pages > article > section.design')
 					.css('-moz-transform','scale('+ESB.display.galleryscale+')')
+					.css('-webkit-transform','scale('+ESB.display.galleryscale+')')
 					.css('height',960*ESB.display.aspectratio);
 			}
 		})
@@ -232,6 +233,7 @@ var ESB = {
 					.css('height',1000*ESB.display.aspectratio*ESB.display.galleryscale+50);
 				$('#esb > section.pages > article > section.design')
 					.css('-moz-transform','scale('+ESB.display.galleryscale+')')
+					.css('-webkit-transform','scale('+ESB.display.galleryscale+')')
 					.css('height',960*ESB.display.aspectratio);
 			}
 		})
@@ -441,29 +443,31 @@ var ESB = {
 		});
 	},
 	aC : function(element) {						// Add Component Variations from ESB to Item in Components Section
-		var id = $(element).attr('data-component');
-		var clonedComponent;
+    $(elements).each(function(index, element) {
+		  var id = $(element).attr('data-component');
+		  var clonedComponent;
 
-		// Clone the Component
-		if ($(element).attr('data-variation')) {
-			clonedComponent = $('#esb > section.components > article[data-id=' + id + ']').find('section[data-id=' + $(element).attr('data-variation') + '] > section.design').clone(true);
+		  // Clone the Component
+      if ($(element).attr('data-variation')) {
+        clonedComponent = $('#esb > section.components > article[data-id=' + id + ']').find('section[data-id=' + $(element).attr('data-variation') + '] > section.design').clone(true);
 
-			// Need to add an ELSE IF for if variation can't be found
-			// then append first, and if not
-			// then append entire c[].html
-			
-		} else {
-			clonedComponent = $('#esb > section.components > article[data-id=' + id + ']').find('section:nth-child(3) > section.design').clone(true);
-		}
-		
-		// Append Clone to Page Layout
-		$(element).append($(clonedComponent).children()).addClass('loaded');
+        // Need to add an ELSE IF for if variation can't be found
+        // then append first, and if not
+        // then append entire c[].html
+        
+      } else {
+        clonedComponent = $('#esb > section.components > article[data-id=' + id + ']').find('section:nth-child(3) > section.design').clone(true);
+      }
+      
+      // Append Clone to Page Layout
+      $(element).append($(clonedComponent).children()).addClass('loaded');
 
-		// Class Component within Page Layout
-		if (ESB.c[id].classes) {
-			$(element).addClass(ESB.c[id].classes);
-		}
-		ESB.mC(element);
+      // Class Component within Page Layout
+      if (ESB.c[id].classes) {
+        $(element).addClass(ESB.c[id].classes);
+      }
+      ESB.mC(element);
+    });
 	},
 	lC : function(element) {						// Load Component from File to ESB
 		var id=$(element).attr('data-component');
