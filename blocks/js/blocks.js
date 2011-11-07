@@ -40,7 +40,7 @@ Eightshapes.Blocks = {
     // Called by: document.ready
     // Precondition: a page to display that may or may not contain embedded or linked components
     // Core steps include:
-    //   1. Expand CSS and HTML DOM (Add style sheets, build out DOM above and around the initial page)
+    //  1. Expand CSS and HTML DOM (Add style sheets, build out DOM above and around the initial page)
     //  2. Load prototype configuration (to inventory all parts: settings, pages, components, etc)
     //  3. Register (into JS Object) and create stubs (in DOM) for all prototype parts
     //  4. Load and mark all embedded and linked components in initial page
@@ -56,8 +56,8 @@ Eightshapes.Blocks = {
     if (!Eightshapes.Blocks.markupCore()) return false;
 
     // Attempt to Load _config.xml
-    //    If successful -> invoke Blocks
-    //    If failure -> remove Toolbar, still try to load page components into "standalone page"
+    //   If successful -> invoke Blocks
+    //   If failure -> remove Toolbar, still try to load page components into "standalone page"
     $.ajax({
       type: 'GET',
       url: '_config.xml',
@@ -196,12 +196,12 @@ Eightshapes.Blocks = {
       component.loadStarted = true;
       $.get( Eightshapes.Blocks.sourceURL(component.source)+id+".html", function(results) {
         results = "<div>" + results + "</div>";
-        component.header            = $(results).children('header').attr('id',id);
+        component.header          = $(results).children('header').attr('id',id);
         component.html            = $(results).children('#variations');
-        component.notes            = $(results).children('aside.notes').html();
+        component.notes           = $(results).children('aside.notes').html();
         component.title           = $(results).children('header').attr('title');
-        component.classes          = $(results).children('header').attr('class');
-        component.container        = $(results).children('header').attr('data-container');
+        component.classes         = $(results).children('header').attr('class');
+        component.container       = $(results).children('header').attr('data-container');
         component.hasNotes        = ($(results).children('aside.notes').length > 0);
         component.variationCount  = $(results).children('article#variations').children().length;
 
@@ -323,7 +323,7 @@ Eightshapes.Blocks = {
           .css('-webkit-transform','scale('+Eightshapes.Blocks.display.galleryscale+')')
           .css('height',960*Eightshapes.Blocks.display.aspectratio);
       }
-    })
+    });
     $('body > section > menu > span.heightslider > div.esbgalleryaspectratio').slider({
       value:1.25,
       min:0.6,
@@ -339,17 +339,17 @@ Eightshapes.Blocks = {
           .css('-webkit-transform','scale('+Eightshapes.Blocks.display.galleryscale+')')
           .css('height',960*Eightshapes.Blocks.display.aspectratio);
       }
-    })
+    });
 
     $('body').prepend('<header><nav class="primary"><ul></ul></nav></header>');
     $('body > header > nav > ul')
       .append('<li class="pages" data-view="pages">Pages</a></li>')
-      .append('<li class="components" data-view="components">Components</a></li>')
+      .append('<li class="components" data-view="components">Components</a></li>');
 
     $('body > header > nav.primary > ul > li').click( function() {
       $.bbq.pushState({view:$(this).attr("data-view"),id:"n/a"});
       return false;
-    })
+    });
 
     return true;
   },
@@ -373,11 +373,12 @@ Eightshapes.Blocks = {
 
       var currentArticle = "";
       var id = $(element).attr('id');
-      if ( $(element).attr('data-id')) {
+
+      if ($(element).attr('data-id')) {
         currentArticle = element;
         id = $(element).attr('data-id');
       }
-      if(id === loadedPageID) {
+      if (id === loadedPageID) {
         reachedLoadedPageYet = true;
       }
 
@@ -812,6 +813,13 @@ Eightshapes.Blocks = {
     // Determine Current View
     var view = $.bbq.getState( "view" );
     var id = $.bbq.getState( "id" );
+
+    // Discard links within prototype pages 
+    // (links containing a hash tag will tigger hashchange).
+    // https://github.com/EightShapes/Blocks/issues/7
+    if (view == undefined && id == undefined) {
+      return false;
+    }
     
     // Flush View Classes
     $('body').removeClass('fullscreen');
