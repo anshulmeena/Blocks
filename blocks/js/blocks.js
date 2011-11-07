@@ -964,11 +964,43 @@ eightshapes.blocks = {
 }
 
 $(document).ready(function(){
+  $.import_js("blocks/js/jquery-ui-1.8.6.custom.min.js"); 
+  $.import_js("blocks/js/jquery-bbq.js");
+
 	eightshapes.blocks.init();
+
   $(window).bind( "hashchange", function(e) {
 		eightshapes.blocks.view();
 	})
+
 	$(document).keydown(function (event) {
 		eightshapes.blocks.keyboardshortcuts(event);
 	});
 });
+
+/* 
+ * This code attributed to http://www.kipras.com/
+ * NOTE: Errors in included files will be reported as errors in the HTML file
+ *       by Firebug.
+ * $.import_js() helper (for javascript importing within javascript).
+ */
+(function($) {
+    var import_js_imported = [];
+
+    $.extend(true, {
+      import_js : function(script) {
+        var found = false;
+        for (var i = 0; i < import_js_imported.length; i++) {
+          if (import_js_imported[i] == script) {
+            found = true;
+            break;
+          }
+        }
+
+        if (found == false) {
+          $("head").append('<script type="text/javascript" src="' + script + '"></script>');
+          import_js_imported.push(script);
+        }
+      }
+    });
+})(jQuery);
