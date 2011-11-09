@@ -49,8 +49,8 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 }
 #esb > header > h1 {
 	display: inline-block;
+	font-family: 'MuseoSlab500';
 	font-size: 17px;
-	font-family: "Museo Slab";
 	color: #888;
 	margin: 9px 5px 0px 20px;
 	line-height: 1em;
@@ -99,7 +99,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	border-left: 1px solid #444;
 	font-size: 16px;
 	color: #666;
-	font-family: "Museo Slab";
+	font-family: 'MuseoSlab500';
 	text-transform: uppercase;
 	cursor: pointer;
 }
@@ -295,7 +295,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	background-position: -80px -80px;
 }
 #esb > section > menu h3 {
-	font-family: "Museo Slab";
+	font-family: 'MuseoSlab500';
 	font-size: 14px;
 	text-transform: uppercase;
 	color: #888;
@@ -326,7 +326,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb > section.active > menu > h2 {
 	cursor: auto;
 	color: #888;
-	font-family: "Museo Slab";
+	font-family: 'MuseoSlab500';
 	font-size: 40px;
 	vertical-align: top;
 	margin-top: 80px;
@@ -689,7 +689,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	font-size: 28px;
 	vertical-align: top;
 	padding-right: 340px;
-	font-family: "Museo Slab";
+	font-family: 'MuseoSlab500';
 }
 #esb > section.notes > article > header > h2:hover {
 	background: none;
@@ -756,7 +756,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	width: 310px;
 }
 #esb > section.notes > article > aside.notes h3 {
-	font-family: "Museo Slab";
+	font-family: 'MuseoSlab500';
 	color: #888;
 	margin-top: 10px;
 	padding-top: 10px;
@@ -1065,7 +1065,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	margin-bottom: 20px;
 }
 #esb > section.sets       > section.active > header > h2 {
-	font-family: "Museo Slab";
+	font-family: 'MuseoSlab500';
 	color: #888;
 	font-size: 40px;
 	margin: 0px;
