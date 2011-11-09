@@ -27,4 +27,30 @@ namespace :blocks do
     puts result == true ? "Created blocks.zip" : "ERROR: #{result}"
 
   end
+
+  task :link_examples do
+    current_path = File.dirname(__FILE__)
+    blocks_dir   = File.join(current_path, 'blocks')
+    examples_dir = File.join(current_path, '..', 'blocks-examples')
+
+    Dir.chdir(examples_dir)
+    puts Dir.pwd
+
+    Dir.entries('.').each do |dir|
+      next if (dir == '.' || dir == '..') # Skip filesystem dirs
+      next unless File.directory?(dir) # Skip non-directories
+
+      example_blocks_dir = File.join(dir, 'blocks')
+
+      unless File.symlink?(example_blocks_dir)
+        # Remove existing blocks directory
+        if File.exists?(example_blocks_dir)
+          Dir.delete(example_blocks_dir)
+        end
+
+        # Create a symlink in the example dir to blocks
+        File.symlink(blocks_dir, example_blocks_dir)
+      end
+    end
+  end
 end
