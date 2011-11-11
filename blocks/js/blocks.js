@@ -27,12 +27,12 @@ EightShapes.Blocks = {
     lastViewID : ""
   },
 
-  p : {},              // Pages  
-  c : {},              // Components
-  s : {},              // Sets
-  m : 0,              // Marker Count (enumerated to relate marked components in layouts and ASIDE.notes lists)
-  pc : 0,             // Page Count (enumerated because...I don't remember)
-  metadata : {},      // Prototype Metadata (eventually, author, last updated, version, etc)
+  p : {},         // Pages  
+  c : {},         // Components
+  s : {},         // Sets
+  m : 0,          // Marker Count (enumerated to relate marked components in layouts and ASIDE.notes lists)
+  pc : 0,         // Page Count (enumerated because...I don't remember)
+  metadata : {},  // Prototype Metadata (eventually, author, last updated, version, etc)
 
   init : function() {
 
@@ -93,80 +93,7 @@ EightShapes.Blocks = {
       }
     });
 
-    //======================================================================================================
-    // Blocks View & Toolbar Button Live Events
-
-    // Grid/Thumbnail/List View: Click Component Title > Go To Component Notes
-    $('#esb > section.components > article > header > h2').live('click', function() {
-      $.bbq.pushState({view:"component", id:$(this).closest('article').attr('data-id')});
-    });
-    // Grid/Thumbnail/List View: Click Page Title > Go To Page Notes
-    $('#esb > section.pages > article > header > h2').live('click', function() {
-      $.bbq.pushState({view:"page", id:$(this).closest('article').attr('data-id')});
-    });
-    // Notes View: Component List Hovers
-    $('#esb > section.pages > article.page > aside.notes ul.componentlist li').live('mouseover',function() {
-      $(this).closest('article.page').find('section.design  section[data-marker='+$(this).attr('data-marker')+']').closest('.component').addClass('highlight');
-    });
-    $('#esb > section.pages > article.page > aside.notes ul.componentlist li').live('mouseout', function() {
-      $(this).closest('article.page').find('section.design  section[data-marker='+$(this).attr('data-marker')+']').closest('.component').removeClass('highlight');
-    });
-    // Go From Article (Page, Component) to Main Section (Pages, Components)
-    $('#esb > section.active.selected > header > h2, #esb > section.active.notes > header > h2').live('click', function() {
-      $('#esb > header > nav.primary > ul > li.' + $(this).children('h2').html().toLowerCase()).click();
-    });
-    // Go From Article to Article
-    $('#esb > section > menu > button.next').live('click', function() {
-      var currentPage = $('#esb > section.pages > article.page.active');
-      if($(currentPage).next().is('article')) {
-        if($('#esb').hasClass('fullscreen')) {
-          $.bbq.pushState({view:"fullscreen",id:$(currentPage).next().attr('data-id')});
-        } else {
-          $.bbq.pushState({id:$(currentPage).next().attr('data-id')});
-        }
-      }
-    });
-    $('#esb > section > menu > button.previous').live('click', function() {
-      var currentPage = $('#esb > section.pages > article.page.active');
-      if($(currentPage).prev().is('article')) {
-        $.bbq.pushState({view:"page", id:$(currentPage).prev().attr('data-id')});
-      }
-    });
-    // Turn Markers On/Off
-    $('#esb > section > menu > button.markers').live('click', function() {
-      ($('body').hasClass('markers')) ? $('body').removeClass('markers') : $('body').addClass('markers');
-    });
-    // Enter Full Screen for Page from Any Blocks View
-    $('#esb > section.pages > article > header > button.fullscreen').live('click', function() {
-      $.bbq.pushState({view:"fullscreen", id:$(this).closest('article').attr('data-id')});
-    });
-    // Exit Full Screen
-    $('#esb > section > menu > button.exitfullscreen').live('click', function() {
-      $.bbq.pushState({ view : EightShapes.Blocks.display.lastView, id : EightShapes.Blocks.display.lastViewID });
-      for(componentid in EightShapes.Blocks.c) {
-        if(!EightShapes.Blocks.c[componentid].loaded) {
-          EightShapes.Blocks.c[componentid].load();
-        }
-      }
-      for(pageid in EightShapes.Blocks.p) {
-        if(!EightShapes.Blocks.p[pageid].loaded) {
-          EightShapes.Blocks.p[pageid].load();
-        }
-      }
-    });
-    // Toggle Grid/Thumbnail/List view mode for Pages and Components
-    $('#esb > section > menu > span.viewas > button').live('click', function() {
-      $(this).addClass('active').siblings().removeClass('active');
-      $('#esb > section.active')
-        .removeClass('list grid thumbnail notes').attr('style','').addClass($(this).html().toLowerCase())
-        .children('article').attr('style','').children('section.design').attr('style','');
-
-      $('#esb > section.components.active.grid > article > section.variation:nth-child(3)').each( function(i,element) {
-        $(element).css('width',($(element).find('section.design').width()/2+10)+'px');
-        $(element).css('height',($(element).find('section.design').height()/2+60)+'px');
-        $(element).parent().css('height',($(element).find('section.design').height()/2+75)+'px');
-      });
-    });
+    EightShapes.Blocks.bindEvents();
   },
 
   //======================================================================================================
@@ -206,14 +133,14 @@ EightShapes.Blocks = {
         component.variationCount  = $(results).children('article#variations').children().length;
 
         if (component.variationCount > 1 && !component.loaded) {
-          $('#esb > section.components > article[data-id=' + id + '] > header > h2').append(' <span class="count">(' + component.variationCount + ')</span>');
+          $('#esb > section.components > article[data-id="' + id + '"] > header > h2').append(' <span class="count">(' + component.variationCount + ')</span>');
         }
         EightShapes.Blocks.registerComponent(component.header);
-        if($('#esb > section.components > article[data-id=' + component.id + '] > section.variation').length === 0) {
+        if($('#esb > section.components > article[data-id="' + component.id + '"] > section.variation').length === 0) {
           $(component.html).children('section[data-variation]').each( function(index,element) {
             var variationid = $(this).attr('data-variation');
             var variationtitle = $(this).attr('title');
-            $('#esb > section.components > article[data-id=' + id + ']')
+            $('#esb > section.components > article[data-id="' + id + '"]')
               .append('<section class="variation ' + EightShapes.Blocks.containComponent(id) + '" data-id="' + variationid + '" ><header><h3>' + variationtitle + '</h3></header>' + 
                  '<section class="design ' + component.classes + '">' + $(this).html() + '</section></section>')
               .children('aside.notes').find('ul.variationlist').append('<li data-variationid="' + variationid + '">' + variationtitle + '</li>');  
@@ -244,6 +171,7 @@ EightShapes.Blocks = {
 
     }
   },
+
   Page : function(id) {
     this.id = id;
     this.loaded = false;
@@ -260,7 +188,7 @@ EightShapes.Blocks = {
     
     this.load = function() {
       var page = EightShapes.Blocks.p[id];
-      var pageArticle = $('body > section.pages > article[data-id=' + page.id + ']').append('<section class="design"></section>');
+      var pageArticle = $('body > section.pages > article[data-id="' + page.id + '"]').append('<section class="design"></section>');
       $.get(id+".html", function(results) {
         results = "<div>" + results + "</div>";
         page.html = results;
@@ -268,19 +196,106 @@ EightShapes.Blocks = {
         page.designclasses = $(results).children('.design').attr('class');
         page.notes = $(results).children('aside.notes').children();
         page.loaded = true;
-        $('#esb > section.pages > article[data-id=' + page.id + '] > section.design')
+        $('#esb > section.pages > article[data-id="' + page.id + '"] > section.design')
           .append($(page.design))
           .addClass(page.designclasses);
-        $('#esb > section.pages > article[data-id=' + page.id + '] > aside.notes')
+        $('#esb > section.pages > article[data-id="' + page.id + '"] > aside.notes')
           .append($(page.notes));
         
         // Mark all components embedded in the loaded page classed with "component" 
-        EightShapes.Blocks.markComponent($('#esb > section.pages > article[data-id=' + page.id + '] > section.design > *.component'));
+        EightShapes.Blocks.markComponent($('#esb > section.pages > article[data-id="' + page.id + '"] > section.design > *.component'));
         
         // Load all components into the page that contain data-component attribute
-        EightShapes.Blocks.addComponentsToPage($('#esb > section.pages > article[data-id=' + page.id + '] > section.design'));
+        EightShapes.Blocks.addComponentsToPage($('#esb > section.pages > article[data-id="' + page.id + '"] > section.design'));
       })
     };
+  },
+
+  bindEvents : function() {
+    //======================================================================================================
+    // Blocks View & Toolbar Button Live Events
+
+    // From viewFullScreen:
+    // --------------------
+    // Exit Full Screen
+    $('#esb > section > menu > button.exitfullscreen').live('click', function() {
+      EightShapes.Blocks.prototype.viewPages();
+    });
+
+    // Turn Markers On/Off
+    $('#esb > section > menu > button.markers').live('click', function() {
+      ($('body').hasClass('markers')) ? $('body').removeClass('markers') : $('body').addClass('markers');
+    });
+
+    // Go From Article to Article
+    $('#esb > section > menu > button.next').live('click', function() {
+      var currentPage = $('#esb > section.pages > article.page.active');
+      if ($(currentPage).next().is('article')) {
+        console.log('CURRENT: ' + EightShapes.Blocks.prototype.current);
+
+        if ($('#esb').hasClass('fullscreen')) {
+          // $.bbq.pushState({view:"fullscreen",id:$(currentPage).next().attr('data-id')});
+          EightShapes.Blocks.prototype.viewFullScreen($(currentPage).next().attr('data-id'));
+        } else {
+          $.bbq.pushState({id:$(currentPage).next().attr('data-id')});
+        }
+      }
+    });
+
+    $('#esb > section > menu > button.previous').live('click', function() {
+      var currentPage = $('#esb > section.pages > article.page.active');
+      if($(currentPage).prev().is('article')) {
+        $.bbq.pushState({view:"page", id:$(currentPage).prev().attr('data-id')});
+      }
+    });
+
+
+    // From viewPages:
+    // ---------------
+    // Enter Full Screen for Page from Any Blocks View
+    $('#esb > section.pages > article > header > button.fullscreen').live('click', function() {
+      EightShapes.Blocks.prototype.viewFullScreen($(this).closest('article').attr('data-id'));
+    });
+
+
+    // Grid/Thumbnail/List View: Click Component Title > Go To Component Notes
+    $('#esb > section.components > article > header > h2').live('click', function() {
+      $.bbq.pushState({view:"component", id:$(this).closest('article').attr('data-id')});
+    });
+
+    // Grid/Thumbnail/List View: Click Page Title > Go To Page Notes
+    $('#esb > section.pages > article > header > h2').live('click', function() {
+      $.bbq.pushState({view:"page", id:$(this).closest('article').attr('data-id')});
+    });
+
+    // Notes View: Component List Hovers
+    $('#esb > section.pages > article.page > aside.notes ul.componentlist li').live('mouseover',function() {
+      $(this).closest('article.page').find('section.design  section[data-marker='+$(this).attr('data-marker')+']').closest('.component').addClass('highlight');
+    });
+
+    $('#esb > section.pages > article.page > aside.notes ul.componentlist li').live('mouseout', function() {
+      $(this).closest('article.page').find('section.design  section[data-marker='+$(this).attr('data-marker')+']').closest('.component').removeClass('highlight');
+    });
+
+    // Go From Article (Page, Component) to Main Section (Pages, Components)
+    $('#esb > section.active.selected > header > h2, #esb > section.active.notes > header > h2').live('click', function() {
+      $('#esb > header > nav.primary > ul > li.' + $(this).children('h2').html().toLowerCase()).click();
+    });
+
+
+    // Toggle Grid/Thumbnail/List view mode for Pages and Components
+    $('#esb > section > menu > span.viewas > button').live('click', function() {
+      $(this).addClass('active').siblings().removeClass('active');
+      $('#esb > section.active')
+        .removeClass('list grid thumbnail notes').attr('style','').addClass($(this).html().toLowerCase())
+        .children('article').attr('style','').children('section.design').attr('style','');
+
+      $('#esb > section.components.active.grid > article > section.variation:nth-child(3)').each( function(i,element) {
+        $(element).css('width',($(element).find('section.design').width()/2+10)+'px');
+        $(element).css('height',($(element).find('section.design').height()/2+60)+'px');
+        $(element).parent().css('height',($(element).find('section.design').height()/2+75)+'px');
+      });
+    });
   },
 
   //======================================================================================================
@@ -354,7 +369,7 @@ EightShapes.Blocks = {
     return true;
   },
 
-  registerPage : function(elements,setid) {
+  registerPage : function(elements, setid) {
 
     // Summary: Registers the current page and pages identified in Config XML into EightShapes.Blocks.p
     // Called by: init, registerSet
@@ -402,7 +417,7 @@ EightShapes.Blocks = {
       var articleComponentsList = '<h3>Components</h3><ul class="componentlist itemstack"></ul>';      
 
       // Section > Article exist?
-      if ($('#esb > section.pages > article[data-id=' + id + ']').length === 0) {
+      if ($('#esb > section.pages > article[data-id="' + id + '"]').length === 0) {
         if (reachedLoadedPageYet) {
           $('#esb > section.pages').append('<article data-id="' + id + '" class="page"></article>');
         } else {
@@ -410,7 +425,7 @@ EightShapes.Blocks = {
         }
       }
 
-      currentArticle = $('#esb > section.pages > article[data-id=' + id + ']');
+      currentArticle = $('#esb > section.pages > article[data-id="' + id + '"]');
       if ($(element).attr('type')) {
         $(currentArticle).attr('data-pagetype',$(element).attr('type'));
         if(($(currentArticle).prev().attr('data-pagetype') === $(element).attr('type'))) {
@@ -564,14 +579,14 @@ EightShapes.Blocks = {
 
       // Clone the Component
       if ($(element).attr('data-variation')) {
-        clonedComponent = $('#esb > section.components > article[data-id=' + id + ']').find('section[data-id=' + $(element).attr('data-variation') + '] > section.design').clone(true);
+        clonedComponent = $('#esb > section.components > article[data-id="' + id + '"]').find('section[data-id="' + $(element).attr('data-variation') + '"] > section.design').clone(true);
 
         // Need to add an ELSE IF for if variation can't be found
         // then append first, and if not
         // then append entire c[].html
       
       } else {
-        clonedComponent = $('#esb > section.components > article[data-id=' + id + ']').find('section:nth-child(3) > section.design').clone(true);
+        clonedComponent = $('#esb > section.components > article[data-id="' + id + '"]').find('section:nth-child(3) > section.design').clone(true);
       }
     
       // Append Clone to Page Layout
@@ -639,7 +654,7 @@ EightShapes.Blocks = {
       }
       
       // Add Marker to Notes
-      var noteElement = $(element).closest('article.page').children('aside.notes').find('ul.componentlist').append('<li class="esbmarker" data-marker="' + marker + '" data-id=' + componentid + '></li>').find('li:last-child');
+      var noteElement = $(element).closest('article.page').children('aside.notes').find('ul.componentlist').append('<li class="esbmarker" data-marker="' + marker + '" data-id="' + componentid + '"></li>').find('li:last-child');
       $(noteElement).append('<div><button class="esb remove"></button><button class="esb showhide"></button>' + componentname + '</div>')
       $(noteElement).find('button.remove').click( function(event) { EightShapes.Blocks.removeComponent(event) })
       $(noteElement).find('button.showhide').click( function(event) { EightShapes.Blocks.toggleComponentDisplay(event) })
@@ -772,12 +787,12 @@ EightShapes.Blocks = {
     // Status: Worked in previous versions, not currently functional
 
     if (EightShapes.Blocks.s[setID].pages.length > 1 && !EightShapes.Blocks.s[setID].loaded) {
-      $('#esb > section.sets > section[data-id=set' + setID + '] > header > h2').append(' <span class="count">(' + EightShapes.Blocks.s[setID].pages.length + ')</span>');
+      $('#esb > section.sets > section[data-id="set' + setID + '"] > header > h2').append(' <span class="count">(' + EightShapes.Blocks.s[setID].pages.length + ')</span>');
     }
 
     for(pagecount=0;pagecount<EightShapes.Blocks.s[setID].pages.length;pagecount++) {
-      $('#esb > section.sets > section[data-id=set' + setID + '] > article[data-id=' + EightShapes.Blocks.s[setID].pages[pagecount] + ']')
-        .append($('#esb > section.pages > article[data-id=' + EightShapes.Blocks.s[setID].pages[pagecount] + ']').clone(true).children('section.design,header'));
+      $('#esb > section.sets > section[data-id="set' + setID + '"] > article[data-id="' + EightShapes.Blocks.s[setID].pages[pagecount] + '"]')
+        .append($('#esb > section.pages > article[data-id="' + EightShapes.Blocks.s[setID].pages[pagecount] + '"]').clone(true).children('section.design,header'));
     }
     EightShapes.Blocks.s[setID].loaded = true;
   },
@@ -796,12 +811,12 @@ EightShapes.Blocks = {
       }
 
       $('#esb > section.sets').append('<section data-id="set' + i + '" class="set"><header></header></section>')
-//      $('#esb > section.sets > section[data-id=set' + i + '] > header').html(EightShapes.Blocks.articleHeader(EightShapes.Blocks.s[i])).after(EightShapes.Blocks.asideToolbarMarkup());
+//      $('#esb > section.sets > section[data-id="set' + i + '"] > header').html(EightShapes.Blocks.articleHeader(EightShapes.Blocks.s[i])).after(EightShapes.Blocks.asideToolbarMarkup());
 
       for(pagecount=0;pagecount<EightShapes.Blocks.s[i].pages.length;pagecount++) {
-        $('#esb > section.sets > section[data-id=set' + i + ']')
+        $('#esb > section.sets > section[data-id="set' + i + '"]')
           .append('<article class="page" data-id="' + EightShapes.Blocks.s[i].pages[pagecount] + '"></article>');
-        EightShapes.Blocks.registerPage($('#esb > section.sets > section[data-id=set' + i + '] > article.page:last-child'),i);
+        EightShapes.Blocks.registerPage($('#esb > section.sets > section[data-id="set' + i + '"] > article.page:last-child'),i);
       }
       
     })
@@ -829,50 +844,33 @@ EightShapes.Blocks = {
     }
     
     // Flush View Classes
+    EightShapes.Blocks.flushViewClasses();
+    
+    // Set View Classes for Current View
+    switch (view) {
+      case "pages":
+        EightShapes.Blocks.prototype.viewPages(); 
+        break;
+      case "page":
+        EightShapes.Blocks.prototype.viewPages(); 
+        break;
+      case "components":
+        EightShapes.Blocks.prototype.viewComponents();
+        break;
+      case "component":
+        EightShapes.Blocks.prototype.viewComponent();
+        break;
+      case "fullscreen":
+        EightShapes.Blocks.prototype.viewFullScreen();
+        break;
+    }
+  },
+
+  flushViewClasses : function() {
     $('body').removeClass('fullscreen');
     $('body > header > nav > ul > li').removeClass('active');
     $('body > section').removeClass('active notes grid list thumbnail').attr('style','');
     $('body > section > article').removeClass('active list thumbnail grid inlineflow').attr('style','').children('section.design').attr('style','');
-
-    // Set View Classes for Current View
-    switch (view) {
-      case "pages":
-        $('body > header > nav > ul > li.pages').addClass('active');
-        $('body > section.pages').addClass('active grid');
-        EightShapes.Blocks.display.lastView = "pages";
-        EightShapes.Blocks.display.lastViewID = "";
-        break;
-      case "page":
-        $('body > header > nav > ul > li.pages').addClass('active');
-        $('body > section.pages').addClass('active notes');
-        $('body > section.pages > article[data-id=' + id + ']').addClass('active')
-        EightShapes.Blocks.display.lastView = "page";
-        EightShapes.Blocks.display.lastViewID = id;
-        break;
-      case "components":
-        $('body > header > nav > ul > li.components').addClass('active');
-        $('body > section.components').addClass('active grid');
-        EightShapes.Blocks.display.lastView = "components";
-        EightShapes.Blocks.display.lastViewID = "";
-        break;
-      case "component":
-        $('body > header > nav > ul > li.components').addClass('active');
-        $('body > section.components').addClass('active notes')
-        $('body > section.components > article[data-id=' + id + ']').addClass('active')
-          .children('section.variation').each( function(i,element) {
-            $(element).css('width','').css('height','')
-            $(element).css('width',($(element).find('section.design').width()/2+10)+'px');
-            $(element).css('height',($(element).find('section.design').height()/2+60)+'px');
-          });
-        EightShapes.Blocks.display.lastView = "component";
-        EightShapes.Blocks.display.lastViewID = id;
-        break;
-      case "fullscreen":
-        $('body').addClass('fullscreen');
-        $('body > section.pages').addClass('active');
-        $('body > section.pages > article[data-id=' + id + ']').addClass('active');
-        break;
-    }
   },
 
   setDisplayPreferences : function(XMLconfig) {
@@ -981,9 +979,113 @@ EightShapes.Blocks = {
 
 }
 
+
+EightShapes.Blocks.prototype = {
+  onfullscreen: function(event, from, to, viewID) {
+    console.log('ENTERING FULL SCREEN: ' + event + ', ' + from + ', ' + to + ' View ID: ' + viewID);
+
+    if (viewID == undefined) {
+      viewID = $.bbq.getState( "id" );
+    }
+
+    console.log('VIEW ID: ' + viewID);
+
+    // Flush View Classes
+    EightShapes.Blocks.flushViewClasses();
+
+    $('body').addClass('fullscreen');
+    $('body > section.pages').addClass('active');
+    $('body > section.pages > article[data-id="' + viewID + '"]').addClass('active');
+
+    console.log('LAST VIEW ID:' + EightShapes.Blocks.display.lastViewID);
+
+    if (event != 'startup') {
+      $.bbq.pushState({ 
+        view: 'fullscreen',
+        id: EightShapes.Blocks.display.lastViewID
+      });
+    }
+  },
+
+  onpages: function(event, from, to) {
+    console.log('ENTERING PAGES: ' + event + ', ' + from + ', ' + to);
+
+    // Flush View Classes
+    EightShapes.Blocks.flushViewClasses();
+
+    $('body > header > nav > ul > li.pages').addClass('active');
+    $('body > section.pages').addClass('active grid');
+
+    $.bbq.pushState({ 
+      view: EightShapes.Blocks.display.lastView, 
+      id: EightShapes.Blocks.display.lastViewID 
+    });
+
+    EightShapes.Blocks.display.lastView = "pages";
+    EightShapes.Blocks.display.lastViewID = "";
+
+    for(componentid in EightShapes.Blocks.c) {
+      if(!EightShapes.Blocks.c[componentid].loaded) {
+        EightShapes.Blocks.c[componentid].load();
+      }
+    }
+    for(pageid in EightShapes.Blocks.p) {
+      if(!EightShapes.Blocks.p[pageid].loaded) {
+        EightShapes.Blocks.p[pageid].load();
+      }
+    }
+  },
+
+  onpage: function(event, from, to) {
+    console.log('ENTERING PAGE: ' + event + ', ' + from + ', ' + to);
+
+    $('body > header > nav > ul > li.pages').addClass('active');
+    $('body > section.pages').addClass('active notes');
+    $('body > section.pages > article[data-id="' + id + '"]').addClass('active')
+    EightShapes.Blocks.display.lastView = "page";
+    EightShapes.Blocks.display.lastViewID = id;
+  },
+
+  oncomponents: function(event, from, to) {
+    console.log('ENTERING COMPONENTS: ' + event + ', ' + from + ', ' + to);
+
+    $('body > header > nav > ul > li.components').addClass('active');
+    $('body > section.components').addClass('active grid');
+    EightShapes.Blocks.display.lastView = "components";
+    EightShapes.Blocks.display.lastViewID = "";
+  },
+
+  oncomponent: function(event, from, to) {
+    console.log('ENTERING COMPONENT: ' + event + ', ' + from + ', ' + to);
+
+    $('body > header > nav > ul > li.components').addClass('active');
+    $('body > section.components').addClass('active notes')
+    $('body > section.components > article[data-id="' + id + '"]').addClass('active')
+      .children('section.variation').each( function(i,element) {
+        $(element).css('width','').css('height','')
+        $(element).css('width',($(element).find('section.design').width()/2+10)+'px');
+        $(element).css('height',($(element).find('section.design').height()/2+60)+'px');
+      });
+    EightShapes.Blocks.display.lastView = "component";
+    EightShapes.Blocks.display.lastViewID = id;
+  }
+}
+
+StateMachine.create({
+  target: EightShapes.Blocks.prototype,
+  initial: 'fullscreen',
+  events: [
+    { name: 'viewFullScreen', from: ['none', 'page', 'pages'], to: 'fullscreen' },
+    { name: 'viewPages', from: ['fullscreen', 'page', 'components', 'component'], to: 'pages' },
+    { name: 'viewPage', from: 'pages', to: 'page' },
+    { name: 'viewComponents', from: ['fullscreen', 'page', 'pages', 'component'], to: 'components' },
+    { name: 'viewComponent', from: 'components', to: 'component' }
+  ]
+});
+
 $(document).ready(function(){
-  $.import_js("blocks/js/jquery-ui-1.8.6.custom.min.js"); 
-  $.import_js("blocks/js/jquery-bbq.js");
+  $.import_js("blocks/js/jquery-ui-1.8.6.custom.min.js", 
+              "blocks/js/jquery-bbq.js");
 
   $(window).resize(function() {                                               
     console.log($(window).width());
@@ -992,7 +1094,7 @@ $(document).ready(function(){
   EightShapes.Blocks.init();
 
   $(window).bind( "hashchange", function(e) {
-    EightShapes.Blocks.view();
+//    EightShapes.Blocks.view();
   })
 
   $(document).keydown(function (event) {
