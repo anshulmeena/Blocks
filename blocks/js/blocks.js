@@ -645,17 +645,17 @@ EightShapes.Blocks = {
       $(noteElement).find('button.showhide').click( function(event) { EightShapes.Blocks.toggleComponentDisplay(event) })
       $(noteElement).click( function() {
         if ($(this).attr('data-id') !== "") {
-          EightShapes.Blocks.gtC($(this).attr('data-id'));
+//	Function call needs to be revised based on state-machine	
+//         EightShapes.Blocks.gtC($(this).attr('data-id'));
         }
       })
-      // Variations
-      /*
+
+			// If variations exist, add Previous & Next buttons.
       if(EightShapes.Blocks.c[componentid] && (EightShapes.Blocks.c[componentid].variationCount>1)) {
-        $(noteElement).append(' <div class="variations"><button class="next"></button><button class="previous"></button>' + variationTitle + '</div>')
+        $(noteElement).find('button.showhide').after('<button class="esb next"></button><button class="esb previous"></button>')
         $(noteElement).find('button.previous').click( function(event) { EightShapes.Blocks.previousComponent(event) })
         $(noteElement).find('button.next').click( function(event) { EightShapes.Blocks.nextComponent(event) })
       }
-      */
 
     });
   },
@@ -697,26 +697,29 @@ EightShapes.Blocks = {
 
     // Summary: From a marker in the layout or Page Notes component list, 
     // toggle between 2+ variations of a component
-    // Status: Worked in previous versions, not currently functional
 
     var marker = $(event.target).closest('.esbmarker[data-marker]').attr('data-marker');
     var notesItem = $('body').find('aside.notes li[data-marker='+marker+']');
-    var designItem = $('body').find('section.design .component .esbmarker[data-marker='+marker+']').parent().parent();
+    var designItem = $('body').find('section.esbmarker[data-marker='+marker+']').parent().parent();
     var componenthtml = $(EightShapes.Blocks.c[$(designItem).attr('data-component')].html);
     var variationid = $(designItem).attr('data-variation');
+		
     var previousVariation;
 
-    $(designItem).children('*:not(.esbmarker)').remove();
+		// Remove current variation from layout
+    $(designItem).children('*:not(.esbmarker-wrapper)').remove();
     
-    if ($(componenthtml).find('#v'+variationid).index() > 0) {
-      previousVariation = $(componenthtml).find('#v'+currentVariation).prev().clone(); 
+		// Determine the previous variation to add to the layout
+    if ($(componenthtml).find('*[data-variation='+variationid+']').index() > 0) {
+      previousVariation = $(componenthtml).find('*[data-variation='+variationid+']').prev().clone(); 
     } else {
       previousVariation = $(componenthtml).children().parents("#variations").children(':last-child').clone();
     }
 
+		// Add the variation to the layout
     $(designItem)
       .append($(previousVariation).children())
-      .attr('data-variation',$(previousVariation).attr('id').split('v')[1])
+      .attr('data-variation',$(previousVariation).attr('data-variation'))
  
   },
 
@@ -727,24 +730,28 @@ EightShapes.Blocks = {
     // Status: Worked in previous versions, not currently functional
 
     var marker = $(event.target).closest('.esbmarker[data-marker]').attr('data-marker');
+    var notesItem = $('body').find('aside.notes li[data-marker='+marker+']');
+    var designItem = $('body').find('section.esbmarker[data-marker='+marker+']').parent().parent();
+    var componenthtml = $(EightShapes.Blocks.c[$(designItem).attr('data-component')].html);
+    var variationid = $(designItem).attr('data-variation');
+		
+    var nextVariation;
+
+		// Remove current variation from layout
+    $(designItem).children('*:not(.esbmarker-wrapper)').remove();
     
-    
-    /*
-      var domCom = $('div[data-esumarker="' + $(this).closest('li[data-esumarkerref]').attr('data-esumarkerref') + '"]').parent()
-      $(domCom).children('*:not(.actions,.marker)').remove()
-  
-      var nextVariation
-      if ($(esu.components[$(domCom).attr('data-componentid')].html).find('#v'+$(domCom).attr('data-variation')).index() < (esu.components[$(domCom).attr('data-componentid')].variationCount - 1)) {
-        nextVariation = $(esu.components[$(domCom).attr('data-componentid')].html).find('#v'+$(domCom).attr('data-variation')).next().clone()
-      } else {
-        nextVariation = $(esu.components[$(domCom).attr('data-componentid')].html).children().parents("#variations").children(':first-child').clone()
-      }
-  
-      $(domCom)
-        .append($(nextVariation).children())
-        .attr('data-variation',$(nextVariation).attr('id').split('v')[1])
-        
-    */
+		// Determine the previous variation to add to the layout
+    if ($(componenthtml).find('*[data-variation='+variationid+']').index() < EightShapes.Blocks.c[$(designItem).attr('data-component')].variationCount - 1) {
+      nextVariation = $(componenthtml).find('*[data-variation='+variationid+']').next().clone(); 
+    } else {
+      nextVariation = $(componenthtml).children().parents("#variations").children(':first-child').clone();
+    }
+
+		// Add the variation to the layout
+    $(designItem)
+      .append($(nextVariation).children())
+      .attr('data-variation',$(nextVariation).attr('data-variation'))
+ 
   },
 
   //======================================================================================================

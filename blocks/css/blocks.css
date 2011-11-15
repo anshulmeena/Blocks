@@ -1284,17 +1284,26 @@ vertical-align: middle;
 	cursor: pointer;
 	vertical-align: middle;
 }
+.esbmarker button.showhide:hover,
+.esbmarker button.previous:hover,
+.esbmarker button.next:hover,
+.esbmarker button.remove:hover {
+	background-color: rgba(256,256,256,0.5);
+}
 .esbmarker button.showhide {
--moz-border-radius-bottomleft: 5px;
--moz-border-radius-topleft: 5px;
-background-color: #EB6721;
-background-position: -48px -134px;
-border: 2px solid rgba(235, 103, 33, 0.9);
-height: 30px;
-left: -23px;
-position: absolute;
-top: 0;
-width: 27px;
+	background-position: -48px -136px;
+	float: right;
+	margin-right: 5px;
+}
+.esbmarker button.previous {
+	background-position: -40px -20px;
+	margin-right: 5px;
+	float: right;
+}
+.esbmarker button.next {
+	background-position: -20px 0px;
+	margin-right: 5px;
+	float: right;
 }
 .esbmarker.hidden button.showhide {
 	background-position: -88px -134px;
@@ -1325,15 +1334,6 @@ font-size: 11px;
 }
 .esbmarker > div.variations.open button.drawer {
 	background-position: -100px -60px;
-}
-.esbmarker > div.variations button.previous {
-	background-position: -40px -20px;
-	margin-right: 5px;
-	float: right;
-}
-.esbmarker > div.variations button.next {
-	background-position: -20px 0px;
-	float: right;
 }
 .esbmarker > div.variations > p {
 	
