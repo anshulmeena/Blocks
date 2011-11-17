@@ -103,6 +103,7 @@ EightShapes.Blocks = {
     this.source = "project";
     this.loadStarted = false;
     this.loaded = false;
+    this.cssloaded = false;
     this.locationsToAddIt = [];
     this.type = "component";
     this.html = "";
@@ -116,11 +117,12 @@ EightShapes.Blocks = {
     this.description = "";
     this.container = "";
     
-    // Load the component (all variations) from a file
+    // Load the component (and all variations) from a file
     this.load = function() {
       var component = EightShapes.Blocks.c[id];
-      if(component.loadStarted) return false;
+      if (component.loadStarted) return false;
       component.loadStarted = true;
+
       $.get( EightShapes.Blocks.sourceURL(component.source)+id+".html", function(results) {
         results = "<div>" + results + "</div>";
         component.header          = $(results).children('header').attr('id',id);
@@ -135,8 +137,10 @@ EightShapes.Blocks = {
         if (component.variationCount > 1 && !component.loaded) {
           $('#esb > section.components > article[data-id="' + id + '"] > header > h2').append(' <span class="count">(' + component.variationCount + ')</span>');
         }
+
         EightShapes.Blocks.registerComponent(component.header);
-        if($('#esb > section.components > article[data-id="' + component.id + '"] > section.variation').length === 0) {
+
+        if ($('#esb > section.components > article[data-id="' + component.id + '"] > section.variation').length === 0) {
           $(component.html).children('section[data-variation]').each( function(index,element) {
             var variationid = $(this).attr('data-variation');
             var variationtitle = $(this).attr('title');
@@ -148,27 +152,46 @@ EightShapes.Blocks = {
         }
 
         // Load Component-Specific CSS
-        if(component.cssloaded) {
-          $('head').append('<link rel="stylesheet" href="' + EightShapes.Blocks.sourceURL(source)+"css/"+id+".css" + '" />');
-          component.cssloaded = true;
+        if (!component.cssloaded) {
+          // We do a HEAD request so that we only load present files
+          var css_resource_uri = EightShapes.Blocks.sourceURL(component.source) + "css/" + id + ".css";
+          var css_request;
+
+          css_request = $.ajax({
+            type: 'HEAD',
+            url: css_resource_uri,
+            success: function() {
+              if (css_request.getResponseHeader('Content-Length') > 0) {
+                $('head').append('<link rel="stylesheet" href="' + css_resource_uri + '" />');
+                component.cssloaded = true;
+              } else {
+                console.log('CSS resource is empty: ' + css_resource_uri);
+              }
+            },
+            error: function(data) {
+              // TODO: Proper logging
+              console.log('CSS resource is missing: ' + css_resource_uri);
+            }
+          });
         }
       
         // Load - And Bind - Component-Specific JavaScript
-        $.ajax( {
+        var js_resource_uri = EightShapes.Blocks.sourceURL(component.source) + "js/" + id + ".js";
+
+        $.ajax({
           type: 'GET',
-          url: EightShapes.Blocks.sourceURL(component.source)+"js/"+id+".js",
+          url: js_resource_uri,
           dataType: 'script',
           success: function(data) {
             component.loaded = true;
             EightShapes.Blocks.addComponent(component.locationsToAddIt);
           },
           error: function(data) {
-            component.loaded = true;
-            EightShapes.Blocks.addComponent(component.locationsToAddIt);
+            // TODO: Proper logging
+            console.log('JS resource is missing: ' + js_resource_uri);
           }
         });
       });
-
     }
   },
 
@@ -817,7 +840,6 @@ EightShapes.Blocks = {
           .append('<article class="page" data-id="' + EightShapes.Blocks.s[i].pages[pagecount] + '"></article>');
         EightShapes.Blocks.registerPage($('#esb > section.sets > section[data-id="set' + i + '"] > article.page:last-child'),i);
       }
-      
     })
   },
 
