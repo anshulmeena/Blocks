@@ -27,14 +27,17 @@ EightShapes.Blocks = {
     lastViewID : ""
   },
 
-  p : {},         // Pages  
+  p : {},         // Pages
   c : {},         // Components
   s : {},         // Sets
   m : 0,          // Marker Count (enumerated to relate marked components in layouts and ASIDE.notes lists)
   pc : 0,         // Page Count (enumerated because...I don't remember)
   metadata : {},  // Prototype Metadata (eventually, author, last updated, version, etc)
 
-  init : function() {
+  log_levels : ['DBG', 'INF', 'WRN', 'ERR'], // Levels one can log mesages at
+  current_log_level : 0, // Debug
+
+  init : function () {
 
     // Summary: Initializes the Blocks framework and current page layout
     // Called by: document.ready
@@ -45,7 +48,7 @@ EightShapes.Blocks = {
     //  3. Register (into JS Object) and create stubs (in DOM) for all prototype parts
     //  4. Load and mark all embedded and linked components in initial page
     //
-    // Initialization ends with a fully loaded and marked page in view. 
+    // Initialization ends with a fully loaded and marked page in view.
     // Initialization does NOT load remaining pages, components, etc, which instead load upon exiting full screen.
 
     // Add Additional Style Sheets to Header
@@ -53,7 +56,9 @@ EightShapes.Blocks = {
     $('head').append('<link rel="stylesheet" href="blocks/css/ui-lightness/jquery-ui-1.8.6.custom.css" />');
 
     // Error Check Markup and Setup Overall DOM
-    if (!EightShapes.Blocks.markupCore()) return false;
+    if (!EightShapes.Blocks.markupCore()) {
+      return false;
+    }
 
     // Attempt to Load _config.xml
     //   If successful -> invoke Blocks
@@ -62,30 +67,31 @@ EightShapes.Blocks = {
       type: 'GET',
       url: '_config.xml',
       dataType: 'xml',
-      success: function(XMLconfig) {
-        // Configure experience based on project-specific preferences 
+      success: function (XMLconfig) {
+        // Configure experience based on project-specific preferences
         EightShapes.Blocks.setDisplayPreferences(XMLconfig);
         EightShapes.Blocks.setPrototypeMetadata(XMLconfig);
-        
+
         // Identify and ID Current Page's Article
+        /* global window  */
         var hrefsplit = window.location.href.split('/');
-        EightShapes.Blocks.metadata.currentpageid = hrefsplit[hrefsplit.length-1].substr(0,hrefsplit[hrefsplit.length-1].length-5);
-        $('#esb > section.pages > article').attr('data-id',EightShapes.Blocks.metadata.currentpageid);
+        EightShapes.Blocks.metadata.currentpageid = hrefsplit[hrefsplit.length - 1].substr(0, hrefsplit[hrefsplit.length - 1].length - 5);
+        $('#esb > section.pages > article').attr('data-id', EightShapes.Blocks.metadata.currentpageid);
         EightShapes.Blocks.registerPage($('#esb > section.pages > article.active'));
-  
-        // Register Pages, Components, and Sets from Config XML to EightShapes.Blocks.p, 
+
+        // Register Pages, Components, and Sets from Config XML to EightShapes.Blocks.p,
         // EightShapes.Blocks.c, and EightShapes.Blocks.s
         EightShapes.Blocks.registerPage($(XMLconfig).find('pages > page'));
         EightShapes.Blocks.registerComponent($(XMLconfig).find('components > component'));
         EightShapes.Blocks.registerSet($(XMLconfig).find('sets > set'));
-        
+
         // Mark Embedded Components in Current Page
         EightShapes.Blocks.markComponent($('#esb > section.pages > article.active > section.design > *.component'));
         // Load and Add Linked Components in Current Page
         EightShapes.Blocks.addComponentsToPage($('#esb > section.pages > article.active > section.design'));
       },
-      error: function() {
-        console.log('WARNING: _config.xml was not found in your prototype root directory.')
+      error: function () {
+        $.fn.esLogWarn('_config.xml was not found in your prototype root directory.');
         // Remove the Toolbar
         $('body#esb > section.pages > menu').remove();
         // Load and Add Linked Components in Current Page
@@ -98,7 +104,7 @@ EightShapes.Blocks = {
 
   //======================================================================================================
   // Constructors
-  Component : function(id) {
+  Component : function (id) {
     this.id = id;
     this.source = "project";
     this.loadStarted = false;
@@ -116,7 +122,7 @@ EightShapes.Blocks = {
     this.doneness = "";
     this.description = "";
     this.container = "";
-    
+
     // Load the component (and all variations) from a file
     this.load = function() {
       var component = EightShapes.Blocks.c[id];
@@ -145,9 +151,9 @@ EightShapes.Blocks = {
             var variationid = $(this).attr('data-variation');
             var variationtitle = $(this).attr('title');
             $('#esb > section.components > article[data-id="' + id + '"]')
-              .append('<section class="variation ' + EightShapes.Blocks.containComponent(id) + '" data-id="' + variationid + '" ><header><h3>' + variationtitle + '</h3></header>' + 
+              .append('<section class="variation ' + EightShapes.Blocks.containComponent(id) + '" data-id="' + variationid + '" ><header><h3>' + variationtitle + '</h3></header>' +
                  '<section class="design ' + component.classes + '">' + $(this).html() + '</section></section>')
-              .children('aside.notes').find('ul.variationlist').append('<li data-variationid="' + variationid + '">' + variationtitle + '</li>');  
+              .children('aside.notes').find('ul.variationlist').append('<li data-variationid="' + variationid + '">' + variationtitle + '</li>');
           })
         }
 
@@ -165,16 +171,15 @@ EightShapes.Blocks = {
                 $('head').append('<link rel="stylesheet" href="' + css_resource_uri + '" />');
                 component.cssloaded = true;
               } else {
-                console.log('CSS resource is empty: ' + css_resource_uri);
+                $.fn.esLogWarn('CSS resource is empty: ' + css_resource_uri);
               }
             },
             error: function(data) {
-              // TODO: Proper logging
-              console.log('CSS resource is missing: ' + css_resource_uri);
+             EightShapes.Blocks.esLogWarn('CSS resource is missing: ' + css_resource_uri);
             }
           });
         }
-      
+
         // Load - And Bind - Component-Specific JavaScript
         var js_resource_uri = EightShapes.Blocks.sourceURL(component.source) + "js/" + id + ".js";
 
@@ -187,8 +192,7 @@ EightShapes.Blocks = {
             EightShapes.Blocks.addComponent(component.locationsToAddIt);
           },
           error: function(data) {
-            // TODO: Proper logging
-            console.log('JS resource is missing: ' + js_resource_uri);
+            EightShapes.Blocks.esLogWarn('JS resource is missing: ' + js_resource_uri);
           }
         });
       });
@@ -206,9 +210,9 @@ EightShapes.Blocks = {
     this.doneness = "unknown";
     this.description = "";
     this.index = EightShapes.Blocks.pc++;
-    
+
     // Load page from a file in the project root directory into EightShapes.Blocks and the section.pages>article
-    
+
     this.load = function() {
       var page = EightShapes.Blocks.p[id];
       var pageArticle = $('body > section.pages > article[data-id="' + page.id + '"]').append('<section class="design"></section>');
@@ -224,10 +228,10 @@ EightShapes.Blocks = {
           .addClass(page.designclasses);
         $('#esb > section.pages > article[data-id="' + page.id + '"] > aside.notes')
           .append($(page.notes));
-        
-        // Mark all components embedded in the loaded page classed with "component" 
+
+        // Mark all components embedded in the loaded page classed with "component"
         EightShapes.Blocks.markComponent($('#esb > section.pages > article[data-id="' + page.id + '"] > section.design > *.component'));
-        
+
         // Load all components into the page that contain data-component attribute
         EightShapes.Blocks.addComponentsToPage($('#esb > section.pages > article[data-id="' + page.id + '"] > section.design'));
       })
@@ -323,7 +327,7 @@ EightShapes.Blocks = {
 
     // Summary: Wraps markup of current page with the core DOM element structure, sets up some live events
     // Called by: init
-    // Preconditions: 
+    // Preconditions:
     //    A child of the BODY tag with a class="design", demarking the page layout
     //    An <aside class="notes"> tag - child of the BODY tag - can also be included
     //    The BODY tag should have no other children
@@ -423,20 +427,20 @@ EightShapes.Blocks = {
       if (!EightShapes.Blocks.p[id]) {
         EightShapes.Blocks.p[id] = new EightShapes.Blocks.Page(id);
       }
-      
+
       // Update with Properties from Element Provided
       if ($(element).attr('doneness')) {
         EightShapes.Blocks.p[id].doneness = $(element).attr('doneness');
-      } 
+      }
       if ($(element).attr('description')) {
         EightShapes.Blocks.p[id].description = $(element).attr('description');
-      } 
+      }
       if ($(element).attr('title')) {
         EightShapes.Blocks.p[id].title = $(element).attr('title');
       }
-      
+
       // ARTICLE Empty Components List
-      var articleComponentsList = '<h3>Components</h3><ul class="componentlist itemstack"></ul>';      
+      var articleComponentsList = '<h3>Components</h3><ul class="componentlist itemstack"></ul>';
 
       // Section > Article exist?
       if ($('#esb > section.pages > article[data-id="' + id + '"]').length === 0) {
@@ -460,7 +464,7 @@ EightShapes.Blocks = {
         $(currentArticle).prepend('<header></header>');
       }
       $(currentArticle).children('header').html(EightShapes.Blocks.articleHeader(EightShapes.Blocks.p[id]));
-      
+
       // Section > Article > Design exist?
       if($(currentArticle).children('section.design').length > 0) {
         EightShapes.Blocks.p[id].loaded = true;
@@ -479,10 +483,10 @@ EightShapes.Blocks = {
         }
         $(currentArticle).children('aside.notes').children('ul.appearsinlist').append('<li>' + EightShapes.Blocks.s[setid].title + '</li>');
       }
-      
-    });  
+
+    });
   },
-  
+
   registerComponent : function(elements) {
 
     // Summary: Register a component found in XML>COMPONENTS, the default page, or a loaded page
@@ -504,7 +508,7 @@ EightShapes.Blocks = {
       if ($(element).attr('data-source')) {
         EightShapes.Blocks.c[id].source =  $(element).attr('data-source');
       }
-      
+
       if (($(element).attr('data-description')) && (EightShapes.Blocks.c[id].description === "")) {
         EightShapes.Blocks.c[id].description = $(element).attr('data-description');
       }
@@ -515,11 +519,11 @@ EightShapes.Blocks = {
         EightShapes.Blocks.c[id].title = $(element).attr('title');
       }
 
-      // Article Header 
+      // Article Header
       var articleHeader = '<header><button class="esb remove"></button><h2 class="' + EightShapes.Blocks.c[id].doneness + '">' + EightShapes.Blocks.c[id].title + '</h2><span class="description">' + EightShapes.Blocks.c[id].description + '</span></header>';
 
       // Article Notes Default
-      var articleNotes = '<h3>Variations</h3><ul class="variationlist itemstack"></ul>';      
+      var articleNotes = '<h3>Variations</h3><ul class="variationlist itemstack"></ul>';
       // Append Notes from Component File
       if (EightShapes.Blocks.c[id].hasNotes) {
         articleNotes += EightShapes.Blocks.c[id].notes;
@@ -542,7 +546,7 @@ EightShapes.Blocks = {
           if ($(articleelement).children('aside.notes').children('ul.variationlist').length === 0) {
             $(articleelement).find('aside.notes').prepend(articleNotes);
             return;
-          } 
+          }
           if (EightShapes.Blocks.c[id].hasNotes && !EightShapes.Blocks.c[id].notesLoaded) {
             $(articleelement).find('aside.notes').append(EightShapes.Blocks.c[id].notes);
             EightShapes.Blocks.c[id].notesLoaded = true;
@@ -565,8 +569,8 @@ EightShapes.Blocks = {
 
     // Summary: Traverses a loaded page layout and loads & adds all not-yet-loaded components
     // Description: If a page's component is already available (loaded), it's added immediately.
-    //    Otherwise, the system will queue the component for loading, which once complete, 
-    //    will add it to the page(s) waiting for it  
+    //    Otherwise, the system will queue the component for loading, which once complete,
+    //    will add it to the page(s) waiting for it
     // Parameter: pageElement, An existing full page layout already loaded in BODY>SECTION.pages>ARTICLE>SECTION.design
 
     var pageID = $(pageElement).parent().attr('data-id')
@@ -587,12 +591,12 @@ EightShapes.Blocks = {
   },
 
   addComponent : function(elements) {
-    
+
     // Summary: Clone 1+ component variations from BODY>SECTION.components into a BODY>SECTION.pages>ARTICLE layout
-    // Parameter: 1+ elements within BODY>SECTION.pages>ARTICLE layouts 
-    // Called by: 
+    // Parameter: 1+ elements within BODY>SECTION.pages>ARTICLE layouts
+    // Called by:
     //    addComponentsToPage (for each component in a layout that's already known to be loaded)
-    //    Component.load (for when a component load is triggered, to complete the circle and get it 
+    //    Component.load (for when a component load is triggered, to complete the circle and get it
     //                    – and other queued places to add that component - in their layout locations)
 
     $(elements).each(function(index,element) {
@@ -606,11 +610,11 @@ EightShapes.Blocks = {
         // Need to add an ELSE IF for if variation can't be found
         // then append first, and if not
         // then append entire c[].html
-      
+
       } else {
         clonedComponent = $('#esb > section.components > article[data-id="' + id + '"]').find('section:nth-child(3) > section.design').clone(true);
       }
-    
+
       // Append Clone to Page Layout
       $(element).append($(clonedComponent).children()).addClass('loaded');
 
@@ -618,7 +622,7 @@ EightShapes.Blocks = {
       if (EightShapes.Blocks.c[id].classes) {
         $(element).addClass(EightShapes.Blocks.c[id].classes);
       }
-      
+
       // Mark (single) Component that's just been added to one layout
       EightShapes.Blocks.markComponent(element);
     })
@@ -626,20 +630,20 @@ EightShapes.Blocks = {
 
   markComponent : function(componentElements) {
 
-    // Summary: Mark a component in a page layout with the orange annotation marker and 
+    // Summary: Mark a component in a page layout with the orange annotation marker and
     // outline & add it to the Notes list
     // Parameter: componentElements, a collection of 1+ components in a BODY>SECTION.pages>ARTICLE>SECTION.design
-    // Description: Marks the component with a label and also embeds relevant buttons (previous/next variation, 
+    // Description: Marks the component with a label and also embeds relevant buttons (previous/next variation,
     //    show/hide, remove) and notations (notes available? variation id, etc)
 
     $(componentElements).each( function (i,element) {
       var marker = EightShapes.Blocks.m++;
-      
+
       // Default values
       var componentid = "";
       var componentname = "[Untitled]";
       var variationTitle = "Default";
-      
+
       if ($(element).attr('data-component')) {
         componentid = $(element).attr('data-component');
       }
@@ -648,16 +652,16 @@ EightShapes.Blocks = {
       } else if (EightShapes.Blocks.c[componentid]) {
         if (EightShapes.Blocks.c[componentid].title !== "") {
           componentname = EightShapes.Blocks.c[componentid].title;
-        } 
+        }
       }
       if ($(element).attr('data-variation')) {
         var variationHTML = $(EightShapes.Blocks.c[componentid].html).find('[data-variation='+$(element).attr('data-variation')+']');
         variationTitle = ($(variationHTML).attr('title')) ? $(variationHTML).attr('title') : $(variationHTML).attr('data-variation');
       }
-      
+
       // Ensure Component has Component Class
       $(element).addClass('component');
-      
+
       // Add Marker to Design
       if(EightShapes.Blocks.display.markers) {
         $(element).prepend(' <div class="esbmarker-wrapper"><section class="esbmarker" data-marker="' + marker + '"><div><button class="esb remove"></button><button class="esb showhide"></button>' + componentname + '</div></section></div>');
@@ -665,7 +669,7 @@ EightShapes.Blocks = {
         if(EightShapes.Blocks.c[componentid] && (EightShapes.Blocks.c[componentid].hasNotes || EightShapes.Blocks.c[componentid].variationCount > 1)) {
           $(element).find('section.esbmarker > div:first-child').append('<button class="esb notes"></button>')
         }
-        /* 
+        /*
         $(element).find('section.esbmarker').click( function() {
           $('#esb > section').removeClass('active');
           $('#esb > section.components').addClass('active').addClass('notes');
@@ -674,7 +678,7 @@ EightShapes.Blocks = {
         $(element).find('section.esbmarker button.showhide').click( function(event) { EightShapes.Blocks.toggleComponentDisplay(event); event.stopPropagation(); })
         $(element).find('section.esbmarker button.remove').click( function(event) { EightShapes.Blocks.removeComponent(event); event.stopPropagation(); })
       }
-      
+
       // Add Marker to Notes
       var noteElement = $(element).closest('article.page').children('aside.notes').find('ul.componentlist').append('<li class="esbmarker" data-marker="' + marker + '" data-id="' + componentid + '"></li>').find('li:last-child');
       $(noteElement).append('<div><button class="esb remove"></button><button class="esb showhide"></button>' + componentname + '</div>')
@@ -682,12 +686,12 @@ EightShapes.Blocks = {
       $(noteElement).find('button.showhide').click( function(event) { EightShapes.Blocks.toggleComponentDisplay(event) })
       $(noteElement).click( function() {
         if ($(this).attr('data-id') !== "") {
-//	Function call needs to be revised based on state-machine	
+//  Function call needs to be revised based on state-machine
 //         EightShapes.Blocks.gtC($(this).attr('data-id'));
         }
       })
 
-			// If variations exist, add Previous & Next buttons.
+      // If variations exist, add Previous & Next buttons.
       if(EightShapes.Blocks.c[componentid] && (EightShapes.Blocks.c[componentid].variationCount>1)) {
         $(noteElement).find('button.showhide').after('<button class="esb next"></button><button class="esb previous"></button>')
         $(noteElement).find('button.previous').click( function(event) { EightShapes.Blocks.previousComponent(event) })
@@ -732,7 +736,7 @@ EightShapes.Blocks = {
 
   previousComponent : function(event) {
 
-    // Summary: From a marker in the layout or Page Notes component list, 
+    // Summary: From a marker in the layout or Page Notes component list,
     // toggle between 2+ variations of a component
 
     var marker = $(event.target).closest('.esbmarker[data-marker]').attr('data-marker');
@@ -740,29 +744,29 @@ EightShapes.Blocks = {
     var designItem = $('body').find('section.esbmarker[data-marker='+marker+']').parent().parent();
     var componenthtml = $(EightShapes.Blocks.c[$(designItem).attr('data-component')].html);
     var variationid = $(designItem).attr('data-variation');
-		
+
     var previousVariation;
 
-		// Remove current variation from layout
+    // Remove current variation from layout
     $(designItem).children('*:not(.esbmarker-wrapper)').remove();
-    
-		// Determine the previous variation to add to the layout
+
+    // Determine the previous variation to add to the layout
     if ($(componenthtml).find('*[data-variation='+variationid+']').index() > 0) {
-      previousVariation = $(componenthtml).find('*[data-variation='+variationid+']').prev().clone(); 
+      previousVariation = $(componenthtml).find('*[data-variation='+variationid+']').prev().clone();
     } else {
       previousVariation = $(componenthtml).children().parents("#variations").children(':last-child').clone();
     }
 
-		// Add the variation to the layout
+    // Add the variation to the layout
     $(designItem)
       .append($(previousVariation).children())
       .attr('data-variation',$(previousVariation).attr('data-variation'))
- 
+
   },
 
   nextComponent : function(event) {
 
-    // Summary: From a marker in the layout or Page Notes component list, 
+    // Summary: From a marker in the layout or Page Notes component list,
     // toggle between 2+ variations of a component
     // Status: Worked in previous versions, not currently functional
 
@@ -771,24 +775,24 @@ EightShapes.Blocks = {
     var designItem = $('body').find('section.esbmarker[data-marker='+marker+']').parent().parent();
     var componenthtml = $(EightShapes.Blocks.c[$(designItem).attr('data-component')].html);
     var variationid = $(designItem).attr('data-variation');
-		
+
     var nextVariation;
 
-		// Remove current variation from layout
+    // Remove current variation from layout
     $(designItem).children('*:not(.esbmarker-wrapper)').remove();
-    
-		// Determine the previous variation to add to the layout
+
+    // Determine the previous variation to add to the layout
     if ($(componenthtml).find('*[data-variation='+variationid+']').index() < EightShapes.Blocks.c[$(designItem).attr('data-component')].variationCount - 1) {
-      nextVariation = $(componenthtml).find('*[data-variation='+variationid+']').next().clone(); 
+      nextVariation = $(componenthtml).find('*[data-variation='+variationid+']').next().clone();
     } else {
       nextVariation = $(componenthtml).children().parents("#variations").children(':first-child').clone();
     }
 
-		// Add the variation to the layout
+    // Add the variation to the layout
     $(designItem)
       .append($(nextVariation).children())
       .attr('data-variation',$(nextVariation).attr('data-variation'))
- 
+
   },
 
   //======================================================================================================
@@ -847,7 +851,7 @@ EightShapes.Blocks = {
   // Utilities
 
   view : function() {
-    
+
     // Summary: Flushes all view-controlling classes from top-level elements (BODY>SECTION, ARTICLES within, etc),
     //    then sets the appropriate class combinations to create the requested view. Also accounts for back button.
 
@@ -857,25 +861,25 @@ EightShapes.Blocks = {
     var view = $.bbq.getState( "view" );
     var id = $.bbq.getState( "id" );
 
-    // Discard links within prototype pages 
+    // Discard links within prototype pages
     // (links containing a hash tag will tigger hashchange).
     // https://github.com/EightShapes/Blocks/issues/7
     if (view == undefined && id == undefined) {
       return false;
     }
-    
+
     // Flush View Classes
     EightShapes.Blocks.flushViewClasses();
 
-    console.log('PASSING THRU view function');
-    
+    $.fn.esLogDebug('PASSING THRU view function');
+
     // Set View Classes for Current View
     switch (view) {
       case "pages":
-        EightShapes.Blocks.prototype.viewPages(); 
+        EightShapes.Blocks.prototype.viewPages();
         break;
       case "page":
-        EightShapes.Blocks.prototype.viewPages(); 
+        EightShapes.Blocks.prototype.viewPages();
         break;
       case "components":
         EightShapes.Blocks.prototype.viewComponents();
@@ -890,6 +894,9 @@ EightShapes.Blocks = {
   },
 
   flushViewClasses : function() {
+
+    // Summary : Should reset the view for a transition to the next state
+
     $('body').removeClass('fullscreen');
     $('body > header > nav > ul > li').removeClass('active');
     $('body > section').removeClass('active notes grid list thumbnail').attr('style','');
@@ -911,10 +918,10 @@ EightShapes.Blocks = {
 
     // Summary: Read the XML and setup the prototype metadata (author, title, etc)
 
-    // ESB Header Title 
+    // ESB Header Title
     EightShapes.Blocks.metadata.title = $(XMLconfig).find('metadata').attr('title');
     $('body > header').append('<h1>' + EightShapes.Blocks.metadata.title + '</h1><dl></dl>');
-    
+
     // ESB Header Metadata
     EightShapes.Blocks.metadata.version = $(XMLconfig).find('metadata > version').attr('number');
     EightShapes.Blocks.metadata.author = $(XMLconfig).find('metadata > author').attr('name');
@@ -936,7 +943,7 @@ EightShapes.Blocks = {
 
   articleHeader : function(item) {
 
-    // Summary: Adds simple markup inside HEADER of an article in BODY>SECTION.pages, 
+    // Summary: Adds simple markup inside HEADER of an article in BODY>SECTION.pages,
     // including buttons, labels, and more
     // Called by: registerPage
     // Preconditions: ARTICLE>HEADER exists
@@ -946,7 +953,6 @@ EightShapes.Blocks = {
     } else {
       return '';
     }
-    
   },
 
   sourceURL : function(type) {
@@ -965,51 +971,84 @@ EightShapes.Blocks = {
 
     if (event.altKey) {
       if (event.shiftKey) {
-      switch(event.keyCode) {
-        case 77: // M
-          ($('body').hasClass('markers')) ? $('body').removeClass('markers') : $('body').addClass('markers');
-          break;
-        case 39: // ALT ARROW >
-          if ($('body#esb > section.pages.active.notes') || $('body#esb.fullscreen')) {
-            var currentPage = $('#esb > section.pages > article.page.active');
-            if($(currentPage).next().is('article')) {
-              if(!EightShapes.Blocks.p[$(currentPage).next().attr('data-id')].loaded) {
-                EightShapes.Blocks.p[$(currentPage).next().attr('data-id')].load();
+        switch(event.keyCode) {
+          case 77: // M
+            ($('body').hasClass('markers')) ? $('body').removeClass('markers') : $('body').addClass('markers');
+            break;
+          case 39: // ALT ARROW >
+            if ($('body#esb > section.pages.active.notes') || $('body#esb.fullscreen')) {
+              var currentPage = $('#esb > section.pages > article.page.active');
+              if($(currentPage).next().is('article')) {
+                if(!EightShapes.Blocks.p[$(currentPage).next().attr('data-id')].loaded) {
+                  EightShapes.Blocks.p[$(currentPage).next().attr('data-id')].load();
+                }
+                // $.bbq.pushState({view: currentView, id:$(currentPage).prev().attr('data-id')});
+                EightShapes.Blocks.prototype.changePage($(currentPage).next().attr('data-id'));
               }
-              // $.bbq.pushState({view: currentView, id:$(currentPage).prev().attr('data-id')});
-              EightShapes.Blocks.prototype.changePage($(currentPage).next().attr('data-id'));
             }
-          }
-          break; 
-        case 37: // ALT ARROW <
-          if ($('body#esb > section.pages.active.notes') || $('body#esb.fullscreen')) {
-            var currentPage = $('#esb > section.pages > article.page.active');
-            if($(currentPage).prev().is('article')) {
-              // $.bbq.pushState({view: currentView, id:$(currentPage).prev().attr('data-id')});
-              EightShapes.Blocks.prototype.changePage($(currentPage).next().attr('data-id'));
+            break;
+          case 37: // ALT ARROW <
+            if ($('body#esb > section.pages.active.notes') || $('body#esb.fullscreen')) {
+              var currentPage = $('#esb > section.pages > article.page.active');
+              if($(currentPage).prev().is('article')) {
+                // $.bbq.pushState({view: currentView, id:$(currentPage).prev().attr('data-id')});
+                EightShapes.Blocks.prototype.changePage($(currentPage).next().attr('data-id'));
+              }
             }
-          }
-          break; 
-      } 
+            break;
+        }
       }
     }
   },
 
   containComponent : function(id) {
 
-    // Summary: Adds a class to component variations for "customizeable width displays" 
+    // Summary: Adds a class to component variations for "customizeable width displays"
     // within Component Grids and Notes
 
-    return (EightShapes.Blocks.c[id].container) ? EightShapes.Blocks.c[id].container : EightShapes.Blocks.display.componentcontainer; 
+    return (EightShapes.Blocks.c[id].container) ? EightShapes.Blocks.c[id].container : EightShapes.Blocks.display.componentcontainer;
+  },
+
+  // LOGGING
+  esLog: function (msg) {
+    if (window.console) {
+      console.log("%s: %o", msg, this);
+      return this;
+    }
+  },
+
+  esLogger: function (msg, level) {
+    if (window.console) {
+      if (level >= EightShapes.Blocks.current_log_level) {
+        console.log(EightShapes.Blocks.log_levels[level] + ': ' + msg);
+      }
+    }
+  },
+
+  esLogDebug: function (msg) {
+    EightShapes.Blocks.esLogger(msg, 0);
+  },
+
+  esLogInfo: function (msg) {
+    EightShapes.Blocks.esLogger(msg, 1);
+  },
+
+  esLogWarn: function (msg) {
+    EightShapes.Blocks.esLogger(msg, 2);
+  },
+
+  esLogError: function (msg) {
+    EightShapes.Blocks.esLogger(msg, 3);
   }
 
 }
 
 
+// StateMachine transitions
 EightShapes.Blocks.prototype = {
 
   onfullscreen: function(event, from, to, viewID) {
-    console.log('ENTERING FULL SCREEN: ' + event + ', ' + from + ', ' + to + ' View ID: ' + viewID);
+    EightShapes.Blocks.esLogDebug('ENTERING FULLSCREEN - ' + event + ', ' + from + ', ' + to + ' View ID: ' + viewID);
 
     if (viewID == undefined) {
       viewID = $.bbq.getState( "id" );
@@ -1023,15 +1062,15 @@ EightShapes.Blocks.prototype = {
     $('body > section.pages > article[data-id="' + viewID + '"]').addClass('active');
 
     if (event != 'startup') {
-      console.log('VIEW ID: ' + viewID);
-      console.log('LAST VIEW ID:' + EightShapes.Blocks.display.lastViewID);
+      EightShapes.Blocks.esLogDebug('VIEW ID: ' + viewID);
+      EightShapes.Blocks.esLogDebug('LAST VIEW ID:' + EightShapes.Blocks.display.lastViewID);
 
       this.recordStateChange(to, viewID);
     }
   },
 
   onpages: function(event, from, to) {
-    console.log('ENTERING PAGES: ' + event + ', ' + from + ', ' + to);
+    EightShapes.Blocks.esLogDebug('ENTERING PAGES -  ' + event + ', ' + from + ', ' + to);
 
     // Flush View Classes
     EightShapes.Blocks.flushViewClasses();
@@ -1053,7 +1092,7 @@ EightShapes.Blocks.prototype = {
   },
 
   onpage: function(event, from, to, viewID) {
-    console.log('ENTERING PAGE: ' + event + ', ' + from + ', ' + to + ' View ID: ' + viewID);
+    EightShapes.Blocks.esLogDebug('ENTERING PAGE - ' + event + ', ' + from + ', ' + to + ' View ID: ' + viewID);
 
     // Flush View Classes
     EightShapes.Blocks.flushViewClasses();
@@ -1066,7 +1105,7 @@ EightShapes.Blocks.prototype = {
   },
 
   oncomponents: function(event, from, to) {
-    console.log('ENTERING COMPONENTS: ' + event + ', ' + from + ', ' + to);
+    EightShapes.Blocks.esLogDebug('ENTERING COMPONENTS: ' + event + ', ' + from + ', ' + to);
 
     // Flush View Classes
     EightShapes.Blocks.flushViewClasses();
@@ -1078,7 +1117,7 @@ EightShapes.Blocks.prototype = {
   },
 
   oncomponent: function(event, from, to, viewID) {
-    console.log('ENTERING PAGE: ' + event + ', ' + from + ', ' + to + ' View ID: ' + viewID);
+    EightShapes.Blocks.esLogDebug('ENTERING PAGE - ' + event + ', ' + from + ', ' + to + ' View ID: ' + viewID);
 
     // Flush View Classes
     EightShapes.Blocks.flushViewClasses();
@@ -1096,10 +1135,10 @@ EightShapes.Blocks.prototype = {
   },
 
   changePage: function(viewID) {
-    // This isn't a state change as we are just 
+    // This isn't a state change as we are just
     // moving backward or forward between stored pages
     // either in viewFullScreen or viewPages
-    
+
     // Flush View Classes
     EightShapes.Blocks.flushViewClasses();
 
@@ -1113,8 +1152,8 @@ EightShapes.Blocks.prototype = {
   },
 
   recordStateChange: function(view, viewID) {
-    // TODO: Why do we need to retain lastView, lastViewID 
-    // and push to bbq? 
+    // TODO: Why do we need to retain lastView, lastViewID
+    // and push to bbq?
     EightShapes.Blocks.display.lastView = view;
     EightShapes.Blocks.display.lastViewID = viewID;
 
@@ -1123,6 +1162,7 @@ EightShapes.Blocks.prototype = {
       id: viewID
     });
   }
+
 }
 
 StateMachine.create({
@@ -1137,12 +1177,12 @@ StateMachine.create({
   ]
 });
 
-$(document).ready(function(){
-  $.import_js("blocks/js/jquery-ui-1.8.6.custom.min.js", 
-              "blocks/js/jquery-bbq.js");
+$(document).ready(function () {
+  $.fn.import_js("blocks/js/jquery-ui-1.8.6.custom.min.js",
+                 "blocks/js/jquery-bbq.js");
 
-  $(window).resize(function() {                                               
-    console.log($(window).width());
+  $(window).resize(function() {
+    $fn.esLogDebug($(window).width());
   });
 
   EightShapes.Blocks.init();
@@ -1156,18 +1196,16 @@ $(document).ready(function(){
   });
 });
 
-/* 
- * This code attributed to http://www.kipras.com/
- * NOTE: Errors in included files will be reported as errors in the HTML file
- *       by Firebug.
- * $.import_js() helper (for javascript importing within javascript).
- */
 (function($) {
     var import_js_imported = [];
 
-    $.extend(true, {
+    $.fn.extend({
       import_js : function(script) {
+        // This function attributed to http://www.kipras.com/
+        // NOTE: Errors in included files will be reported as errors in the HTML file by Firebug.
+        // $.import_js() helper (for javascript importing within javascript).
         var found = false;
+
         for (var i = 0; i < import_js_imported.length; i++) {
           if (import_js_imported[i] == script) {
             found = true;
@@ -1179,7 +1217,7 @@ $(document).ready(function(){
           $("head").append('<script type="text/javascript" src="' + script + '"></script>');
           import_js_imported.push(script);
         }
-      }
+      },
     });
 })(jQuery);
 
