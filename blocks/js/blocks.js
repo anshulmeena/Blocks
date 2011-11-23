@@ -73,7 +73,7 @@ EightShapes.Blocks = {
         EightShapes.Blocks.setPrototypeMetadata(XMLconfig);
 
         // Identify and ID Current Page's Article
-        /* global window  */
+        /*jslint browser: true*/ 
         var hrefsplit = window.location.href.split('/');
         EightShapes.Blocks.metadata.currentpageid = hrefsplit[hrefsplit.length - 1].substr(0, hrefsplit[hrefsplit.length - 1].length - 5);
         $('#esb > section.pages > article').attr('data-id', EightShapes.Blocks.metadata.currentpageid);
@@ -1011,17 +1011,25 @@ EightShapes.Blocks = {
 
   // LOGGING
   esLog: function (msg) {
-    if (window.console) {
+    if (typeof(console) === 'undefined' || typeof(console.log) === 'undefined') return;
+
+		if (typeof console.log === 'function') {
       console.log("%s: %o", msg, this);
       return this;
+    } else {
+			console.log(Array.prototype.slice.call(arguments));
     }
   },
 
   esLogger: function (msg, level) {
-    if (window.console) {
-      if (level >= EightShapes.Blocks.current_log_level) {
+    if (typeof(console) === 'undefined' || typeof(console.log) === 'undefined') return;
+
+    if (level >= EightShapes.Blocks.current_log_level) {
+		  if (typeof console.log === 'function') {
         console.log(EightShapes.Blocks.log_levels[level] + ': ' + msg);
-      }
+		  } else {
+			  console.log(Array.prototype.slice.call(arguments)); // IE
+		  }
     }
   },
 
