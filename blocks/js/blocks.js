@@ -24,7 +24,8 @@ EightShapes.Blocks = {
     componentcontainer : "ESBcomponentcontainer",
     // Default page viewed when you exit full screen
     lastView : "pages", // or "pages","components","activepage","activecomponent"
-    lastViewID : ""
+    lastViewID : "",
+		deviceprofiles : []
   },
 
   p : {},              // Pages  
@@ -78,6 +79,7 @@ EightShapes.Blocks = {
         EightShapes.Blocks.registerPage($(XMLconfig).find('pages > page'));
         EightShapes.Blocks.registerComponent($(XMLconfig).find('components > component'));
         EightShapes.Blocks.registerSet($(XMLconfig).find('sets > set'));
+				EightShapes.Blocks.registerDeviceProfiles($(XMLconfig).find('deviceprofiles > profile'));
         
         // Mark Embedded Components in Current Page
         EightShapes.Blocks.markComponent($('#esb > section.pages > article.active > section.design > *.component'));
@@ -115,6 +117,32 @@ EightShapes.Blocks = {
     $('#esb > section.active.selected > header > h2, #esb > section.active.notes > header > h2').live('click', function() {
       $('#esb > header > nav.primary > ul > li.' + $(this).children('h2').html().toLowerCase()).click();
     });
+		// Switch Device Profile via a Breakpoint Selection
+			// Open / Close Menu
+		$('#esb > section.pages > menu > span.deviceprofiles > span.selectionCurrent').live('click', function(event) {
+			var breakpointButton = $(this);
+			var breakpointOptions = breakpointButton.next('ul');
+			if (this) {
+				if (breakpointButton.parent().hasClass('opened')) {
+					breakpointOptions.hide();
+					breakpointButton.parent().removeClass('opened');
+				} else {
+					breakpointOptions.show();
+					breakpointOptions.parent().addClass('opened');
+					breakpointOptions.parent().bind('mousedownoutside', function(event){
+						breakpointOptions.next('ul').hide()
+						breakpointOptions.parent().removeClass('opened');
+					});
+				}
+			};
+			event.stopPropagation();
+		});
+			// Make Menu Selection
+		$('#esb > section.pages > menu > span.deviceprofiles > ul > li').live('click', function(event) {
+			$(this).parent().hide().parent().removeClass('opened').find('.selected').removeClass('selected');
+			$(this).closest('span.deviceprofiles').find('span.selectionCurrent').html($(this).html());
+			EightShapes.Blocks.setDeviceProfile($(this).attr('data-value'));
+		});
     // Go From Article to Article
     $('#esb > section > menu > button.next').live('click', function() {
       var currentPage = $('#esb > section.pages > article.page.active');
@@ -167,6 +195,8 @@ EightShapes.Blocks = {
         $(element).parent().css('height',($(element).find('section.design').height()/2+75)+'px');
       });
     });
+
+
   },
 
   //======================================================================================================
@@ -806,6 +836,25 @@ EightShapes.Blocks = {
       
     })
   },
+
+	//
+	// Responsive Design Breakpoints
+
+	registerDeviceProfiles : function(profiles) {
+		profiles.each( function(i,profile) {
+			if (i === 0) {
+				$('#esb > section > menu').append('<span class="deviceprofiles"><span class="selectionCurrent">' + $(profile).attr('name') + '</span><ul></ul></span>')
+			}
+			$('#esb > section.pages > menu > span.deviceprofiles > ul').append('<li data-value="' + $(profile).attr('value') + '" >' + $(profile).attr('name') + '</li>');
+		});
+	},
+
+	setDeviceProfile : function(profile) {
+		$('#esb > section.pages > menu > span.deviceprofiles > ul > li').each( function(i,profile) {
+			$('body#esb').removeClass($(profile).attr('data-value'));
+		})
+		$('body#esb').addClass(profile);
+	},
 
   //======================================================================================================
   // Utilities
