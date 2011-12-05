@@ -32,7 +32,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 }
 
 #esb {
-	background: url('../images/noise.png');
+	background: url('../images/noise.png') repeat scroll 0 0 white;
 	margin: 0;
 	padding: 0;
 }
@@ -48,13 +48,14 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	z-index: 999;
 }
 #esb > header > h1 {
-	display: inline-block;
 	font-family: 'MuseoSlab500';
 	font-size: 17px;
 	color: #888;
 	margin: 9px 5px 0px 20px;
 	line-height: 1em;
-	display: inline-block;
+	border-width: 0px;
+	padding: 0;
+	width: 100%;
 }
 #esb > header > dl {
 	display: block;
@@ -203,6 +204,51 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb > section > menu > button.exitfullscreen {
 	background-position: -28px -99px;
 }
+#esb > section > menu > span.deviceprofiles {
+	color: white;
+	display: inline-block;
+	font-size: 15px;
+	margin-right: 6px;
+	position: relative;
+	top: 5px;
+}
+#esb > section > menu > span.deviceprofiles > span.selectionCurrent {
+	background-color: #444444;
+	border: 0 none;
+	border-radius: 5px 5px 5px 5px;
+	cursor: pointer;
+	outline: 0 none;
+	padding: 7px 7px 8px;
+}
+#esb > section > menu > span.deviceprofiles > ul {
+	display: none;
+	position: absolute;
+	right: 0px;
+	top: 27px;
+	z-index: 100;
+}
+#esb > section > menu > span.deviceprofiles > ul > li {
+	border: 0;
+	padding: 8px;
+	outline: 0;
+	background-color: #333;
+	color: white;
+	cursor: pointer;
+	border-bottom: solid 1px #666;
+	width: 150px;
+}
+#esb > section > menu > span.deviceprofiles > ul > li:hover {
+	background-color: #666;
+}
+#esb > section > menu > span.deviceprofiles > ul > li:first-child {
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-topleft: 5px;
+}
+#esb > section > menu > span.deviceprofiles > ul > li:last-child {
+	-moz-border-radius-bottomleft: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-bottom: 0px solid black;
+}
 #esb.markers > section > menu > button.markers {
 	background-color: rgba(235, 103, 33, 0.9);
 }
@@ -245,7 +291,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	width: 0.5em;
 	top: -0.4em;
 }
-#esb > section> menu > span.controlset > span.icon {
+#esb > section > menu > span.controlset > span.icon {
 	display: inline-block;
 	height: 20px;
 	width: 20px;
@@ -255,16 +301,16 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	vertical-align: middle;
 	padding: 0;
 }
-#esb > section> menu > span.controlset > span.icon.small {
+#esb > section > menu > span.controlset > span.icon.small {
 	background-position: 0px -170px;
 }
-#esb > section> menu > span.controlset > span.icon.large {
+#esb > section > menu > span.controlset > span.icon.large {
 	background-position: -20px -170px;
 }
-#esb > section> menu > span.controlset > span.icon.short {
+#esb > section > menu > span.controlset > span.icon.short {
 	background-position: -40px -170px;
 }
-#esb > section> menu > span.controlset > span.icon.tall {
+#esb > section > menu > span.controlset > span.icon.tall {
 	background-position: -60px -170px;
 }
 #esb > section > menu button.list {
@@ -1216,6 +1262,12 @@ vertical-align: middle;
 #esb > section.sets.selected > section.inlineflow > article > header {
 	display: block;
 }
+
+
+/* ======================================================================
+	Elements that occur WITHIN a design
+*/
+
 
 .esbmarker {
 	-moz-border-radius: 5px 5px 5px 5px;
