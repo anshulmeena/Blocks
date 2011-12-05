@@ -94,12 +94,13 @@ h6 {
 }
 
 /* Global Structure
----------------------------------------- */
+---------------------------------------- 
 html,
 body {
   color: #333;
   background: white;
 }
+*/
 
 hr {
     border-top: 1px solid #ccc;
