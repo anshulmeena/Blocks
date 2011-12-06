@@ -49,8 +49,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	z-index: 999;
 }
 #esb > header > h1 {
-	font-family: 'MuseoSlab500';
-	font-size: 17px;
+	font: normal 17px 'Museo Slab';
 	color: #888;
 	margin: 9px 5px 0px 20px;
 	line-height: 1em;
@@ -395,8 +394,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 }
 #esb > section > section > header > h2,
 #esb   section > article > header > h2 {
-	font-family: Arial;
-	font-size: 16px;
+	font: normal 16px Arial;
 	margin: 0px;
 	padding: 0px;
 	color: #888;
