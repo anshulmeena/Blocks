@@ -314,13 +314,13 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	background-position: -60px -170px;
 }
 #esb > section > menu button.list {
-	background-position: -40px -60px;
+	background-position: -120px -130px;
 }
 #esb > section > menu button.grid {
-	background-position: 0px -60px;
+	background-position: -180px -130px;
 }
 #esb > section > menu button.thumbnail {
-	background-position: -20px -60px;
+	background-position: -150px -130px;
 }
 #esb > section > menu button.inlineflow {
 	background-position: -60px -60px;
