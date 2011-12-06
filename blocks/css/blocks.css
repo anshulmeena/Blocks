@@ -18,11 +18,12 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 
 @font-face {
     font-family: 'MuseoSlab500';
-    src: url('../fonts/museoslab/museo_slab_500-webfont.eot');
-    src: url('../fonts/museoslab/museo_slab_500-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/museoslab/museo_slab_500-webfont.woff') format('woff'),
-         url('../fonts/museoslab/museo_slab_500-webfont.ttf') format('truetype'),
-         url('../fonts/museoslab/museo_slab_500-webfont.svg#MuseoSlab500') format('svg');
+    src: url('fonts/museoslab/museo_slab_500-webfont.eot');
+    src: url('fonts/museoslab/museo_slab_500-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/museoslab/museo_slab_500-webfont.woff') format('woff'),
+         url('fonts/museoslab/museo_slab_500-webfont.ttf') format('truetype'),
+         url('fonts/museoslab/museo_slab_500-webfont.svg#MuseoSlab500') format('svg');
+    src: local('Museo Slab');
     font-weight: normal;
     font-style: normal;
 }
