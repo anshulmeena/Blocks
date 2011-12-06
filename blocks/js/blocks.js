@@ -251,8 +251,8 @@ EightShapes.Blocks = {
         }
 
         // Load Component-Specific CSS
-        if(component.cssloaded) {
-          $('head').append('<link rel="stylesheet" href="' + EightShapes.Blocks.sourceURL(source)+"css/"+id+".css" + '" />');
+        if(!component.cssloaded) {
+          $('head').append('<link rel="stylesheet" href="' + EightShapes.Blocks.sourceURL(component.source)+"css/"+id+".css" + '" />');
           component.cssloaded = true;
         }
       
