@@ -146,6 +146,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	margin: 0 -20px 20px;
 	z-index: 9999;
 	text-align: right;
+	-moz-border-radius-bottomleft: 8px;
 }
 #esb.fullscreen > section > menu {
 	display: block;
@@ -156,12 +157,17 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	margin: 0;
 	background: rgba(0,0,0,0.2);
 	padding-left: 10px;
+	opacity: 0.25;
+}
+#esb.fullscreen > section > menu:hover {
+	opacity: 1;
 }
 #esb > section > menu > h2 {
 	display: none;
 }
 #esb > section > menu button {
 	background: none repeat scroll 0 0 transparent;
+	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border: 0;
 	margin: 8px 6px 0 0;
@@ -169,12 +175,15 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	width: 33px;
 	height: 33px;
 	text-indent: -8888px;
-	background-color: #444;
+	background-color: #666;
 	color: white;
 	cursor: pointer;
 	background-image: url("../images/icons.gif");
 	background-repeat: no-repeat;
 	background-position: -178px -98px;
+}
+#esb > section > menu button:hover {
+	background-color: #444;
 }
 #esb > section > menu > button {
 	display: none;
@@ -188,12 +197,16 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb > section > menu > button.next {
 	-moz-border-radius-topleft: 0px;
 	-moz-border-radius-bottomleft: 0px;
+	-webkit-border-radius-topleft: 0px;
+	-webkit-border-radius-bottomleft: 0px;
 }
 #esb > section > menu button.list,
 #esb > section > menu button.thumbnail,
 #esb > section > menu > button.previous {
 	-moz-border-radius-topright: 0px;
 	-moz-border-radius-bottomright: 0px;
+	-webkit-border-radius-topright: 0px;
+	-webkit-border-radius-bottomright: 0px;
 	background-position: -148px -99px;
 	margin-right: 0;
 	border-right: 1px solid rgba(256,256,256,0.3);
