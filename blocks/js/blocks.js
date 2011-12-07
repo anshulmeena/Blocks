@@ -383,7 +383,6 @@ EightShapes.Blocks = {
 
     return true;
   },
-
   registerPage : function(elements,setid) {
 
     // Summary: Registers the current page and pages identified in Config XML into EightShapes.Blocks.p
@@ -475,7 +474,6 @@ EightShapes.Blocks = {
       
     });  
   },
-  
   registerComponent : function(elements) {
 
     // Summary: Register a component found in XML>COMPONENTS, the default page, or a loaded page
@@ -553,7 +551,6 @@ EightShapes.Blocks = {
       EightShapes.Blocks.c[id].registered = true;
     });
   },
-
   addComponentsToPage : function(pageElement) {
 
     // Summary: Traverses a loaded page layout and loads & adds all not-yet-loaded components
@@ -578,7 +575,6 @@ EightShapes.Blocks = {
       }
     });
   },
-
   addComponent : function(elements) {
     
     // Summary: Clone 1+ component variations from BODY>SECTION.components into a BODY>SECTION.pages>ARTICLE layout
@@ -616,7 +612,6 @@ EightShapes.Blocks = {
       EightShapes.Blocks.markComponent(element);
     })
   },
-
   markComponent : function(componentElements) {
 
     // Summary: Mark a component in a page layout with the orange annotation marker and 
@@ -709,7 +704,6 @@ EightShapes.Blocks = {
       $(designItem).slideUp(1000);
     }
   },
-
   removeComponent : function(event) {
 
     // Summary: Removes a component element from a BODY>SECTION.pages>ARTICLE>SECTION.design
@@ -722,7 +716,6 @@ EightShapes.Blocks = {
     $(notesItem).slideUp(500, function() { $(this).remove() });
     $(designItem).slideUp(1000, function() { $(this).remove() });
   },
-
   previousComponent : function(event) {
 
     // Summary: From a marker in the layout or Page Notes component list, 
@@ -752,7 +745,6 @@ EightShapes.Blocks = {
       .attr('data-variation',$(previousVariation).attr('data-variation'))
  
   },
-
   nextComponent : function(event) {
 
     // Summary: From a marker in the layout or Page Notes component list, 
@@ -837,18 +829,20 @@ EightShapes.Blocks = {
     })
   },
 
-	//
-	// Responsive Design Breakpoints
+  //======================================================================================================
+	// Device Profiles
 
 	registerDeviceProfiles : function(profiles) {
 		profiles.each( function(i,profile) {
 			if (i === 0) {
+				// Set up the menu and specific the default selection
 				$('#esb > section > menu').append('<span class="deviceprofiles"><span class="selectionCurrent">' + $(profile).attr('name') + '</span><ul></ul></span>')
+				// Set default (first) profile as active
+				$('body').addClass($(profile).attr('value') );
 			}
 			$('#esb > section.pages > menu > span.deviceprofiles > ul').append('<li data-value="' + $(profile).attr('value') + '" >' + $(profile).attr('name') + '</li>');
 		});
 	},
-
 	setDeviceProfile : function(profile) {
 		$('#esb > section.pages > menu > span.deviceprofiles > ul > li').each( function(i,profile) {
 			$('body#esb').removeClass($(profile).attr('data-value'));
@@ -923,7 +917,6 @@ EightShapes.Blocks = {
         break;
     }
   },
-
   setDisplayPreferences : function(XMLconfig) {
 
     // Summary: Read the XML and update any preferences based on what's included
@@ -934,7 +927,6 @@ EightShapes.Blocks = {
     ($(XMLconfig).find('display > property[name="markers"]').attr('value') === "false") ? EightShapes.Blocks.display.markers = false : EightShapes.Blocks.display.markers = true;
     ($(XMLconfig).find('display > property[name="toolbar"]').attr('value') === "false") ? EightShapes.Blocks.display.toolbar = false : EightShapes.Blocks.display.toolbar = true;
   },
-
   setPrototypeMetadata : function(XMLconfig) {
 
     // Summary: Read the XML and setup the prototype metadata (author, title, etc)
@@ -954,14 +946,12 @@ EightShapes.Blocks = {
       .append('<dt>on</dt> <dd>' + EightShapes.Blocks.metadata.versiondate + '</dd> ')
       .append('<dt>for</dt> <dd>' + EightShapes.Blocks.metadata.client + '</dd> ')
   },
-
   menuMarkup : function() {
 
     // Summary: Centralize the markup added for toolbar sliders, buttons, etc
 
     return '<menu><span class="controlset sizeslider"><h3>Size</h3><span class="icon small"></span><div class="esbgallerysize" style="width: 100px;"></div><span class="icon large"></span></span><span class="controlset heightslider"><h3>Height</h3><span class="icon short"></span><div class="esbgalleryaspectratio" style="width: 100px;"></div><span class="icon tall"></span></span> <span class="controlset  viewas"><button class="list active">List</button><button class="thumbnail">Thumbnail</button><button class="grid">Grid</button></span><button class="exitfullscreen">Exit Full Screen</button><button class="markers">Markers</button><button class="previous">Previous</button><button class="next">Next</button></menu>';
   },
-
   articleHeader : function(item) {
 
     // Summary: Adds simple markup inside HEADER of an article in BODY>SECTION.pages, 
@@ -976,7 +966,6 @@ EightShapes.Blocks = {
     }
     
   },
-
   sourceURL : function(type) {
     switch(type) {
     case "library":
@@ -987,7 +976,6 @@ EightShapes.Blocks = {
       return "components/";
     }
   },
-
   keyboardshortcuts : function(event) {
     var currentView = $.bbq.getState( "view" ) ? $.bbq.getState( "view" ) : "fullscreen";
     if (event.altKey) {
@@ -1019,7 +1007,6 @@ EightShapes.Blocks = {
       }
     }
   },
-
   containComponent : function(id) {
 
     // Summary: Adds a class to component variations for "customizeable width displays" 
