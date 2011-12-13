@@ -98,6 +98,14 @@ EightShapes.Blocks = {
     //======================================================================================================
     // Blocks View & Toolbar Button Live Events
 
+		$('#esb > section.pages > article > section.design a').live('click', function(event) {
+			for (var page in EightShapes.Blocks.p) {
+				if ($(this).attr('href').split(".html")[0] === page) {
+      		$.bbq.pushState({view:"fullscreen", id:page});
+				}
+			}
+			return false;
+		})
     // Grid/Thumbnail/List View: Click Component Title > Go To Component Notes
     $('#esb > section.components > article > header > h2').live('click', function() {
       $.bbq.pushState({view:"component", id:$(this).closest('article').attr('data-id')});
@@ -1020,10 +1028,6 @@ EightShapes.Blocks = {
 $(document).ready(function(){
   $.import_js("blocks/js/jquery-ui-1.8.6.custom.min.js"); 
   $.import_js("blocks/js/jquery-bbq.js");
-
-  $(window).resize(function() {                                               
-    console.log($(window).width());
-  });
 
   EightShapes.Blocks.init();
 
