@@ -37,6 +37,20 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	margin: 0;
 	padding: 0;
 }
+#esb > *.hide {
+	display: none;
+}
+#esb > section {
+	margin-left: 20px;
+	margin-right: 20px;
+	display: none;
+}
+#esb > section.active {
+	display: block;
+}
+
+/* EightShapes Blocks Header (Prototype Metadata and Main Navigation) */
+
 #esb > header {
 	display: block;
 	background-color: #222;
@@ -127,17 +141,8 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb > header > nav.primary > ul > li:hover {
 	color: #aaa;
 }
-#esb > *.hide {
-	display: none;
-}
-#esb > section {
-	margin-left: 20px;
-	margin-right: 20px;
-	display: none;
-}
-#esb > section.active {
-	display: block;
-}
+
+/*	EightShapes Blocks Toolbar Menu, Pages (including full screen) or Components */
 
 #esb > section > menu {
 	background-color: rgba(48, 48, 48, 0.9);
@@ -146,11 +151,11 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	margin: 0 -20px 20px;
 	z-index: 9999;
 	text-align: right;
-	-moz-border-radius-bottomleft: 8px;
 }
 #esb.fullscreen > section > menu {
 	display: block;
 	position: fixed;
+	-moz-border-radius-bottomleft: 8px;
 	top: 0;
 	right: 0px;
 	z-index: 20000;
@@ -192,7 +197,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	display: none;
 	margin-right: 15px;
 }
-
+#esb > section > menu button.thumbnail,
 #esb > section > menu button.grid,
 #esb > section > menu > button.next {
 	-moz-border-radius-topleft: 0px;
@@ -286,7 +291,6 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb > section.notes > menu > button.markers {
 	display: inline-block;
 }
-
 #esb > section > menu > .controlset > .esbgallerysize,
 #esb > section > menu > .controlset > .esbgalleryaspectratio {
 	display: inline-block;
@@ -363,7 +367,6 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	margin: 0;
 	margin-top: 7px;
 }
-
 #esb > section.active.notes > article.active > header {
 	position: relative;
 }
@@ -390,6 +393,9 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	vertical-align: top;
 	margin-top: 80px;
 }
+
+/*	Page and Component Headers */
+
 #esb > section > header {
 	display: none;
 }
@@ -406,7 +412,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	display: none;
 }
 #esb > section > section > header > h2,
-#esb   section > article > header > h2 {
+#esb > section > article > header > h2 {
 	font: normal 16px Arial;
 	margin: 0px;
 	padding: 0px;
@@ -454,9 +460,6 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	background-position: -80px -78px;
 }
 #esb > section > article section.design .component > section.marker {
-	display: none;
-}
-#esb > section > article > aside.notes {
 	display: none;
 }
 #esb > section > aside {
@@ -552,7 +555,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	display: block;
 }
 #esb > section.thumbnail      > section,
-#esb > section.thumbnail        article {
+#esb > section.thumbnail      > article {
 	margin-bottom: 20px;
 	margin-right: 20px;
 	position: relative;
@@ -562,22 +565,24 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	height: 210px;
 }
 #esb > section.thumbnail      > section > header,
-#esb > section.thumbnail        article > header {
+#esb > section.thumbnail      > article > header {
 	margin-left: 166px;
 	position: absolute;
 }
 #esb > section.thumbnail      > section > header > h2,
-#esb > section.thumbnail        article > header > h2 {
+#esb > section.thumbnail      > article > header > h2 {
 	width: 200px;
 }
 #esb > section.thumbnail      > section > header > span.description,
-#esb > section.thumbnail        article > header > span.description {
+#esb > section.thumbnail      > article > header > span.description {
+	color: #888888;
+	display: inline-block;
+	font-size: 13px;
+	padding-top: 10px;
 	width: 250px;
-	color: #888;
-	font-size: 12px;
 }
 #esb > section.thumbnail      > section > header > span.version,
-#esb > section.thumbnail        article > header > span.version {
+#esb > section.thumbnail      > article > header > span.version {
 	display: none;
 }
 #esb > section.sets.thumbnail > section > article:nth-child(3),
@@ -605,7 +610,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	display: none;
 }
 #esb > section.thumbnail      > section > article > section.design,
-#esb > section.thumbnail        article > section.design {
+#esb > section.thumbnail      > article > section.design {
 	position: absolute;
 	height: 1200px;
 	-moz-transform: scale(0.15);
@@ -649,10 +654,6 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 }
 #esb > section.grid           > section > header > span,
 #esb > section.grid           > article > header > span {
-	display: none;
-}
-#esb > section.grid           > section > aside.notes,
-#esb > section.grid           > article > aside.notes {
 	display: none;
 }
 #esb > section.sets.grid > section > article:nth-child(3),
@@ -703,7 +704,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	display: none;
 }
 #esb > section.grid           > section > article > section.design,
-#esb   section.grid           > article > section.design {
+#esb > section.grid           > article > section.design {
 	position: absolute;
 	height: 1200px;
 	-moz-transform: scale(0.25);
@@ -755,7 +756,6 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb > section.notes > article > header > h2:hover {
 	background-color: rgba(0,0,0,0.01);
 }
-
 #esb > section > article > header > button {
 	background: url("../images/icons.gif") no-repeat scroll 2px -98px #666666;
 	border: 0 none;
@@ -772,13 +772,18 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	vertical-align: middle;
 	width: 33px;
 }
-#esb > section.grid > article > header > button {
+#esb > section > article > header > button {
 	-moz-transform: scale(0.75);
 	-moz-transform-origin: right top;
 	-webkit-transform: scale(0.75);
 	-webkit-transform-origin: right top;
 	transform: scale(0.75);
 	transform-origin: right top;
+}
+#esb > section.notes > article > header > button {
+	-moz-transform: scale(1);
+	-webkit-transform: scale(1);
+	transform: scale(1);
 }
 #esb > section.notes > article > header > span {
 	display: none;
@@ -788,7 +793,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 }
 #esb > section.sets > section.inlineflow > article.page > section.design,
 #esb > section.components > article section.design,
-#esb > section.notes > article section.design {
+#esb > section.notes > article > section.design {
 	background-color: white;
 	margin: 0 0 50px 0;
   padding: 20px 10px;
@@ -803,6 +808,16 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	display: inline-block;
 	-moz-box-shadow: 10px 10px 10px rgba(0,0,0,0.5);
 }
+
+/*	Annotations */
+
+#esb > section > article > aside.notes {
+	display: none;
+}
+#esb > section.grid  > section > aside.notes,
+#esb > section.grid  > article > aside.notes {
+	display: none;
+}
 #esb > section.notes > article > aside.notes {
 	color: #888888;
 	display: block;
@@ -815,6 +830,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 }
 #esb > section.notes > article > aside.notes h3 {
 	font-family: 'MuseoSlab500';
+	font-weight: normal;
 	color: #888;
 	margin-top: 10px;
 	padding-top: 10px;
