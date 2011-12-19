@@ -82,7 +82,7 @@ EightShapes.Blocks = {
 				EightShapes.Blocks.registerDeviceProfiles($(XMLconfig).find('deviceprofiles > profile'));
         
         // Mark Embedded Components in Current Page
-        EightShapes.Blocks.markComponent($('#esb > section.pages > article.active > section.design > *.component'));
+        EightShapes.Blocks.markComponent($('#esb > section.pages > article.active > section.design *.component'));
         // Load and Add Linked Components in Current Page
         EightShapes.Blocks.addComponentsToPage($('#esb > section.pages > article.active > section.design'));
       },
@@ -503,7 +503,6 @@ EightShapes.Blocks = {
       if ($(element).attr('data-source')) {
         EightShapes.Blocks.c[id].source =  $(element).attr('data-source');
       }
-      
       if (($(element).attr('data-description')) && (EightShapes.Blocks.c[id].description === "")) {
         EightShapes.Blocks.c[id].description = $(element).attr('data-description');
       }

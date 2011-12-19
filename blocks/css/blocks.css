@@ -1320,6 +1320,7 @@ vertical-align: middle;
 	cursor: pointer;
 	color: white;
 	display: none;
+	font-weight: normal;
 }
 #esb.markers > section.pages > article > section.design .component > .esbmarker-wrapper {
 	display: block;
