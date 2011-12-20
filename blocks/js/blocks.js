@@ -21,7 +21,7 @@ EightShapes.Blocks = {
     aspectratio : 1.25,
     galleryscale : 0.28,
     // Default component container
-    componentcontainer : "ESBcomponentcontainer",
+    componentcontainer : "",
     // Default page viewed when you exit full screen
     lastView : "pages", // or "pages","components","activepage","activecomponent"
     lastViewID : "",
@@ -126,7 +126,7 @@ EightShapes.Blocks = {
       $('#esb > header > nav.primary > ul > li.' + $(this).children('h2').html().toLowerCase()).click();
     });
 		// Switch Device Profile via a Breakpoint Selection
-			// Open / Close Menu
+		// Open / Close Menu
 		$('#esb > section.pages > menu > span.deviceprofiles > span.selectionCurrent').live('click', function(event) {
 			var breakpointButton = $(this);
 			var breakpointOptions = breakpointButton.next('ul');
@@ -145,7 +145,7 @@ EightShapes.Blocks = {
 			};
 			event.stopPropagation();
 		});
-			// Make Menu Selection
+		// Make Menu Selection
 		$('#esb > section.pages > menu > span.deviceprofiles > ul > li').live('click', function(event) {
 			$(this).parent().hide().parent().removeClass('opened').find('.selected').removeClass('selected');
 			$(this).closest('span.deviceprofiles').find('span.selectionCurrent').html($(this).html());
@@ -224,8 +224,8 @@ EightShapes.Blocks = {
     this.notesLoaded = false;
     this.registered = false;
     this.doneness = "";
-    this.description = "";
-    this.container = "";
+    this.description = "";				
+    this.container = "";					// Customizable container for Components section Notes view, at component level (not variation)
     
     // Load the component (all variations) from a file
     this.load = function() {
@@ -911,8 +911,8 @@ EightShapes.Blocks = {
         $('body > section.components > article[data-id=' + id + ']').addClass('active')
           .children('section.variation').each( function(i,element) {
             $(element).css('width','').css('height','')
-            $(element).css('width',($(element).find('section.design').width()/2+10)+'px');
-            $(element).css('height',($(element).find('section.design').height()/2+60)+'px');
+            $(element).css('width',($(element).find('section.design').width()/1.25+10)+'px');
+            $(element).css('height',($(element).find('section.design').height()/1.25+60)+'px');
           });
         EightShapes.Blocks.display.lastView = "component";
         EightShapes.Blocks.display.lastViewID = id;

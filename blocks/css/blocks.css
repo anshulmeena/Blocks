@@ -554,6 +554,9 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb > section.list > aside {
 	display: block;
 }
+
+/* Thumbnail View */
+
 #esb > section.thumbnail      > section,
 #esb > section.thumbnail      > article {
 	margin-bottom: 20px;
@@ -630,8 +633,11 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb > section.thumbnail      > aside {
 	display: block;
 }
-#esb > section.grid           > section,
-#esb > section.grid           > article {
+
+/* Grids View */
+
+#esb > section.grid      > section,
+#esb > section.grid      > article {
 	margin-bottom: 0px;
 	margin-right: 20px;
 	position: relative;
@@ -640,11 +646,11 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	white-space: normal;
 	height: 365px;
 }
-#esb > section.grid           > article.variation {
+#esb > section.grid      > article.variation {
 	display: none;
 }
-#esb > section.grid           > section > header > h2,
-#esb > section.grid           > article > header > h2 {
+#esb > section.grid      > section > header > h2,
+#esb > section.grid      > article > header > h2 {
 	white-space: nowrap; 
 	overflow: hidden;
 	display: inline-block;
@@ -652,8 +658,8 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	margin-bottom: 5px;
 	width: 100%;
 }
-#esb > section.grid           > section > header > span,
-#esb > section.grid           > article > header > span {
+#esb > section.grid      > section > header > span,
+#esb > section.grid      > article > header > span {
 	display: none;
 }
 #esb > section.sets.grid > section > article:nth-child(3),
@@ -703,8 +709,8 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb > section.sets.grid > section > article > header {
 	display: none;
 }
-#esb > section.grid           > section > article > section.design,
-#esb > section.grid           > article > section.design {
+#esb > section.grid      > section > article > section.design,
+#esb > section.grid      > article > section.design {
 	position: absolute;
 	height: 1200px;
 	-moz-transform: scale(0.25);
@@ -719,13 +725,16 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	overflow: hidden;
 	cursor: pointer;
 }
-#esb > section.grid           > section > article > section.design {
+#esb > section.grid      > section > article > section.design {
 	-moz-transform: scale(0.2);
 	-webkit-transform: scale(0.2);
 }
-#esb > section.grid           > aside {
+#esb > section.grid      > aside {
 	display: block;
 }
+
+/*	Notes View */
+
 #esb > section.notes > article {
 	margin-left: auto;
 	margin-right: auto;
@@ -733,10 +742,11 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	width: 920px;
 }
 #esb > section.components.notes > article {
-	margin-left: 20px;
-	margin-right: 20px;
-	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
 	position: relative;
+	width: 960px;
 }
 #esb > section.notes > article > header > button.return {
 	display: block;
@@ -756,34 +766,13 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb > section.notes > article > header > h2:hover {
 	background-color: rgba(0,0,0,0.01);
 }
-#esb > section > article > header > button {
-	background: url("../images/icons.gif") no-repeat scroll 2px -98px #666666;
-	border: 0 none;
-	border-radius: 5px 5px 5px 5px;
-	color: white;
-	cursor: pointer;
-	display: block;
-	height: 33px;
-	margin: 0;
-	outline: 0 none;
-	padding: 0;
-	position: absolute;
-	right: 0;
-	vertical-align: middle;
-	width: 33px;
-}
-#esb > section > article > header > button {
-	-moz-transform: scale(0.75);
-	-moz-transform-origin: right top;
-	-webkit-transform: scale(0.75);
-	-webkit-transform-origin: right top;
-	transform: scale(0.75);
-	transform-origin: right top;
-}
 #esb > section.notes > article > header > button {
 	-moz-transform: scale(1);
 	-webkit-transform: scale(1);
 	transform: scale(1);
+}
+#esb > section.notes.components > article > header > button {
+	display: none;
 }
 #esb > section.notes > article > header > span {
 	display: none;
@@ -791,8 +780,6 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb > section.notes > article > header > dl {
 	display: none;
 }
-#esb > section.sets > section.inlineflow > article.page > section.design,
-#esb > section.components > article section.design,
 #esb > section.notes > article > section.design {
 	background-color: white;
 	margin: 0 0 50px 0;
@@ -808,9 +795,6 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	display: inline-block;
 	-moz-box-shadow: 10px 10px 10px rgba(0,0,0,0.5);
 }
-
-/*	Annotations */
-
 #esb > section > article > aside.notes {
 	display: none;
 }
@@ -976,6 +960,9 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	border: 2px solid gray;
 	margin-bottom: 10px;
 }
+
+
+
 #esb > section > .pagestack {
 	position: relative;
 }
@@ -989,6 +976,9 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	background-color: white;
 	border: 10px solid #ccc;
 }
+
+/* Components */
+
 #esb > section.components > aside {
 	display: none;
 }
@@ -996,11 +986,19 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	display: block;
 }
 #esb > section.components > article > section.variation > section.design {
-	display: block;
-	-moz-transform: scale(0.5);
+	-moz-transform: scale(0.8);
 	-moz-transform-origin: left top;
-	-webkit-transform: scale(0.5);
+	-webkit-transform: scale(0.8);
 	-webkit-transform-origin: left top;
+	height: auto;
+	overflow: hidden;
+	margin: 0 0 10px 0;
+  padding: 10px 10px;
+	border: 2px solid #444;
+	position: relative;
+	display: inline-block;
+	background-color: white;
+	-moz-box-shadow: 10px 10px 10px rgba(0,0,0,0.5);
 }
 #esb > section.components.grid > article {
   width: auto;
@@ -1039,17 +1037,13 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb > section.components.notes > article.active > section.variation > header > h3 {
 	font-size: 14px;
 	font-family: "Arial";
+	font-weight: normal;
 	color: #888;
 	overflow: hidden;
 	white-space: nowrap;
 }
 #esb > section.components.notes > article.active > section.variation > header > h3:before {
 	color: gray;
-}
-#esb > section.components > article > section.variation > section.design {
-	height: auto;
-	overflow: hidden;
-	margin: 0 0 10px 0;
 }
 #esb > section.components.notes > article.active > aside.notes {
 	float: right;
@@ -1071,6 +1065,31 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	cursor: pointer;
 	margin-right: 20px;
 	background-position: -40px -60px;
+}
+
+/* Components, Pages Headers */
+
+#esb > section            > article > header > button {
+	background: url("../images/icons.gif") no-repeat scroll 2px -98px #666666;
+	border: 0 none;
+	border-radius: 5px 5px 5px 5px;
+	color: white;
+	cursor: pointer;
+	display: block;
+	height: 33px;
+	margin: 0;
+	outline: 0 none;
+	padding: 0;
+	position: absolute;
+	right: 0;
+	vertical-align: middle;
+	width: 33px;
+	-moz-transform: scale(0.75);
+	-moz-transform-origin: right top;
+	-webkit-transform: scale(0.75);
+	-webkit-transform-origin: right top;
+	transform: scale(0.75);
+	transform-origin: right top;
 }
 #esb > section.notes      > article > header > menu {
 	color: white;
@@ -1125,6 +1144,9 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb > section.notes      > article > header > menu > button.remove {
 	display: none;
 }
+
+/* Sets Headers */
+
 #esb > section.sets:not(.active) {
 	display: none;
 }
@@ -1155,6 +1177,9 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb > section.sets.selected > section > article {
 	display: inline-block;
 }
+
+/* Fullscreen */
+
 #esb.fullscreen {
 	background: none;
 }
