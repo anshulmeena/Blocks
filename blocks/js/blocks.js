@@ -219,12 +219,14 @@ EightShapes.Blocks = {
     this.html = "";
     this.title = "";
     this.variationCount = 1;
+		this.variations = {};
     this.hasNotes = false;
     this.notes = "";
     this.notesLoaded = false;
     this.registered = false;
     this.doneness = "";
-    this.description = "";				
+		this.description = "";
+		this.classes = "";
     this.container = "";					// Customizable container for Components section Notes view, at component level (not variation)
     
     // Load the component (all variations) from a file
@@ -251,8 +253,14 @@ EightShapes.Blocks = {
           $(component.html).children('section[data-variation]').each( function(index,element) {
             var variationid = $(this).attr('data-variation');
             var variationtitle = $(this).attr('title');
+						EightShapes.Blocks.c[id].variations[variationid] = new EightShapes.Blocks.ComponentVariation(variationid);
+						EightShapes.Blocks.c[id].variations[variationid].id = variationid;
+						EightShapes.Blocks.c[id].variations[variationid].title = variationtitle;
+						EightShapes.Blocks.c[id].variations[variationid].html = $(this).html();
+						EightShapes.Blocks.c[id].variations[variationid].classes = $(this).attr('class');
+						EightShapes.Blocks.c[id].variations[variationid].container = $(this).attr('data-container');
             $('#esb > section.components > article[data-id=' + id + ']')
-              .append('<section class="variation ' + EightShapes.Blocks.containComponent(id) + '" data-id="' + variationid + '" ><header><h3>' + variationtitle + '</h3></header>' + 
+              .append('<section class="variation ' + EightShapes.Blocks.containComponent(id,variationid) + '" data-id="' + variationid + '" ><header><h3>' + variationtitle + '</h3></header>' + 
                  '<section class="design ' + component.classes + '">' + $(this).html() + '</section></section>')
               .children('aside.notes').find('ul.variationlist').append('<li data-variationid="' + variationid + '">' + variationtitle + '</li>');  
           })
@@ -320,6 +328,13 @@ EightShapes.Blocks = {
       })
     };
   },
+	ComponentVariation : function(id) {
+		this.id = id;
+		this.title = "";
+		this.container = "";
+		this.classes = "";
+		this.hasNotes = false;
+	},
 
   //======================================================================================================
   // Markup & Modular Loading, Adding & Marking
@@ -594,9 +609,10 @@ EightShapes.Blocks = {
     $(elements).each(function(index,element) {
       var id = $(element).attr('data-component');
       var clonedComponent;
+			var variationid = $(element).attr('data-variation');
 
       // Clone the Component
-      if ($(element).attr('data-variation')) {
+      if (variationid) {
         clonedComponent = $('#esb > section.components > article[data-id=' + id + ']').find('section[data-id=' + $(element).attr('data-variation') + '] > section.design').clone(true);
 
         // Need to add an ELSE IF for if variation can't be found
@@ -604,16 +620,15 @@ EightShapes.Blocks = {
         // then append entire c[].html
       
       } else {
+				variationid = $('#esb > section.components > article[data-id=' + id + ']').find('section:nth-child(3)').attr('data-id');
         clonedComponent = $('#esb > section.components > article[data-id=' + id + ']').find('section:nth-child(3) > section.design').clone(true);
       }
-    
-      // Append Clone to Page Layout
-      $(element).append($(clonedComponent).children()).addClass('loaded');
 
-      // Class Component within Page Layout
-      if (EightShapes.Blocks.c[id].classes) {
-        $(element).addClass(EightShapes.Blocks.c[id].classes);
-      }
+      // Append Clone to Page Layout
+      $(element).append($(clonedComponent).children())
+				.addClass(EightShapes.Blocks.c[id].classes)														// Component class
+				.addClass(EightShapes.Blocks.c[id].variations[variationid].classes)		// Component variation class
+				.addClass('loaded');																									// Designate as loaded
       
       // Mark (single) Component that's just been added to one layout
       EightShapes.Blocks.markComponent(element);
@@ -1014,12 +1029,17 @@ EightShapes.Blocks = {
       }
     }
   },
-  containComponent : function(id) {
+  containComponent : function(id,variationid) {
 
     // Summary: Adds a class to component variations for "customizeable width displays" 
     // within Component Grids and Notes
-
-    return (EightShapes.Blocks.c[id].container) ? EightShapes.Blocks.c[id].container : EightShapes.Blocks.display.componentcontainer; 
+		if (variationid && EightShapes.Blocks.c[id].variations[variationid].container) {
+			return EightShapes.Blocks.c[id].variations[variationid].container;
+		} else if (EightShapes.Blocks.c[id].container) {
+			return EightShapes.Blocks.c[id].container;
+		} else {
+			return EightShapes.Blocks.display.componentcontainer;
+		}
   }
 
 }
