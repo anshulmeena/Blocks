@@ -152,10 +152,14 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	z-index: 9999;
 	text-align: right;
 }
-#esb.fullscreen > section > menu {
+#esb.fullscreen > section > menu,
+#esb.fullscreen > section > menu.topright {
 	display: block;
 	position: fixed;
+	-moz-border-radius: 0px;
 	-moz-border-radius-bottomleft: 8px;
+	-webkit-border-radius: 0px;
+	-webkit-border-radius-bottomleft: 8px;
 	top: 0;
 	right: 0px;
 	z-index: 20000;
@@ -167,6 +171,36 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	   -moz-transition: all 0.2s ease-out; 
 	     -o-transition: all 0.2s ease-out; 
 	        transition: all 0.2s ease-out; 
+}
+#esb.fullscreen > section > menu.bottomright {
+	-moz-border-radius: 0px;
+	-moz-border-radius-topleft: 8px;
+	-webkit-border-radius: 0px;
+	-webkit-border-radius-topleft: 8px;
+	top: auto;
+	bottom: 0px;
+	left: auto;
+	right: 0px;
+}
+#esb.fullscreen > section > menu.bottomleft {
+	-moz-border-radius: 0px;
+	-moz-border-radius-topright: 8px;
+	-webkit-border-radius: 0px;
+	-webkit-border-radius-topright: 8px;
+	top: auto;
+	bottom: 0px;
+	left: 0px;
+	right: auto;
+}
+#esb.fullscreen > section > menu.topleft {
+	-moz-border-radius: 0px;
+	-moz-border-radius-bottomright: 8px;
+	-webkit-border-radius: 0px;
+	-webkit-border-radius-bottomright: 8px;
+	top: 0px;
+	bottom: auto;
+	left: 0px;
+	right: auto;
 }
 html:hover #esb.fullscreen > section > menu {
     opacity:.25;

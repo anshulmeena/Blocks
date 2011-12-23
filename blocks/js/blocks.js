@@ -4,14 +4,16 @@ EightShapes.Blocks = {
   //======================================================================================================
   // Default Blocks Collections
   display : {
-    // Show toolbar in upper right of initial layout?
-    toolbar : true,
-    // Show markers button (and thus, markers overlaid in page layouts)?
-    markers : true,
+    // Show toolbar at all in the initial layout? Values: on, off
+    toolbar : "on",
+    // Set toolbar location? Values: topleft, topright, bottomleft, bottomright
+    toolbarlocation : "topright",
+    // Show markers button (and thus, markers overlaid in page layouts)? Values: on, off
+    markers : "on",
     // Enable component interactions like remove, previous/next, and more?
     markeractions: true,
-    // In addition to component name, also reveal library's/spec's ID number
-    ids : false,
+    // In addition to component name, also reveal library's/spec's ID number? Values: on, off
+    ids : "off",
     // (pending idea) Does a related library exist? (and thus, expand Blocks views for accessing library assets)
     library : false,
     projects : true,
@@ -669,7 +671,7 @@ EightShapes.Blocks = {
       $(element).addClass('component');
       
       // Add Marker to Design
-      if(EightShapes.Blocks.display.markers) {
+      if(EightShapes.Blocks.display.markers === "on") {
         $(element).prepend(' <div class="esbmarker-wrapper"><section class="esbmarker" data-marker="' + marker + '"><div><button class="esb remove"></button><button class="esb showhide"></button>' + componentname + '</div></section></div>');
         // Notes
         if(EightShapes.Blocks.c[componentid] && (EightShapes.Blocks.c[componentid].hasNotes || EightShapes.Blocks.c[componentid].variationCount > 1)) {
@@ -946,8 +948,32 @@ EightShapes.Blocks = {
     if($(XMLconfig).find('display > property[name="componentcontainer"]')) {
       EightShapes.Blocks.display.componentcontainer = $(XMLconfig).find('display > property[name="componentcontainer"]').attr('value');
     }
-    ($(XMLconfig).find('display > property[name="markers"]').attr('value') === "false") ? EightShapes.Blocks.display.markers = false : EightShapes.Blocks.display.markers = true;
-    ($(XMLconfig).find('display > property[name="toolbar"]').attr('value') === "false") ? EightShapes.Blocks.display.toolbar = false : EightShapes.Blocks.display.toolbar = true;
+    ($(XMLconfig).find('display > property[name="markers"]').attr('value') === "off") ? EightShapes.Blocks.display.markers = "off" : EightShapes.Blocks.display.markers = "on";
+    if (($(XMLconfig).find('display > property[name="toolbar"]').attr('value') === "false")) {
+			EightShapes.Blocks.display.toolbar = "off";
+			$('body#esb > section.pages > menu').hide();
+		} else {
+			EightShapes.Blocks.display.toolbar = "on";		
+		}
+    if ($(XMLconfig).find('display > property[name="toolbarlocation"]').attr('value')) {
+			switch ($(XMLconfig).find('display > property[name="toolbarlocation"]').attr('value')) {
+				case "topleft":
+					$('body#esb > section.pages > menu').attr('class','topleft');
+					break;
+				case "topright":
+					$('body#esb > section.pages > menu').attr('class','topright');
+					break;
+				case "bottomleft":
+					$('body#esb > section.pages > menu').attr('class','bottomleft');
+					break;
+				case "bottomright":
+					$('body#esb > section.pages > menu').attr('class','bottomright');
+					break;
+				default:
+					$('body#esb > section.pages > menu').attr('class','topright');
+					break;
+			}
+		}
   },
   setPrototypeMetadata : function(XMLconfig) {
 
