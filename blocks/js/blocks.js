@@ -1010,17 +1010,6 @@ EightShapes.Blocks = {
   },
 
   // LOGGING
-  esLog: function (msg) {
-    if (typeof(console) === 'undefined' || typeof(console.log) === 'undefined') return;
-
-		if (typeof console.log === 'function') {
-      console.log("%s: %o", msg, this);
-      return this;
-    } else {
-			console.log(Array.prototype.slice.call(arguments));
-    }
-  },
-
   esLogger: function (msg, level) {
     if (typeof(console) === 'undefined' || typeof(console.log) === 'undefined') return;
 
