@@ -167,7 +167,11 @@ EightShapes.Blocks = {
     $('#esb > section > menu > button.previous').live('click', function() {
       var currentPage = $('#esb > section.pages > article.page.active');
       if($(currentPage).prev().is('article')) {
-        $.bbq.pushState({view:"page", id:$(currentPage).prev().attr('data-id')});
+				if($('#esb').hasClass('fullscreen')) {
+          $.bbq.pushState({view:"fullscreen",id:$(currentPage).prev().attr('data-id')});
+				} else {
+	        $.bbq.pushState({view:"page", id:$(currentPage).prev().attr('data-id')});
+				}
       }
     });
     // Turn Markers On/Off
@@ -938,6 +942,9 @@ EightShapes.Blocks = {
         $('body').addClass('fullscreen');
         $('body > section.pages').addClass('active');
         $('body > section.pages > article[data-id=' + id + ']').addClass('active');
+        if(!EightShapes.Blocks.p[id].loaded) {
+          EightShapes.Blocks.p[id].load();
+        }
         break;
     }
   },
