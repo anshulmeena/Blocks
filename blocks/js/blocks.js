@@ -104,9 +104,9 @@ EightShapes.Blocks = {
 			for (var page in EightShapes.Blocks.p) {
 				if ($(this).attr('href').split(".html")[0] === page) {
       		$.bbq.pushState({view:"fullscreen", id:page});
+					return false;
 				}
 			}
-			return false;
 		})
     // Grid/Thumbnail/List View: Click Component Title > Go To Component Notes
     $('#esb > section.components > article > header > h2').live('click', function() {
