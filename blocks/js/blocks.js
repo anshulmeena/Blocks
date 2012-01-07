@@ -100,6 +100,25 @@ EightShapes.Blocks = {
     //======================================================================================================
     // Blocks View & Toolbar Button Live Events
 
+    // Exit Full Screen
+    $('#esb > section > menu > button.exitfullscreen').live('click', function() {
+			if(EightShapes.Blocks.pc === 1) {
+				$.bbq.pushState({view:"page", id:$('body > section.pages > article').attr('data-id')});
+			} else {
+	      $.bbq.pushState({ view : EightShapes.Blocks.display.lastView, id : EightShapes.Blocks.display.lastViewID });
+			}
+      for(componentid in EightShapes.Blocks.c) {
+        if(!EightShapes.Blocks.c[componentid].loaded) {
+          EightShapes.Blocks.c[componentid].load();
+        }
+      }
+      for(pageid in EightShapes.Blocks.p) {
+        if(!EightShapes.Blocks.p[pageid].loaded) {
+          EightShapes.Blocks.p[pageid].load();
+        }
+      }
+    });
+		// Capture any basic link from one prototype to another to prevent complete blocks reload
 		$('#esb > section.pages > article > section.design a').live('click', function(event) {
 			for (var page in EightShapes.Blocks.p) {
 				if ($(this).attr('href').split(".html")[0] === page) {
@@ -181,20 +200,6 @@ EightShapes.Blocks = {
     // Enter Full Screen for Page from Any Blocks View
     $('#esb > section.pages > article > header > button.fullscreen').live('click', function() {
       $.bbq.pushState({view:"fullscreen", id:$(this).closest('article').attr('data-id')});
-    });
-    // Exit Full Screen
-    $('#esb > section > menu > button.exitfullscreen').live('click', function() {
-      $.bbq.pushState({ view : EightShapes.Blocks.display.lastView, id : EightShapes.Blocks.display.lastViewID });
-      for(componentid in EightShapes.Blocks.c) {
-        if(!EightShapes.Blocks.c[componentid].loaded) {
-          EightShapes.Blocks.c[componentid].load();
-        }
-      }
-      for(pageid in EightShapes.Blocks.p) {
-        if(!EightShapes.Blocks.p[pageid].loaded) {
-          EightShapes.Blocks.p[pageid].load();
-        }
-      }
     });
     // Toggle Grid/Thumbnail/List view mode for Pages and Components
     $('#esb > section > menu > span.viewas > button').live('click', function() {
@@ -955,14 +960,21 @@ EightShapes.Blocks = {
     if($(XMLconfig).find('display > property[name="componentcontainer"]')) {
       EightShapes.Blocks.display.componentcontainer = $(XMLconfig).find('display > property[name="componentcontainer"]').attr('value');
     }
-    ($(XMLconfig).find('display > property[name="markers"]').attr('value') === "off") ? EightShapes.Blocks.display.markers = "off" : EightShapes.Blocks.display.markers = "on";
-    if (($(XMLconfig).find('display > property[name="toolbar"]').attr('value') === "false")) {
+    if($(XMLconfig).find('display > property[name="markers"]').attr('value') === "true") {
+			EightShapes.Blocks.display.markers = "on";
+		} else {
+			EightShapes.Blocks.display.markers = "off";
+		}
+    if($(XMLconfig).find('display > property[name="toolbar"]').attr('value') === "true") {
+			EightShapes.Blocks.display.toolbar = "on";		
+		} else {
 			EightShapes.Blocks.display.toolbar = "off";
 			$('body#esb > section.pages > menu').hide();
-		} else {
-			EightShapes.Blocks.display.toolbar = "on";		
+			if (EightShapes.Blocks.display.markers === "on") {
+				$('body').addClass('markers');
+			}
 		}
-    if ($(XMLconfig).find('display > property[name="toolbarlocation"]').attr('value')) {
+    if($(XMLconfig).find('display > property[name="toolbarlocation"]').attr('value')) {
 			switch ($(XMLconfig).find('display > property[name="toolbarlocation"]').attr('value')) {
 				case "topleft":
 					$('body#esb > section.pages > menu').attr('class','topleft');
