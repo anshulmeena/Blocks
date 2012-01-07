@@ -844,14 +844,15 @@ html #esb.fullscreen > section > menu:hover {
 	display: none;
 }
 #esb > section.notes > article > aside.notes {
-	color: #888888;
+	color: white;
 	display: block;
 	font-family: Arial;
-	line-height: 1.1em;
+	line-height: 1.2em;
 	overflow: visible;
 	position: absolute;
 	right: 0;
 	width: 310px;
+	top: 33px;
 }
 #esb > section.notes > article > aside.notes h3 {
 	font-family: 'MuseoSlab500';
@@ -864,10 +865,10 @@ html #esb.fullscreen > section > menu:hover {
 	font-size: 16px;
 }
 #esb > section.notes > article > aside.notes p {
-	font-size: 13px;
-	color: #888;
+	font-size: 15px;
 	font-weight: normal;
 	font-family: Arial;
+	line-height: 1.2em;
 }
 #esb > section.notes > article > aside.notes ul {
 	list-style: disc outside none;
@@ -878,12 +879,14 @@ html #esb.fullscreen > section > menu:hover {
 	font-size: 14px;
 	font-weight: normal;
 	font-family: Arial;
+	line-height: 1.2em;
 }
 #esb > section.notes > article > aside.notes ul > li {
 	background: none repeat scroll 0 0 transparent;
-	font-size: 13px;
+	font-size: 15px;
 	margin: 0 0 0 15px;
 	padding: 5px 0 5px 0px;
+	line-height: 1.2em;
 }
 #esb > section.notes > article > aside.notes ul.itemstack {
 	list-style: none;
