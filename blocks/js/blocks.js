@@ -245,58 +245,67 @@ EightShapes.Blocks = {
       var component = EightShapes.Blocks.c[id];
       if(component.loadStarted) return false;
       component.loadStarted = true;
-      $.get( EightShapes.Blocks.sourceURL(component.source)+id+".html", function(results) {
-        results = "<div>" + results + "</div>";
-        component.header          = $(results).children('header').attr('id',id);
-        component.html            = $(results).children('#variations');
-        component.notes           = $(results).children('aside.notes').html();
-        component.title           = $(results).children('header').attr('title');
-        component.classes         = $(results).children('header').attr('class');
-        component.container       = $(results).children('header').attr('data-container');
-        component.hasNotes        = ($(results).children('aside.notes').length > 0);
-        component.variationCount  = $(results).children('article#variations').children().length;
+      $.ajax( {
+	
+	      type: 'GET',
+	      url: EightShapes.Blocks.sourceURL(component.source)+id+".html",
+	      dataType: 'html',
+	      success: function(results) {
+	        results = "<div>" + results + "</div>";
+	        component.header          = $(results).children('header').attr('id',id);
+	        component.html            = $(results).children('#variations');
+	        component.notes           = $(results).children('aside.notes').html();
+	        component.title           = $(results).children('header').attr('title');
+	        component.classes         = $(results).children('header').attr('class');
+	        component.container       = $(results).children('header').attr('data-container');
+	        component.hasNotes        = ($(results).children('aside.notes').length > 0);
+	        component.variationCount  = $(results).children('article#variations').children().length;
 
-        if (component.variationCount > 1 && !component.loaded) {
-          $('#esb > section.components > article[data-id=' + id + '] > header > h2').append(' <span class="count">(' + component.variationCount + ')</span>');
-        }
-        EightShapes.Blocks.registerComponent(component.header);
-        if($('#esb > section.components > article[data-id=' + component.id + '] > section.variation').length === 0) {
-          $(component.html).children('section[data-variation]').each( function(index,element) {
-            var variationid = $(this).attr('data-variation');
-            var variationtitle = $(this).attr('title');
-						EightShapes.Blocks.c[id].variations[variationid] = new EightShapes.Blocks.ComponentVariation(variationid);
-						EightShapes.Blocks.c[id].variations[variationid].id = variationid;
-						EightShapes.Blocks.c[id].variations[variationid].title = variationtitle;
-						EightShapes.Blocks.c[id].variations[variationid].html = $(this).html();
-						EightShapes.Blocks.c[id].variations[variationid].classes = $(this).attr('class');
-						EightShapes.Blocks.c[id].variations[variationid].container = $(this).attr('data-container');
-            $('#esb > section.components > article[data-id=' + id + ']')
-              .append('<section class="variation ' + EightShapes.Blocks.containComponent(id,variationid) + '" data-id="' + variationid + '" ><header><h3>' + variationtitle + '</h3></header>' + 
-                 '<section class="design ' + component.classes + '">' + $(this).html() + '</section></section>')
-              .children('aside.notes').find('ul.variationlist').append('<li data-variationid="' + variationid + '">' + variationtitle + '</li>');  
-          })
-        }
+	        if (component.variationCount > 1 && !component.loaded) {
+	          $('#esb > section.components > article[data-id=' + id + '] > header > h2').append(' <span class="count">(' + component.variationCount + ')</span>');
+	        }
+	        EightShapes.Blocks.registerComponent(component.header);
+	        if($('#esb > section.components > article[data-id=' + component.id + '] > section.variation').length === 0) {
+	          $(component.html).children('section[data-variation]').each( function(index,element) {
+	            var variationid = $(this).attr('data-variation');
+	            var variationtitle = $(this).attr('title');
+							EightShapes.Blocks.c[id].variations[variationid] = new EightShapes.Blocks.ComponentVariation(variationid);
+							EightShapes.Blocks.c[id].variations[variationid].id = variationid;
+							EightShapes.Blocks.c[id].variations[variationid].title = variationtitle;
+							EightShapes.Blocks.c[id].variations[variationid].html = $(this).html();
+							EightShapes.Blocks.c[id].variations[variationid].classes = $(this).attr('class');
+							EightShapes.Blocks.c[id].variations[variationid].container = $(this).attr('data-container');
+	            $('#esb > section.components > article[data-id=' + id + ']')
+	              .append('<section class="variation ' + EightShapes.Blocks.containComponent(id,variationid) + '" data-id="' + variationid + '" ><header><h3>' + variationtitle + '</h3></header>' + 
+	                 '<section class="design ' + component.classes + '">' + $(this).html() + '</section></section>')
+	              .children('aside.notes').find('ul.variationlist').append('<li data-variationid="' + variationid + '">' + variationtitle + '</li>');  
+	          })
+	        }
 
-        // Load Component-Specific CSS
-        if(!component.cssloaded) {
-          $('head').append('<link rel="stylesheet" href="' + EightShapes.Blocks.sourceURL(component.source)+"css/"+id+".css" + '" />');
-          component.cssloaded = true;
-        }
-      
-        // Load - And Bind - Component-Specific JavaScript
-        $.ajax( {
-          type: 'GET',
-          url: EightShapes.Blocks.sourceURL(component.source)+"js/"+id+".js",
-          dataType: 'script',
-          success: function(data) {
-            component.loaded = true;
-            EightShapes.Blocks.addComponent(component.locationsToAddIt);
-          },
-          error: function(data) {
-            component.loaded = true;
-            EightShapes.Blocks.addComponent(component.locationsToAddIt);
-          }
-        });
+	        // Load Component-Specific CSS
+	        if(!component.cssloaded) {
+	          $('head').append('<link rel="stylesheet" href="' + EightShapes.Blocks.sourceURL(component.source)+"css/"+id+".css" + '" />');
+	          component.cssloaded = true;
+	        }
+
+	        // Load - And Bind - Component-Specific JavaScript
+	        $.ajax( {
+	          type: 'GET',
+	          url: EightShapes.Blocks.sourceURL(component.source)+"js/"+id+".js",
+	          dataType: 'script',
+	          success: function(data) {
+	            component.loaded = true;
+	            EightShapes.Blocks.addComponent(component.locationsToAddIt);
+	          },
+	          error: function(data) {
+	            component.loaded = true;
+	            EightShapes.Blocks.addComponent(component.locationsToAddIt);
+	          }
+	        });
+					// Closes JS AJAX
+					
+				}
+	
       });
 
     }
@@ -638,7 +647,7 @@ EightShapes.Blocks = {
       // Append Clone to Page Layout
       $(element).append($(clonedComponent).children())
 				.addClass(EightShapes.Blocks.c[id].classes)														// Component class
-				.addClass(EightShapes.Blocks.c[id].variations[variationid].classes)		// Component variation class
+	//			.addClass(EightShapes.Blocks.c[id].variations[variationid].classes)		// Component variation class
 				.addClass('loaded');																									// Designate as loaded
       
       // Mark (single) Component that's just been added to one layout
@@ -969,7 +978,7 @@ EightShapes.Blocks = {
 			EightShapes.Blocks.display.toolbar = "on";		
 		} else {
 			EightShapes.Blocks.display.toolbar = "off";
-			$('body#esb > section.pages > menu').hide();
+//			$('body#esb > section.pages > menu').hide();
 			if (EightShapes.Blocks.display.markers === "on") {
 				$('body').addClass('markers');
 			}
