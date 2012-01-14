@@ -98,7 +98,7 @@ EightShapes.Blocks = {
     });
 
     //======================================================================================================
-    // Blocks View & Toolbar Button Live Events
+    // Blocks Toolbar & Menu Events
 
     // Exit Full Screen
     $('#esb > section > menu').on('click','button.exitfullscreen', function() {
@@ -118,60 +118,6 @@ EightShapes.Blocks = {
         }
       }
     });
-		// Capture any basic link from one prototype to another to prevent complete blocks reload
-		$('#esb > section.pages > article > section.design a').live('click', function(event) {
-			for (var page in EightShapes.Blocks.p) {
-				if ($(this).attr('href').split(".html")[0] === page) {
-      		$.bbq.pushState({view:"fullscreen", id:page});
-					return false;
-				}
-			}
-		})
-    // Grid/Thumbnail/List View: Click Component Title > Go To Component Notes
-    $('#esb > section.components > article > header > h2').live('click', function() {
-      $.bbq.pushState({view:"component", id:$(this).closest('article').attr('data-id')});
-    });
-    // Grid/Thumbnail/List View: Click Page Title > Go To Page Notes
-    $('#esb > section.pages > article > header > h2').live('click', function() {
-      $.bbq.pushState({view:"page", id:$(this).closest('article').attr('data-id')});
-    });
-    // Notes View: Component List Hovers
-    $(document).on('mouseover','#esb > section.pages > article.page > aside.notes ul.componentlist li',function() {
-      $(this).closest('article.page').find('section.design  section[data-marker='+$(this).attr('data-marker')+']').closest('.component').addClass('highlight');
-    });
-    $(document).on('mouseover','#esb > section.pages > article.page > aside.notes ul.componentlist li', function() {
-      $(this).closest('article.page').find('section.design  section[data-marker='+$(this).attr('data-marker')+']').closest('.component').removeClass('highlight');
-    });
-    // Go From Article (Page, Component) to Main Section (Pages, Components)
-    $(document).on('click','#esb > section.active.selected > header > h2, #esb > section.active.notes > header > h2', function() {
-      $('#esb > header > nav.primary > ul > li.' + $(this).children('h2').html().toLowerCase()).click();
-    });
-		// Switch Device Profile via a Breakpoint Selection
-		// Open / Close Menu
-		$('#esb > section.pages > menu').on('click','span.deviceprofiles > span.selectionCurrent', function(event) {
-			var breakpointButton = $(this);
-			var breakpointOptions = breakpointButton.next('ul');
-			if (this) {
-				if (breakpointButton.parent().hasClass('opened')) {
-					breakpointOptions.hide();
-					breakpointButton.parent().removeClass('opened');
-				} else {
-					breakpointOptions.show();
-					breakpointOptions.parent().addClass('opened');
-					breakpointOptions.parent().bind('mousedownoutside', function(event){
-						breakpointOptions.next('ul').hide()
-						breakpointOptions.parent().removeClass('opened');
-					});
-				}
-			};
-			event.stopPropagation();
-		});
-		// Make Menu Selection
-		$('#esb > section.pages > menu').on('click','span.deviceprofiles > ul > li', function(event) {
-			$(this).parent().hide().parent().removeClass('opened').find('.selected').removeClass('selected');
-			$(this).closest('span.deviceprofiles').find('span.selectionCurrent').html($(this).html());
-			EightShapes.Blocks.setDeviceProfile($(this).attr('data-value'));
-		});
     // Go From Article to Article
     $('#esb > section > menu').on('click','button.next', function() {
       var currentPage = $('#esb > section.pages > article.page.active');
@@ -197,10 +143,6 @@ EightShapes.Blocks = {
     $('#esb > section > menu').on('click','button.markers', function() {
       ($('body').hasClass('markers')) ? $('body').removeClass('markers') : $('body').addClass('markers');
     });
-    // Enter Full Screen for Page from Any Blocks View
-    $(document).on('click','#esb > section.pages > article > header > button.fullscreen', function() {
-      $.bbq.pushState({view:"fullscreen", id:$(this).closest('article').attr('data-id')});
-    });
     // Toggle Grid/Thumbnail/List view mode for Pages and Components
     $('#esb > section > menu').on('click','span.viewas > button', function() {
       $(this).addClass('active').siblings().removeClass('active');
@@ -213,6 +155,67 @@ EightShapes.Blocks = {
         $(element).css('height',($(element).find('section.design').height()/2+60)+'px');
         $(element).parent().css('height',($(element).find('section.design').height()/2+75)+'px');
       });
+    });
+		// Open / Close Device Menu
+		$('#esb > section.pages > menu').on('click','span.deviceprofiles > span.selectionCurrent', function(event) {
+			var breakpointButton = $(this);
+			var breakpointOptions = breakpointButton.next('ul');
+			if (this) {
+				if (breakpointButton.parent().hasClass('opened')) {
+					breakpointOptions.hide();
+					breakpointButton.parent().removeClass('opened');
+				} else {
+					breakpointOptions.show();
+					breakpointOptions.parent().addClass('opened');
+					breakpointOptions.parent().bind('mousedownoutside', function(event){
+						breakpointOptions.next('ul').hide()
+						breakpointOptions.parent().removeClass('opened');
+					});
+				}
+			};
+			event.stopPropagation();
+		});
+		// Make Device Menu Selection
+		$('#esb > section.pages > menu').on('click','span.deviceprofiles > ul > li', function(event) {
+			$(this).parent().hide().parent().removeClass('opened').find('.selected').removeClass('selected');
+			$(this).closest('span.deviceprofiles').find('span.selectionCurrent').html($(this).html());
+			EightShapes.Blocks.setDeviceProfile($(this).attr('data-value'));
+		});
+
+    //======================================================================================================
+    // Blocks Article By Article Events
+
+    // Enter Full Screen for Page from Any Blocks View
+    $(document).on('click','#esb > section.pages > article > header > button.fullscreen', function() {
+      $.bbq.pushState({view:"fullscreen", id:$(this).closest('article').attr('data-id')});
+    });
+		// Capture any basic link from one prototype to another to prevent complete blocks reload
+		$(document).on('click','#esb > section.pages > article > section.design a', function(event) {
+			for (var page in EightShapes.Blocks.p) {
+				if ($(this).attr('href').split(".html")[0] === page) {
+      		$.bbq.pushState({view:"fullscreen", id:page});
+					return false;
+				}
+			}
+		})
+    // Grid/Thumbnail/List View: Click Page Title > Go To Page Notes
+    $(document).on('click','#esb > section.pages > article > header > h2', function() {
+      $.bbq.pushState({view:"page", id:$(this).closest('article').attr('data-id')});
+    });
+    // Notes View: Component List Hovers
+    $(document).on('mouseover','#esb > section.pages > article.page > aside.notes ul.componentlist li',function() {
+      $(this).closest('article.page').find('section.design  section[data-marker='+$(this).attr('data-marker')+']').closest('.component').addClass('highlight');
+    });
+    $(document).on('mouseover','#esb > section.pages > article.page > aside.notes ul.componentlist li', function() {
+      $(this).closest('article.page').find('section.design  section[data-marker='+$(this).attr('data-marker')+']').closest('.component').removeClass('highlight');
+    });
+    // Grid/Thumbnail/List View: Click Component Title > Go To Component Notes
+    $(document).on('click','#esb > section.components > article > header > h2', function() {
+      $.bbq.pushState({view:"component", id:$(this).closest('article').attr('data-id')});
+    });
+    // Go From Article (Page, Component) to Main Section (Pages, Components)
+    $(document).on('click','#esb > section.active.selected > header > h2, #esb > section.active.notes > header > h2', function() {
+      $('#esb > header > nav.primary > ul > li.' + $(this).children('h2').html().toLowerCase()).click();
     });
 
   },
