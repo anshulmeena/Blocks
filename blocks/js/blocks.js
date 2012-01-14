@@ -101,7 +101,7 @@ EightShapes.Blocks = {
     // Blocks View & Toolbar Button Live Events
 
     // Exit Full Screen
-    $('#esb > section > menu > button.exitfullscreen').live('click', function() {
+    $('#esb > section > menu').on('click','button.exitfullscreen', function() {
 			if(EightShapes.Blocks.pc === 1) {
 				$.bbq.pushState({view:"page", id:$('body > section.pages > article').attr('data-id')});
 			} else {
@@ -136,19 +136,19 @@ EightShapes.Blocks = {
       $.bbq.pushState({view:"page", id:$(this).closest('article').attr('data-id')});
     });
     // Notes View: Component List Hovers
-    $('#esb > section.pages > article.page > aside.notes ul.componentlist li').live('mouseover',function() {
+    $(document).on('mouseover','#esb > section.pages > article.page > aside.notes ul.componentlist li',function() {
       $(this).closest('article.page').find('section.design  section[data-marker='+$(this).attr('data-marker')+']').closest('.component').addClass('highlight');
     });
-    $('#esb > section.pages > article.page > aside.notes ul.componentlist li').live('mouseout', function() {
+    $(document).on('mouseover','#esb > section.pages > article.page > aside.notes ul.componentlist li', function() {
       $(this).closest('article.page').find('section.design  section[data-marker='+$(this).attr('data-marker')+']').closest('.component').removeClass('highlight');
     });
     // Go From Article (Page, Component) to Main Section (Pages, Components)
-    $('#esb > section.active.selected > header > h2, #esb > section.active.notes > header > h2').live('click', function() {
+    $(document).on('click','#esb > section.active.selected > header > h2, #esb > section.active.notes > header > h2', function() {
       $('#esb > header > nav.primary > ul > li.' + $(this).children('h2').html().toLowerCase()).click();
     });
 		// Switch Device Profile via a Breakpoint Selection
 		// Open / Close Menu
-		$('#esb > section.pages > menu > span.deviceprofiles > span.selectionCurrent').live('click', function(event) {
+		$('#esb > section.pages > menu').on('click','span.deviceprofiles > span.selectionCurrent', function(event) {
 			var breakpointButton = $(this);
 			var breakpointOptions = breakpointButton.next('ul');
 			if (this) {
@@ -167,13 +167,13 @@ EightShapes.Blocks = {
 			event.stopPropagation();
 		});
 		// Make Menu Selection
-		$('#esb > section.pages > menu > span.deviceprofiles > ul > li').live('click', function(event) {
+		$('#esb > section.pages > menu').on('click','span.deviceprofiles > ul > li', function(event) {
 			$(this).parent().hide().parent().removeClass('opened').find('.selected').removeClass('selected');
 			$(this).closest('span.deviceprofiles').find('span.selectionCurrent').html($(this).html());
 			EightShapes.Blocks.setDeviceProfile($(this).attr('data-value'));
 		});
     // Go From Article to Article
-    $('#esb > section > menu > button.next').live('click', function() {
+    $('#esb > section > menu').on('click','button.next', function() {
       var currentPage = $('#esb > section.pages > article.page.active');
       if($(currentPage).next().is('article')) {
         if($('#esb').hasClass('fullscreen')) {
@@ -183,7 +183,7 @@ EightShapes.Blocks = {
         }
       }
     });
-    $('#esb > section > menu > button.previous').live('click', function() {
+    $('#esb > section > menu').on('click','button.previous', function() {
       var currentPage = $('#esb > section.pages > article.page.active');
       if($(currentPage).prev().is('article')) {
 				if($('#esb').hasClass('fullscreen')) {
@@ -194,15 +194,15 @@ EightShapes.Blocks = {
       }
     });
     // Turn Markers On/Off
-    $('#esb > section > menu > button.markers').live('click', function() {
+    $('#esb > section > menu').on('click','button.markers', function() {
       ($('body').hasClass('markers')) ? $('body').removeClass('markers') : $('body').addClass('markers');
     });
     // Enter Full Screen for Page from Any Blocks View
-    $('#esb > section.pages > article > header > button.fullscreen').live('click', function() {
+    $(document).on('click','#esb > section.pages > article > header > button.fullscreen', function() {
       $.bbq.pushState({view:"fullscreen", id:$(this).closest('article').attr('data-id')});
     });
     // Toggle Grid/Thumbnail/List view mode for Pages and Components
-    $('#esb > section > menu > span.viewas > button').live('click', function() {
+    $('#esb > section > menu').on('click','span.viewas > button', function() {
       $(this).addClass('active').siblings().removeClass('active');
       $('#esb > section.active')
         .removeClass('list grid thumbnail notes').attr('style','').addClass($(this).html().toLowerCase())
@@ -214,7 +214,6 @@ EightShapes.Blocks = {
         $(element).parent().css('height',($(element).find('section.design').height()/2+75)+'px');
       });
     });
-
 
   },
 
@@ -327,26 +326,39 @@ EightShapes.Blocks = {
     this.load = function() {
       var page = EightShapes.Blocks.p[id];
       var pageArticle = $('body > section.pages > article[data-id=' + page.id + ']').append('<section class="design"></section>');
-      $.get(id+".html", function(results) {
-        results = "<div>" + results + "</div>";
-        page.html = results;
-        page.design = $(results).children('.design').children();
-        page.designclasses = $(results).children('.design').attr('class');
-        page.notes = $(results).children('aside.notes').children();
-        page.loaded = true;
-        $('#esb > section.pages > article[data-id=' + page.id + '] > section.design')
-          .append($(page.design))
-          .addClass(page.designclasses);
-        $('#esb > section.pages > article[data-id=' + page.id + '] > aside.notes')
-          .append($(page.notes));
+
+
+
+
+      $.ajax({
+				type: 'GET',
+				url: id+".html", 
+				dataType: 'html',
+				success: function(results) {
+	        results = "<div>" + results + "</div>";
+	        page.html = results;
+	        page.design = $(results).children('.design').children();
+	        page.designclasses = $(results).children('.design').attr('class');
+	        page.notes = $(results).children('aside.notes').children();
+	        page.loaded = true;
+	        $('#esb > section.pages > article[data-id=' + page.id + '] > section.design')
+	          .append($(page.design))
+	          .addClass(page.designclasses);
+	        $('#esb > section.pages > article[data-id=' + page.id + '] > aside.notes')
+	          .append($(page.notes));
         
-        // Mark all components embedded in the loaded page classed with "component" 
-        EightShapes.Blocks.markComponent($('#esb > section.pages > article[data-id=' + page.id + '] > section.design > *.component'));
+	        // Mark all components embedded in the loaded page classed with "component" 
+	        EightShapes.Blocks.markComponent($('#esb > section.pages > article[data-id=' + page.id + '] > section.design > *.component'));
         
-        // Load all components into the page that contain data-component attribute
-        EightShapes.Blocks.addComponentsToPage($('#esb > section.pages > article[data-id=' + page.id + '] > section.design'));
-      })
-    };
+	        // Load all components into the page that contain data-component attribute
+	        EightShapes.Blocks.addComponentsToPage($('#esb > section.pages > article[data-id=' + page.id + '] > section.design'));
+				}	// end success
+
+      }); // end ajax
+
+
+
+    }; // end this.load
   },
 	ComponentVariation : function(id) {
 		this.id = id;
