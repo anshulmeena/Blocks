@@ -243,16 +243,16 @@ html #esb.fullscreen > section > menu:hover {
 #esb > section > menu > button.next {
 	-moz-border-radius-topleft: 0px;
 	-moz-border-radius-bottomleft: 0px;
-	-webkit-border-radius-topleft: 0px;
-	-webkit-border-radius-bottomleft: 0px;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
 }
 #esb > section > menu button.list,
 #esb > section > menu button.thumbnail,
 #esb > section > menu > button.previous {
 	-moz-border-radius-topright: 0px;
 	-moz-border-radius-bottomright: 0px;
-	-webkit-border-radius-topright: 0px;
-	-webkit-border-radius-bottomright: 0px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
 	background-position: -148px -99px;
 	margin-right: 0;
 	border-right: 1px solid rgba(256,256,256,0.3);
@@ -698,6 +698,7 @@ html #esb.fullscreen > section > menu:hover {
 	margin-right: 20px;
 	margin-bottom: 5px;
 	width: 100%;
+	vertical-align: middle;
 }
 #esb > section.grid      > section > header > span,
 #esb > section.grid      > article > header > span {
@@ -762,7 +763,7 @@ html #esb.fullscreen > section > menu:hover {
 	margin: 0;
 	background-color: white;
   padding: 20px 10px;
-	border: 10px solid #ccc;
+	border: 5px solid #444;
 	overflow: hidden;
 	cursor: pointer;
 }
@@ -828,7 +829,7 @@ html #esb.fullscreen > section > menu:hover {
 	border: 2px solid #444;
 	-moz-transform: scale(0.6);
 	-moz-transform-origin: top left;
-	-webkit-transform: scale(0.61803399);
+	-webkit-transform: scale(0.6);
 	-webkit-transform-origin: top left;
 	position: relative;
 	left: 0px;
