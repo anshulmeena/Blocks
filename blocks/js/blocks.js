@@ -662,7 +662,7 @@ EightShapes.Blocks = {
       // Append Clone to Page Layout
       $(element).append($(clonedComponent).children())
 				.addClass(EightShapes.Blocks.c[id].classes)														// Component class
-	//			.addClass(EightShapes.Blocks.c[id].variations[variationid].classes)		// Component variation class
+				.addClass(EightShapes.Blocks.c[id].variations[variationid].classes)		// Component variation class
 				.addClass('loaded');																									// Designate as loaded
       
       // Mark (single) Component that's just been added to one layout
