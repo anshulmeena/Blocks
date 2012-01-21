@@ -1,0 +1,174 @@
+/* ==============================================================================*/
+/* Device FullScreen ----------------------------------------------------------- */
+
+/* Background Behind Device Image */
+
+#esb.fullscreen.ipad,
+#esb.fullscreen.fujitsu,
+#esb.fullscreen.ipad.landscape,
+#esb.fullscreen.iphone {
+	height: 100%;
+	width: 100%;
+	background-color: #333;
+}
+
+/* Outline Device Viewport */
+
+#esb.fullscreen.ipad.landscape > section.pages > article,
+#esb.fullscreen.iphone > section.pages > article,
+#esb.fullscreen.ipad > section.pages > article {
+	outline: 3px solid #444;
+}
+
+/* Device: Desktop Browser --------------------------------------------------- */
+
+/* Device: iPad -------------------------------------------------------------- */
+
+#esb.ipad > section.pages > article > section.design {
+	height: 1024px;
+	width: 768px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -360px;
+	margin-top: -512px;
+	overflow: scroll;
+	background-color: white;
+	-moz-transform: scale(0.7);
+}
+#esb.ipad > section.pages.grid > article > section.design {
+	top: 40px;
+	left: 0;
+	margin-left: 0;
+	margin-top: 0;
+  -moz-transform: scale(0.32);
+  border-width: 5px;
+}
+#esb.fullscreen.ipad > section.pages > article:before {
+	-moz-transform: scale(0.7);
+	background-color: gray;
+	background-image: url("../images/ipad.jpg");
+	content: "";
+	height: 1290px;
+	left: 50%;
+	margin-left: -483px;
+	margin-top: -644px;
+	position: absolute;
+	top: 50%;
+	width: 1015px;
+	z-index: -1;
+}
+
+#esb.ipad.landscape > section.pages > article > section.design {
+	width: 1024px;
+	height: 768px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -359px;
+	margin-left: -512px;
+	overflow: scroll;
+	background-color: white;
+	overflow: hidden;
+}
+#esb.fullscreen.ipad.landscape > section.pages > article:before {
+	-moz-transform: rotate(90deg);
+	background-color: gray;
+	background-image: url("../images/ipad.jpg");
+	content: "";
+	height: 1290px;
+	left: 50%;
+	margin-left: -506px;
+	margin-top: -620px;
+	position: absolute;
+	top: 50%;
+	width: 1015px;
+	z-index: -1;
+}
+#esb.ipad.landscape section.design nav.leftnav {
+	width: 125px;
+}
+#esb.ipad.landscape section.design .splitnav {
+	left: 125px;
+}
+#esb.ipad.landscape section.design .splitcontent {
+	left: 425px;
+}
+
+/* Device: iPhone ------------------------------------------------------------ */
+
+#esb.iphone > section.pages > article > section.design {
+	height: 480px;
+	width: 320px;
+	padding: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -160px;
+	margin-top: -240px;
+	overflow: scroll;
+	background-color: white;
+}
+#esb.iphone > section.pages.notes > article > section.design {
+	top: 165px;
+	left: 31px;
+	margin-top: 0;
+	margin-left: 0;
+	-moz-transform: scale(1.0);
+}
+#esb.iphone > section.pages.grid > article > section.design {
+	top: 40px;
+	left: 0;
+	margin-left: 0;
+	margin-top: 0;
+  -moz-transform: scale(0.7);
+  border-width: 5px;
+}
+#esb.fullscreen.iphone > section.pages > article:before,
+#esb.iphone > section.pages.notes > article:before {
+	z-index: -1;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 392px;
+	height: 734px;
+	margin-top: -368px;
+	margin-left: -196px;
+	background-color: gray;
+	content: "";
+	background-image: url("../images/iphone.jpg");
+}
+#esb.iphone > section.pages.notes > article:before {
+	left: 0;
+	top: 40px;
+	margin-left: 0;
+	margin-top: 0;
+}
+
+/* Device: Fujitsu ----------------------------------------------------------- */
+
+#esb.fujitsu > section.pages > article > section.design {
+	height: 629px;
+	width: 1272px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -630px;
+	margin-top: -316px;
+	overflow: hidden;
+}
+#esb.fullscreen.fujitsu > section.pages > article:before {
+	background-color: gray;
+	background-image: url("../images/fujitsu-ie.jpg");
+	content: "";
+	height: 1118px;
+	left: 50%;
+	margin-left: -721px;
+	margin-top: -539px;
+	position: absolute;
+	top: 50%;
+	width: 1447px;
+	z-index: -1;
+}
+
+

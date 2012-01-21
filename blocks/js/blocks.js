@@ -53,7 +53,7 @@ EightShapes.Blocks = {
 
     // Add Additional Style Sheets to Header
     $('head').prepend('<link rel="stylesheet" href="blocks/css/blocks.css"></link>');
-    $('head').append('<link rel="stylesheet" href="blocks/css/ui-lightness/jquery-ui-1.8.6.custom.css" />');
+    // $('head').append('<link rel="stylesheet" href="blocks/css/ui-lightness/jquery-ui-1.8.6.custom.css" />');
 
     // Error Check Markup and Setup Overall DOM
     if (!EightShapes.Blocks.markupCore()) return false;
@@ -139,7 +139,7 @@ EightShapes.Blocks = {
 				}
       }
     });
-    // Turn Markers On/Off
+    // Toggle Markers On/Off
     $('#esb > section > menu').on('click','button.markers', function() {
       ($('body').hasClass('markers')) ? $('body').removeClass('markers') : $('body').addClass('markers');
     });
@@ -179,7 +179,7 @@ EightShapes.Blocks = {
 		$('#esb > section.pages > menu').on('click','span.deviceprofiles > ul > li', function(event) {
 			$(this).parent().hide().parent().removeClass('opened').find('.selected').removeClass('selected');
 			$(this).closest('span.deviceprofiles').find('span.selectionCurrent').html($(this).html());
-			EightShapes.Blocks.setDeviceProfile($(this).attr('data-value'));
+			EightShapes.Blocks.setDeviceProfile($(this));
 		});
 
     //======================================================================================================
@@ -394,40 +394,40 @@ EightShapes.Blocks = {
     $('#esb > section.pages').prepend(EightShapes.Blocks.menuMarkup());
 
     // Grid's Page Sizing
-    $('body > section > menu > span.sizeslider > div.esbgallerysize').slider({
-      value: 0.28,
-      min: 0.15,
-      max: 0.4,
-      step: 0.01,
-      slide: function(event,ui) {
-        EightShapes.Blocks.display.galleryscale = ui.value;
-
-        $('#esb > section.pages > article')
-          .css('width',1000*EightShapes.Blocks.display.galleryscale)
-          .css('height',1000*EightShapes.Blocks.display.aspectratio*EightShapes.Blocks.display.galleryscale+50);
-
-        $('#esb > section.pages > article > section.design')
-          .css('-moz-transform','scale('+EightShapes.Blocks.display.galleryscale+')')
-          .css('-webkit-transform','scale('+EightShapes.Blocks.display.galleryscale+')')
-          .css('height',960*EightShapes.Blocks.display.aspectratio);
-      }
-    });
-    $('body > section > menu > span.heightslider > div.esbgalleryaspectratio').slider({
-      value:1.25,
-      min:0.6,
-      max:2.0,
-      step:0.05,
-      slide: function(event,ui) {
-        EightShapes.Blocks.display.aspectratio = ui.value;
-        $('#esb > section.pages > article')
-          .css('width',1000*EightShapes.Blocks.display.galleryscale)
-          .css('height',1000*EightShapes.Blocks.display.aspectratio*EightShapes.Blocks.display.galleryscale+50);
-        $('#esb > section.pages > article > section.design')
-          .css('-moz-transform','scale('+EightShapes.Blocks.display.galleryscale+')')
-          .css('-webkit-transform','scale('+EightShapes.Blocks.display.galleryscale+')')
-          .css('height',960*EightShapes.Blocks.display.aspectratio);
-      }
-    });
+    // $('body > section > menu > span.sizeslider > div.esbgallerysize').slider({
+    //   value: 0.28,
+    //   min: 0.15,
+    //   max: 0.4,
+    //   step: 0.01,
+    //   slide: function(event,ui) {
+    //     EightShapes.Blocks.display.galleryscale = ui.value;
+    // 
+    //     $('#esb > section.pages > article')
+    //       .css('width',1000*EightShapes.Blocks.display.galleryscale)
+    //       .css('height',1000*EightShapes.Blocks.display.aspectratio*EightShapes.Blocks.display.galleryscale+50);
+    // 
+    //     $('#esb > section.pages > article > section.design')
+    //       .css('-moz-transform','scale('+EightShapes.Blocks.display.galleryscale+')')
+    //       .css('-webkit-transform','scale('+EightShapes.Blocks.display.galleryscale+')')
+    //       .css('height',960*EightShapes.Blocks.display.aspectratio);
+    //   }
+    // });
+    // $('body > section > menu > span.heightslider > div.esbgalleryaspectratio').slider({
+    //   value:1.25,
+    //   min:0.6,
+    //   max:2.0,
+    //   step:0.05,
+    //   slide: function(event,ui) {
+    //     EightShapes.Blocks.display.aspectratio = ui.value;
+    //     $('#esb > section.pages > article')
+    //       .css('width',1000*EightShapes.Blocks.display.galleryscale)
+    //       .css('height',1000*EightShapes.Blocks.display.aspectratio*EightShapes.Blocks.display.galleryscale+50);
+    //     $('#esb > section.pages > article > section.design')
+    //       .css('-moz-transform','scale('+EightShapes.Blocks.display.galleryscale+')')
+    //       .css('-webkit-transform','scale('+EightShapes.Blocks.display.galleryscale+')')
+    //       .css('height',960*EightShapes.Blocks.display.aspectratio);
+    //   }
+    // });
 
     $('body').prepend('<header><nav class="primary"><ul></ul></nav></header>');
     $('body > header > nav > ul')
@@ -891,23 +891,45 @@ EightShapes.Blocks = {
 	// Device Profiles
 
 	registerDeviceProfiles : function(profiles) {
+    $('head').append('<link rel="stylesheet" href="blocks/css/blocks-devices.css"></link>');
 		profiles.each( function(i,profile) {
 			if (i === 0) {
 				// Set up the menu and specific the default selection
 				$('#esb > section > menu').append('<span class="deviceprofiles"><span class="selectionCurrent">' + $(profile).attr('name') + '</span><ul></ul></span>')
-				// Set default (first) profile as active
-				$('body').addClass($(profile).attr('value') );
 			}
-			$('#esb > section.pages > menu > span.deviceprofiles > ul').append('<li data-value="' + $(profile).attr('value') + '" >' + $(profile).attr('name') + '</li>');
+			var newDevice = $('#esb > section.pages > menu > span.deviceprofiles > ul').append('<li>' + $(profile).attr('name') + '</li>').children().last();
+			$(newDevice).attr('data-value',$(profile).attr('value'));
+			if ($(profile).attr('orientationToggle') === "on") {
+				$(newDevice).attr('data-orientationToggle','on');
+				if ($(profile).attr('orientationDefault') === "landscape") {
+					$(newDevice).attr('data-currentOrientation','landscape');
+				} else {
+					$(newDevice).attr('data-currentOrientation','portrait');
+				}
+			} else {
+				$(newDevice).attr('data-orientationToggle','off');
+			};
+			if (i === 0) {
+				EightShapes.Blocks.setDeviceProfile(newDevice);
+			}
 		});
 	},
-	setDeviceProfile : function(profile) {
+	setDeviceProfile : function(option) {
 		$('#esb > section.pages > menu > span.deviceprofiles > ul > li').each( function(i,profile) {
 			$('body#esb').removeClass($(profile).attr('data-value'));
 		})
-		$('body#esb').addClass(profile);
+		$('body#esb').addClass($(option).attr('data-value'));
+		if ($(option).attr('data-orientationToggle') === "on") {
+			EightShapes.Blocks.setDeviceOrientation($(option).attr('data-currentOrientation'))
+		} else {
+			$('body#esb').removeClass('portrait landscape');
+		}
+		
 	},
-
+	setDeviceOrientation : function(orientation) {
+		$('body#esb').removeClass('portrait landscape').addClass(orientation);
+	},
+	
   //======================================================================================================
   // Utilities
 
@@ -1043,7 +1065,10 @@ EightShapes.Blocks = {
 
     // Summary: Centralize the markup added for toolbar sliders, buttons, etc
 
-    return '<menu><span class="controlset sizeslider"><h3>Size</h3><span class="icon small"></span><div class="esbgallerysize" style="width: 100px;"></div><span class="icon large"></span></span><span class="controlset heightslider"><h3>Height</h3><span class="icon short"></span><div class="esbgalleryaspectratio" style="width: 100px;"></div><span class="icon tall"></span></span> <span class="controlset  viewas"><button class="list active">List</button><button class="thumbnail">Thumbnail</button><button class="grid">Grid</button></span><button class="exitfullscreen">Exit Full Screen</button><button class="markers">Markers</button><button class="previous">Previous</button><button class="next">Next</button></menu>';
+    return '<menu> <span class="controlset  viewas"><button class="list active">List</button><button class="thumbnail">Thumbnail</button><button class="grid">Grid</button></span><button class="exitfullscreen">Exit Full Screen</button><button class="markers">Markers</button><button class="previous">Previous</button><button class="next">Next</button></menu>';
+
+		// Sliders HTML <span class="controlset sizeslider"><h3>Size</h3><span class="icon small"></span><div class="esbgallerysize" style="width: 100px;"></div><span class="icon large"></span></span><span class="controlset heightslider"><h3>Height</h3><span class="icon short"></span><div class="esbgalleryaspectratio" style="width: 100px;"></div><span class="icon tall"></span></span>
+
   },
   articleHeader : function(item) {
 
