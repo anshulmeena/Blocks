@@ -204,10 +204,10 @@ EightShapes.Blocks = {
     });
     // Notes View: Component List Hovers
     $(document).on('mouseover','#esb > section.pages > article.page > aside.notes ul.componentlist li',function() {
-      $(this).closest('article.page').find('section.design  section[data-marker='+$(this).attr('data-marker')+']').closest('.component').addClass('highlight');
+      $(this).closest('article.page').find('.component[data-marker='+$(this).attr('data-marker')+']').addClass('highlight');
     });
-    $(document).on('mouseover','#esb > section.pages > article.page > aside.notes ul.componentlist li', function() {
-      $(this).closest('article.page').find('section.design  section[data-marker='+$(this).attr('data-marker')+']').closest('.component').removeClass('highlight');
+    $(document).on('mouseout','#esb > section.pages > article.page > aside.notes ul.componentlist li', function() {
+      $(this).closest('article.page').find('.component[data-marker='+$(this).attr('data-marker')+']').removeClass('highlight');
     });
     // Grid/Thumbnail/List View: Click Component Title > Go To Component Notes
     $(document).on('click','#esb > section.components > article > header > h2', function() {
@@ -702,10 +702,11 @@ EightShapes.Blocks = {
       
       // Ensure Component has Component Class
       $(element).addClass('component');
-      
+      $(element).attr('data-marker',marker);
+
       // Add Marker to Design
       if(EightShapes.Blocks.display.markers === "on") {
-        $(element).prepend(' <div class="esbmarker-wrapper"><section class="esbmarker" data-marker="' + marker + '"><div><button class="esb remove"></button><button class="esb showhide"></button>' + componentname + '</div></section></div>');
+        $(element).prepend(' <div class="esbmarker-wrapper"><section class="esbmarker"><div><button class="esb remove"></button><button class="esb showhide"></button>' + componentname + '</div></section></div>');
         // Notes
         if(EightShapes.Blocks.c[componentid] && (EightShapes.Blocks.c[componentid].hasNotes || EightShapes.Blocks.c[componentid].variationCount > 1)) {
           $(element).find('section.esbmarker > div:first-child').append('<button class="esb notes"></button>')
@@ -752,7 +753,7 @@ EightShapes.Blocks = {
     event.stopPropagation();
     var marker = $(event.target).closest('.esbmarker[data-marker]').attr('data-marker');
     var notesItem = $('body').find('aside.notes li[data-marker='+marker+']');
-    var designItem = $('body').find('section.design .component .esbmarker[data-marker='+marker+']').parent().parent();
+    var designItem = $('body').find('section.design .component[data-marker='+marker+']');
     if ($(notesItem).hasClass('hidden')) {
       $(notesItem).removeClass('hidden');
       $(designItem).slideDown(1000);
@@ -768,7 +769,7 @@ EightShapes.Blocks = {
     event.stopPropagation();
     var marker = $(event.target).closest('.esbmarker[data-marker]').attr('data-marker');
     var notesItem = $('body').find('aside.notes li[data-marker='+marker+']');
-    var designItem = $('body').find('section.design .component .esbmarker[data-marker='+marker+']').parent().parent();
+    var designItem = $('body').find('section.design .component[data-marker='+marker+']');
 
     $(notesItem).slideUp(500, function() { $(this).remove() });
     $(designItem).slideUp(1000, function() { $(this).remove() });
@@ -780,7 +781,7 @@ EightShapes.Blocks = {
 
     var marker = $(event.target).closest('.esbmarker[data-marker]').attr('data-marker');
     var notesItem = $('body').find('aside.notes li[data-marker='+marker+']');
-    var designItem = $('body').find('section.esbmarker[data-marker='+marker+']').parent().parent();
+    var designItem = $('body').find('.component[data-marker='+marker+']');
     var componenthtml = $(EightShapes.Blocks.c[$(designItem).attr('data-component')].html);
     var variationid = $(designItem).attr('data-variation');
 		
@@ -810,7 +811,7 @@ EightShapes.Blocks = {
 
     var marker = $(event.target).closest('.esbmarker[data-marker]').attr('data-marker');
     var notesItem = $('body').find('aside.notes li[data-marker='+marker+']');
-    var designItem = $('body').find('section.esbmarker[data-marker='+marker+']').parent().parent();
+    var designItem = $('body').find('.component[data-marker='+marker+']');
     var componenthtml = $(EightShapes.Blocks.c[$(designItem).attr('data-component')].html);
     var variationid = $(designItem).attr('data-variation');
 		
@@ -988,6 +989,7 @@ EightShapes.Blocks = {
 			EightShapes.Blocks.display.markers = "on";
 		} else {
 			EightShapes.Blocks.display.markers = "off";
+			$('body#esb > section.pages > menu > button.markers').remove();
 		}
     if($(XMLconfig).find('display > property[name="toolbar"]').attr('value') === "true") {
 			EightShapes.Blocks.display.toolbar = "on";		
