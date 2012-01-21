@@ -88,12 +88,6 @@
 #esb.ipad.landscape section.design nav.leftnav {
 	width: 125px;
 }
-#esb.ipad.landscape section.design .splitnav {
-	left: 125px;
-}
-#esb.ipad.landscape section.design .splitcontent {
-	left: 425px;
-}
 
 /* Device: iPhone ------------------------------------------------------------ */
 
