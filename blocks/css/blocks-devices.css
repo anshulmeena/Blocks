@@ -103,6 +103,12 @@
 	overflow: scroll;
 	background-color: white;
 }
+#esb.iphone.landscape > section.pages > article > section.design {
+	height: 320px;
+	width: 480px;
+	margin-top: -160px;
+	margin-left: -240px;
+}
 #esb.iphone > section.pages.notes > article > section.design {
 	top: 165px;
 	left: 31px;
@@ -110,13 +116,19 @@
 	margin-left: 0;
 	-moz-transform: scale(1.0);
 }
+#esb.iphone.landscape > section.pages.notes > article > section.design {
+	-moz-transform: scale(0.8);
+}
 #esb.iphone > section.pages.grid > article > section.design {
-	top: 40px;
+	top: 30px;
 	left: 0;
 	margin-left: 0;
 	margin-top: 0;
   -moz-transform: scale(0.7);
   border-width: 5px;
+}
+#esb.iphone.landscape > section.pages.grid > article > section.design {
+  -moz-transform: scale(0.5);
 }
 #esb.fullscreen.iphone > section.pages > article:before,
 #esb.iphone > section.pages.notes > article:before {
@@ -132,13 +144,25 @@
 	content: "";
 	background-image: url("../images/iphone.jpg");
 }
+#esb.fullscreen.iphone.landscape > section.pages > article:before {
+	-moz-transform: scale(1) rotate(90deg);
+}
+#esb.iphone.landscape > section.pages.notes > article:before {
+    top: -167px;
+		left: 100px;
+		-moz-transform: scale(0.8) rotate(90deg);
+}
+
 #esb.iphone > section.pages.notes > article:before {
 	left: 0;
 	top: 40px;
 	margin-left: 0;
 	margin-top: 0;
 }
-
+#esb.iphone.landscape > section.pages.notes > article > section.design {
+    left:100px;
+top: 68px
+}
 /* Device: Fujitsu ----------------------------------------------------------- */
 
 #esb.fujitsu > section.pages > article > section.design {
