@@ -63,7 +63,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	z-index: 999;
 }
 #esb > header > h1 {
-	font: normal 17px 'Museo Slab';
+	font: normal 17px 'Museo Slab', Arial;
 	color: #888;
 	margin: 9px 5px 0px 20px;
 	line-height: 1em;
@@ -114,7 +114,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	border-left: 1px solid #444;
 	font-size: 16px;
 	color: #666;
-	font-family: 'MuseoSlab500';
+	font-family: 'MuseoSlab500', Arial;
 	text-transform: uppercase;
 	cursor: pointer;
 }
@@ -454,7 +454,7 @@ html #esb.fullscreen > section > menu:hover {
 #esb > section.active > menu > h2 {
 	cursor: auto;
 	color: #888;
-	font-family: 'MuseoSlab500';
+	font-family: 'MuseoSlab500', Arial;
 	font-size: 40px;
 	vertical-align: top;
 	margin-top: 80px;
@@ -825,7 +825,7 @@ html #esb.fullscreen > section > menu:hover {
 	font-size: 28px;
 	vertical-align: top;
 	padding-right: 340px;
-	font-family: 'MuseoSlab500';
+	font-family: 'MuseoSlab500', Arial;
 }
 #esb > section.notes > article > header > h2:hover {
 	background: none;
@@ -881,7 +881,7 @@ html #esb.fullscreen > section > menu:hover {
 	top: 33px;
 }
 #esb > section.notes > article > aside.notes h3 {
-	font-family: 'MuseoSlab500';
+	font-family: 'MuseoSlab500', Arial;
 	font-weight: normal;
 	color: #888;
 	margin-top: 10px;
@@ -1231,7 +1231,7 @@ html #esb.fullscreen > section > menu:hover {
 	margin-bottom: 20px;
 }
 #esb > section.sets       > section.active > header > h2 {
-	font-family: 'MuseoSlab500';
+	font-family: 'MuseoSlab500', Arial;
 	color: #888;
 	font-size: 40px;
 	margin: 0px;
