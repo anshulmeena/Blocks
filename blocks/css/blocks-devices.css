@@ -21,7 +21,7 @@
 #esb.fullscreen.ipad > section.pages > article {
 	outline: 3px solid #444;
 }
-#esb.ipad > section.pages > article > section.design {
+#esb.ipad > section.pages > article > section.viewport {
 	height: 1024px;
 	width: 768px;
 	position: absolute;
@@ -36,7 +36,7 @@
 #esb.ipad > section.pages.grid > article {
     margin-bottom: 30px;
 }
-#esb.ipad > section.pages.grid > article > section.design {
+#esb.ipad > section.pages.grid > article > section.viewport {
 	top: 30px;
 	left: 0;
 	margin-left: 0;
@@ -44,7 +44,7 @@
   -moz-transform: scale(0.32);
   border-width: 5px;
 }
-#esb.ipad > section.pages.notes > article > section.design {
+#esb.ipad > section.pages.notes > article > section.viewport {
 	top: 107px;
 	left: 63px;
 	margin-top: 0;
@@ -53,7 +53,7 @@
 }
 
 /* Landscape */ 
-#esb.ipad.landscape > section.pages > article > section.design {
+#esb.ipad.landscape > section.pages > article > section.viewport {
 	width: 1024px;
 	height: 768px;
 	position: absolute;
@@ -68,14 +68,14 @@
 #esb.ipad.landscape > section.pages.grid > article {
 	height: 210px;
 }
-#esb.ipad.landscape > section.pages.grid > article > section.design {
+#esb.ipad.landscape > section.pages.grid > article > section.viewport {
   -moz-transform: scale(0.23);
 	margin-top: 30px;
 	margin-left: 0;
 	top: 0%;
 	left: 0%;
 }
-#esb.ipad.landscape > section.pages.notes > article > section.design {
+#esb.ipad.landscape > section.pages.notes > article > section.viewport {
 	-moz-transform: scale(0.45);
     -moz-transform-origin: topleft;
 	left:56px;
@@ -129,7 +129,7 @@ margin-top: 0;
 #esb.fullscreen.iphone > section.pages > article {
 	outline: 3px solid #444;
 }
-#esb.iphone > section.pages > article > section.design {
+#esb.iphone > section.pages > article > section.viewport {
 	height: 480px;
 	width: 320px;
 	padding: 0;
@@ -144,7 +144,7 @@ margin-top: 0;
 #esb.iphone > section.pages.grid > article {
 	height: 380px;
 }
-#esb.iphone > section.pages.grid > article > section.design {
+#esb.iphone > section.pages.grid > article > section.viewport {
 	top: 30px;
 	left: 0;
 	margin-left: 0;
@@ -152,21 +152,21 @@ margin-top: 0;
   -moz-transform: scale(0.7);
   border-width: 5px;
 }
-#esb.iphone > section.pages.notes > article > section.design {
+#esb.iphone > section.pages.notes > article > section.viewport {
 	top: 165px;
 	left: 31px;
 	margin-top: 0;
 	margin-left: 0;
 	-moz-transform: scale(1.0);
 }
-#esb.iphone.fullscreen > section.pages > article > section.design .esbmarker-wrapper > .esbmarker,
-#esb.iphone > section.pages.notes > article > section.design .esbmarker-wrapper > .esbmarker {
+#esb.iphone.fullscreen > section.pages > article > section.viewport .esbmarker-wrapper > .esbmarker,
+#esb.iphone > section.pages.notes > article > section.viewport .esbmarker-wrapper > .esbmarker {
 	-moz-transform: scale(1);
 	-webkit-transform: scale(1);
 }
 
 /* Landscape */ 
-#esb.iphone.landscape > section.pages > article > section.design {
+#esb.iphone.landscape > section.pages > article > section.viewport {
 	height: 320px;
 	width: 480px;
 	margin-top: -160px;
@@ -175,12 +175,12 @@ margin-top: 0;
 #esb.iphone.landscape > section.pages.grid > article {
 	height: 210px;
 }
-#esb.iphone.landscape > section.pages.grid > article > section.design {
+#esb.iphone.landscape > section.pages.grid > article > section.viewport {
   -moz-transform: scale(0.5);
 	margin-left: 0;
 	margin-top: 0;
 }
-#esb.iphone.landscape > section.pages.notes > article > section.design {
+#esb.iphone.landscape > section.pages.notes > article > section.viewport {
 	-moz-transform: scale(0.8);
 	left:100px;
 	top: 68px;
@@ -223,7 +223,7 @@ margin-top: 0;
 ------------------------------------------------------------ */
 
 /* Default (No Orientation Alternative) */ 
-#esb.fujitsu > section.pages > article > section.design {
+#esb.fujitsu > section.pages > article > section.viewport {
 	height: 629px;
 	width: 1272px;
 	position: absolute;

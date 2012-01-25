@@ -525,7 +525,7 @@ html #esb.fullscreen > section > menu:hover {
 #esb > section > article > header > h2.approved:before {
 	background-position: -80px -78px;
 }
-#esb > section > article section.design .component > section.marker {
+#esb > section > article section.viewport .component > section.marker {
 	display: none;
 }
 #esb > section > aside {
@@ -614,7 +614,7 @@ html #esb.fullscreen > section > menu:hover {
 }
 #esb > section.list > section > article,
 #esb > section.list > article > section.variation,
-#esb > section.list > article > section.design {
+#esb > section.list > article > section.viewport {
 	display: none;
 }
 #esb > section.list > aside {
@@ -678,8 +678,8 @@ html #esb.fullscreen > section > menu:hover {
 #esb > section.sets.thumbnail > section > article {
 	display: none;
 }
-#esb > section.thumbnail      > section > article > section.design,
-#esb > section.thumbnail      > article > section.design {
+#esb > section.thumbnail      > section > article > section.viewport,
+#esb > section.thumbnail      > article > section.viewport {
 	position: absolute;
 	height: 1200px;
 	-moz-transform: scale(0.15);
@@ -776,8 +776,8 @@ html #esb.fullscreen > section > menu:hover {
 #esb > section.sets.grid > section > article > header {
 	display: none;
 }
-#esb > section.grid      > section > article > section.design,
-#esb > section.grid      > article > section.design {
+#esb > section.grid      > section > article > section.viewport,
+#esb > section.grid      > article > section.viewport {
 	position: absolute;
 	height: 1200px;
 	-moz-transform: scale(0.25);
@@ -792,7 +792,7 @@ html #esb.fullscreen > section > menu:hover {
 	overflow: hidden;
 	cursor: pointer;
 }
-#esb > section.grid      > section > article > section.design {
+#esb > section.grid      > section > article > section.viewport {
 	-moz-transform: scale(0.2);
 	-webkit-transform: scale(0.2);
 }
@@ -847,7 +847,7 @@ html #esb.fullscreen > section > menu:hover {
 #esb > section.notes > article > header > dl {
 	display: none;
 }
-#esb > section.notes > article > section.design {
+#esb > section.notes > article > section.viewport {
 	background-color: white;
 	margin: 0 0 50px 0;
   padding: 20px 10px;
@@ -1022,7 +1022,7 @@ html #esb.fullscreen > section > menu:hover {
 	color: #888;
 	margin-bottom: 2px;
 }
-#esb > section.notes > article > aside.notes   li.scenario > article.page > section.design {
+#esb > section.notes > article > aside.notes   li.scenario > article.page > section.viewport {
 	width: 75px;
 	height: 100px;
 	-moz-transform: scale(1);
@@ -1055,7 +1055,7 @@ html #esb.fullscreen > section > menu:hover {
 #esb > section.components > article > section.variation > header {
 	display: block;
 }
-#esb > section.components > article > section.variation > section.design {
+#esb > section.components > article > section.variation > section.viewport {
 	-moz-transform: scale(0.8);
 	-moz-transform-origin: left top;
 	-webkit-transform: scale(0.8);
@@ -1278,7 +1278,7 @@ html #esb.fullscreen > section > menu:hover {
 	margin: 0px;
 }
 #esb.fullscreen > section > article.active > header,
-#esb.fullscreen > section > article.active > section.design {
+#esb.fullscreen > section > article.active > section.viewport {
 	display: block;
 }
 #esb.fullscreen > section > article.active > header > * {
@@ -1305,13 +1305,13 @@ html #esb.fullscreen > section > menu:hover {
 #esb.fullscreen > section > article.active > header > menu > button.remove {
 	display: none;
 }
-#esb > section.pages:not(.grid):not(.list) > article.active:not(.annotated) > section.design > menu.esb-pagemenu > button.fullscreen {
+#esb > section.pages:not(.grid):not(.list) > article.active:not(.annotated) > section.viewport > menu.esb-pagemenu > button.fullscreen {
 	background-position: 0px -100px;
 }
 #esb.markers > section.pages > header > button.markers {
 	background-color: #eb6721;
 }
-#esb > section.sets.selected > section.inlineflow > article.page > section.design {
+#esb > section.sets.selected > section.inlineflow > article.page > section.viewport {
 	-moz-transform: scale(0.8);
 	-webkit-transform: scale(0.8);
 }
@@ -1372,11 +1372,11 @@ vertical-align: middle;
 #esb > section.sets.selected > section.inlineflow > article.page.follows {
 	top: 400px;
 }
-#esb > section.sets.selected > section.inlineflow > article.page.precedes > section.design {
+#esb > section.sets.selected > section.inlineflow > article.page.precedes > section.viewport {
 	-moz-transform: scale(0.4) skewY(30deg);
 	-webkit-transform: scale(0.4) skewY(30deg);
 }
-#esb > section.sets.selected > section.inlineflow > article.page.follows > section.design {
+#esb > section.sets.selected > section.inlineflow > article.page.follows > section.viewport {
 	-moz-transform: scale(0.4) skewY(-30deg);
 	-webkit-transform: scale(0.4) skewY(-30deg);
 	left: -365px;
@@ -1408,7 +1408,7 @@ vertical-align: middle;
 	background: none repeat scroll 0 0 transparent;
 	cursor: pointer;
 }
-#esb > section.pages > article > section.design .component > .esbmarker-wrapper {
+#esb > section.pages > article > section.viewport .component > .esbmarker-wrapper {
 	position: relative;
 	z-index: 887; 
 	font-size: 13px;  
@@ -1417,16 +1417,16 @@ vertical-align: middle;
 	display: none;
 	font-weight: normal;
 }
-#esb.markers > section.pages > article > section.design .component > .esbmarker-wrapper {
+#esb.markers > section.pages > article > section.viewport .component > .esbmarker-wrapper {
 	display: block;
 }
-#esb.markers > section.pages > article > section.design .component {
+#esb.markers > section.pages > article > section.viewport .component {
 	outline: solid 2px #EB6721; 
 }
-#esb > section.pages > article > section.design .component.highlight {
+#esb > section.pages > article > section.viewport .component.highlight {
 	outline: solid 5px #EB6721; 
 }
-#esb > section.pages > article > section.design .component > .esbmarker-wrapper > .esbmarker {
+#esb > section.pages > article > section.viewport .component > .esbmarker-wrapper > .esbmarker {
 	background-color: rgba(235, 103, 33, 0.9);
 	width: -moz-fit-content !important;
 	position: absolute !important;
@@ -1436,7 +1436,7 @@ vertical-align: middle;
 	background-color: rgba(235,103,33,0.9);
 	white-space: nowrap;
 }
-#esb > section.pages.notes > article > section.design .component > .esbmarker-wrapper .esbmarker {
+#esb > section.pages.notes > article > section.viewport .component > .esbmarker-wrapper .esbmarker {
 	-moz-transform: scale(1.5);
 	-moz-transform-origin: left top;
 	-webkit-transform: scale(1.5);
@@ -1528,7 +1528,7 @@ font-size: 11px;
 /* ======================================================================
 		Inline
 */
-#esu > .page > .design .flowadvancer {
+#esu > .page > .viewport .flowadvancer {
 	position: relative;
 	left: 5px;
 	top: -5px;
