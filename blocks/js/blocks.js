@@ -157,29 +157,35 @@ EightShapes.Blocks = {
       });
     });
 		// Open / Close Device Menu
-		$('#esb > section.pages > menu').on('click','span.deviceprofiles > span.selectionCurrent', function(event) {
-			var breakpointButton = $(this);
-			var breakpointOptions = breakpointButton.next('ul');
+		$('#esb > section.pages > menu').on('click','div.dropdown > button.selectionCurrent', function(event) {
+			var dropdownButton = $(this);
+			var dropdownOptions = dropdownButton.next('ul');
 			if (this) {
-				if (breakpointButton.parent().hasClass('opened')) {
-					breakpointOptions.hide();
-					breakpointButton.parent().removeClass('opened');
+				if (dropdownButton.parent().hasClass('opened')) {
+					dropdownOptions.hide();
+					dropdownButton.parent().removeClass('opened');
 				} else {
-					breakpointOptions.show();
-					breakpointOptions.parent().addClass('opened');
-					breakpointOptions.parent().bind('mousedownoutside', function(event){
-						breakpointOptions.next('ul').hide()
-						breakpointOptions.parent().removeClass('opened');
+					$('#esb > section > menu > div.dropdown').removeClass('opened');
+					$('#esb > section > menu > div.dropdown > ul').hide();
+					dropdownOptions.show();
+					dropdownOptions.parent().addClass('opened');
+					dropdownOptions.parent().bind('mousedownoutside', function(event){
+						dropdownOptions.next('ul').hide()
+						dropdownOptions.parent().removeClass('opened');
 					});
 				}
 			};
 			event.stopPropagation();
 		});
 		// Make Device Menu Selection
-		$('#esb > section.pages > menu').on('click','span.deviceprofiles > ul > li', function(event) {
+		$('#esb > section.pages > menu').on('click','div.dropdown > ul > li', function(event) {
 			$(this).parent().hide().parent().removeClass('opened').find('.selected').removeClass('selected');
-			$(this).closest('span.deviceprofiles').find('span.selectionCurrent').html($(this).html());
-			EightShapes.Blocks.setDeviceProfile($(this));
+			$(this).closest('div.dropdown').find('button.selectionCurrent').html($(this).html());
+			if ($(this).closest('div.dropdown').hasClass('deviceprofiles')) {
+				EightShapes.Blocks.setDeviceProfile($(this));
+			} else if ($(this).closest('div.dropdown').hasClass('deviceorientation')) {
+				EightShapes.Blocks.setDeviceOrientation($(this).html().toLowerCase());
+			}
 		});
 
     //======================================================================================================
@@ -391,7 +397,8 @@ EightShapes.Blocks = {
       .attr('id','esb').addClass('fullscreen')
       .wrapInner('<section class="pages active" data-section="pages"><article class="page active"></article></section>')
       .append('<section class="components" data-section="components"><header><h2>Components</h2></header></section>');
-    $('#esb > section.pages').prepend(EightShapes.Blocks.menuMarkup());
+    EightShapes.Blocks.menuMarkup($('#esb > section.pages'));
+    EightShapes.Blocks.menuMarkup($('#esb > section.components'));
 
     // Grid's Page Sizing
     // $('body > section > menu > span.sizeslider > div.esbgallerysize').slider({
@@ -895,9 +902,11 @@ EightShapes.Blocks = {
 		profiles.each( function(i,profile) {
 			if (i === 0) {
 				// Set up the menu and specific the default selection
-				$('#esb > section > menu').append('<span class="deviceprofiles"><span class="selectionCurrent">' + $(profile).attr('name') + '</span><ul></ul></span>')
+				$('#esb > section > menu').append('<div class="deviceprofiles dropdown"><button class="selectionCurrent">' + $(profile).attr('name') + '</button><ul></ul></div>')
+				$('#esb > section > menu').append('<div class="deviceorientation dropdown"><button class="selectionCurrent">Portrait</button><ul><li>Portrait</li><li>Landscape</li></ul></div>')
+				$('#esb > section.pages > menu > div.deviceprofiles').after('<span class="controlset orientationtoggle"><button class="portrait active">Portrait</button><button class="landscape">Landscape</button></span>');
 			}
-			var newDevice = $('#esb > section.pages > menu > span.deviceprofiles > ul').append('<li>' + $(profile).attr('name') + '</li>').children().last();
+			var newDevice = $('#esb > section.pages > menu > div.deviceprofiles > ul').append('<li>' + $(profile).attr('name') + '</li>').children().last();
 			$(newDevice).attr('data-value',$(profile).attr('value'));
 			if ($(profile).attr('orientationToggle') === "on") {
 				$(newDevice).attr('data-orientationToggle','on');
@@ -915,14 +924,15 @@ EightShapes.Blocks = {
 		});
 	},
 	setDeviceProfile : function(option) {
-		$('#esb > section.pages > menu > span.deviceprofiles > ul > li').each( function(i,profile) {
+		$('#esb > section.pages > menu > div.deviceprofiles > ul > li').each( function(i,profile) {
 			$('body#esb').removeClass($(profile).attr('data-value'));
 		})
 		$('body#esb').addClass($(option).attr('data-value'));
 		if ($(option).attr('data-orientationToggle') === "on") {
 			EightShapes.Blocks.setDeviceOrientation($(option).attr('data-currentOrientation'))
+			$('#esb > section.pages > menu > div.deviceorientation').show()
 		} else {
-			$('body#esb').removeClass('portrait landscape');
+			$('#esb').removeClass('portrait landscape').find('section.pages > menu > div.deviceorientation').hide();
 		}
 		
 	},
@@ -1017,7 +1027,7 @@ EightShapes.Blocks = {
 			EightShapes.Blocks.display.toolbar = "on";		
 		} else {
 			EightShapes.Blocks.display.toolbar = "off";
-//			$('body#esb > section.pages > menu').hide();
+			$('body#esb > section.pages > menu').hide();
 			if (EightShapes.Blocks.display.markers === "on") {
 				$('body').addClass('markers');
 			}
@@ -1061,11 +1071,15 @@ EightShapes.Blocks = {
       .append('<dt>on</dt> <dd>' + EightShapes.Blocks.metadata.versiondate + '</dd> ')
       .append('<dt>for</dt> <dd>' + EightShapes.Blocks.metadata.client + '</dd> ')
   },
-  menuMarkup : function() {
+  menuMarkup : function(blocksSection) {
 
     // Summary: Centralize the markup added for toolbar sliders, buttons, etc
 
-    return '<menu> <span class="controlset  viewas"><button class="list active">List</button><button class="thumbnail">Thumbnail</button><button class="grid">Grid</button></span><button class="exitfullscreen">Exit Full Screen</button><button class="markers">Markers</button><button class="previous">Previous</button><button class="next">Next</button></menu>';
+		if($(blocksSection).hasClass('pages')) {
+    	$(blocksSection).prepend('<menu><span class="controlset  viewas"><button class="list active">List</button><button class="thumbnail">Thumbnail</button><button class="grid">Grid</button></span><button class="exitfullscreen">Exit Full Screen</button><button class="markers">Markers</button><button class="previous">Previous</button><button class="next">Next</button></menu>');
+		} else {
+			$(blocksSection).prepend('<menu></menu>');
+		}
 
 		// Sliders HTML <span class="controlset sizeslider"><h3>Size</h3><span class="icon small"></span><div class="esbgallerysize" style="width: 100px;"></div><span class="icon large"></span></span><span class="controlset heightslider"><h3>Height</h3><span class="icon short"></span><div class="esbgalleryaspectratio" style="width: 100px;"></div><span class="icon tall"></span></span>
 

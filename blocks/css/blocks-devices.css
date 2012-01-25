@@ -34,7 +34,7 @@
 	margin-top: -512px;
 	overflow: scroll;
 	background-color: white;
-	-moz-transform: scale(0.7);
+	-moz-transform: scale(0.8);
 }
 #esb.ipad > section.pages.grid > article > section.design {
 	top: 40px;
@@ -45,7 +45,7 @@
   border-width: 5px;
 }
 #esb.fullscreen.ipad > section.pages > article:before {
-	-moz-transform: scale(0.7);
+	-moz-transform: scale(0.8);
 	background-color: gray;
 	background-image: url("../images/ipad.jpg");
 	content: "";

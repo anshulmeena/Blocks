@@ -221,7 +221,7 @@ html #esb.fullscreen > section > menu:hover {
 	width: 33px;
 	height: 33px;
 	text-indent: -8888px;
-	background-color: #666;
+	background-color: #444;
 	color: white;
 	cursor: pointer;
 	background-image: url("../images/icons.gif");
@@ -229,7 +229,7 @@ html #esb.fullscreen > section > menu:hover {
 	background-position: -178px -98px;
 }
 #esb > section > menu button:hover {
-	background-color: #444;
+	background-color: #666;
 }
 #esb > section > menu > button {
 	display: none;
@@ -263,48 +263,68 @@ html #esb.fullscreen > section > menu:hover {
 #esb > section > menu > button.exitfullscreen {
 	background-position: -28px -99px;
 }
-#esb > section > menu > span.deviceprofiles {
+#esb > section > menu > div.dropdown {
 	color: white;
 	display: inline-block;
 	font-size: 15px;
 	margin-right: 6px;
 	position: relative;
-	top: 5px;
+	top: 1px;
 }
-#esb > section > menu > span.deviceprofiles > span.selectionCurrent {
-	background-color: #444444;
-	border: 0 none;
-	border-radius: 5px 5px 5px 5px;
-	cursor: pointer;
-	outline: 0 none;
-	padding: 7px 7px 8px;
+#esb > section > menu > div.dropdown > button.selectionCurrent {
+	background: none repeat scroll 0 0 #444;
+	padding: 7px 30px 7px 7px;
+	text-indent: 0;
+	width: auto;
 }
-#esb > section > menu > span.deviceprofiles > ul {
-	display: none;
-	position: absolute;
-	right: 0px;
-	top: 27px;
-	z-index: 100;
-	list-style: none;
-}
-#esb > section > menu > span.deviceprofiles > ul > li {
-	border: 0;
-	padding: 8px;
-	outline: 0;
-	background-color: #333;
-	color: white;
-	cursor: pointer;
-	border-bottom: solid 1px #666;
-	width: 150px;
-}
-#esb > section > menu > span.deviceprofiles > ul > li:hover {
+#esb > section > menu > div.dropdown.opened > button.selectionCurrent {
 	background-color: #666;
 }
-#esb > section > menu > span.deviceprofiles > ul > li:first-child {
+#esb > section > menu > div.dropdown > button.selectionCurrent:after {
+	content: " ";
+	margin: 0;
+	outline: 0;
+	width: 20px;
+	height: 20px;
+	text-indent: -8888px;
+	background-color: none;
+	color: white;
+	cursor: pointer;
+	background-image: url("../images/icons.gif");
+	background-repeat: no-repeat;
+	background-position: -98px -41px;
+	position: absolute;
+	display: inline-block;
+}
+#esb > section > menu > div.dropdown.opened > button.selectionCurrent:after {
+	background-position: -136px -41px;
+}
+#esb > section > menu > div.dropdown > ul {
+	display: none;
+	position: absolute;
+	right: 6px;
+	top: 40px;
+	z-index: 100;
+	list-style: none;
+	text-align: left;
+}
+#esb > section > menu > div.dropdown > ul > li {
+	border: 0;
+	padding: 8px 20px;
+	outline: 0;
+	background-color: #555;
+	color: white;
+	cursor: pointer;
+	border-bottom: solid 1px #222;
+}
+#esb > section > menu > div.dropdown > ul > li:hover {
+	background-color: #888;
+}
+#esb > section > menu > div.dropdown > ul > li:first-child {
 	-moz-border-radius-topright: 5px;
 	-moz-border-radius-topleft: 5px;
 }
-#esb > section > menu > span.deviceprofiles > ul > li:last-child {
+#esb > section > menu > div.dropdown > ul > li:last-child {
 	-moz-border-radius-bottomleft: 5px;
 	-moz-border-radius-bottomright: 5px;
 	border-bottom: 0px solid black;
