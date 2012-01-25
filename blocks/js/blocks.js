@@ -302,13 +302,14 @@ EightShapes.Blocks = {
 	          url: EightShapes.Blocks.sourceURL(component.source)+"js/"+id+".js",
 	          dataType: 'script',
 	          success: function(data) {
-	            component.loaded = true;
 	            EightShapes.Blocks.addComponent(component.locationsToAddIt);
 	          },
 	          error: function(data) {
-	            component.loaded = true;
 	            EightShapes.Blocks.addComponent(component.locationsToAddIt);
-	          }
+	          },
+						complete: function(data) {
+	            component.loaded = true;
+						} 
 	        });
 					// Closes JS AJAX
 					
@@ -903,7 +904,7 @@ EightShapes.Blocks = {
 			if (i === 0) {
 				// Set up the menu and specific the default selection
 				$('#esb > section > menu').append('<div class="deviceprofiles dropdown"><button class="selectionCurrent">' + $(profile).attr('name') + '</button><ul></ul></div>')
-				$('#esb > section > menu').append('<div class="deviceorientation dropdown"><button class="selectionCurrent">Portrait</button><ul><li>Portrait</li><li>Landscape</li></ul></div>')
+				$('#esb > section > menu').append('<div class="deviceorientation dropdown"><button class="selectionCurrent">Portrait</button><ul><li data-value="Portrait">Portrait</li><li data-value="Landscape">Landscape</li></ul></div>')
 				$('#esb > section.pages > menu > div.deviceprofiles').after('<span class="controlset orientationtoggle"><button class="portrait active">Portrait</button><button class="landscape">Landscape</button></span>');
 			}
 			var newDevice = $('#esb > section.pages > menu > div.deviceprofiles > ul').append('<li>' + $(profile).attr('name') + '</li>').children().last();
@@ -930,14 +931,19 @@ EightShapes.Blocks = {
 		$('body#esb').addClass($(option).attr('data-value'));
 		if ($(option).attr('data-orientationToggle') === "on") {
 			EightShapes.Blocks.setDeviceOrientation($(option).attr('data-currentOrientation'))
-			$('#esb > section.pages > menu > div.deviceorientation').show()
+			$('#esb > section.pages > menu > div.deviceorientation').show();
 		} else {
 			$('#esb').removeClass('portrait landscape').find('section.pages > menu > div.deviceorientation').hide();
 		}
 		
 	},
 	setDeviceOrientation : function(orientation) {
-		$('body#esb').removeClass('portrait landscape').addClass(orientation);
+		if (orientation === "landscape") { 
+			$('#esb > section.pages > menu > div.deviceorientation > button.selectionCurrent').html('Landscape');
+		} else {
+			$('#esb > section.pages > menu > div.deviceorientation > button.selectionCurrent').html('Portrait');
+		}
+		$('#esb').removeClass('portrait landscape').addClass(orientation.toLowerCase());
 	},
 	
   //======================================================================================================

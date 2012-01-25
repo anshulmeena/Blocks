@@ -273,9 +273,11 @@ html #esb.fullscreen > section > menu:hover {
 }
 #esb > section > menu > div.dropdown > button.selectionCurrent {
 	background: none repeat scroll 0 0 #444;
+	font: normal normal 15px Arial;
 	padding: 7px 30px 7px 7px;
 	text-indent: 0;
 	width: auto;
+	white-space: nowrap;
 }
 #esb > section > menu > div.dropdown.opened > button.selectionCurrent {
 	background-color: #666;
@@ -316,6 +318,8 @@ html #esb.fullscreen > section > menu:hover {
 	color: white;
 	cursor: pointer;
 	border-bottom: solid 1px #222;
+	font: normal normal 15px Arial;
+	white-space: nowrap;
 }
 #esb > section > menu > div.dropdown > ul > li:hover {
 	background-color: #888;
