@@ -159,6 +159,11 @@ margin-top: 0;
 	margin-left: 0;
 	-moz-transform: scale(1.0);
 }
+#esb.iphone.fullscreen > section.pages > article > section.design .esbmarker-wrapper > .esbmarker,
+#esb.iphone > section.pages.notes > article > section.design .esbmarker-wrapper > .esbmarker {
+	-moz-transform: scale(1);
+	-webkit-transform: scale(1);
+}
 
 /* Landscape */ 
 #esb.iphone.landscape > section.pages > article > section.design {
