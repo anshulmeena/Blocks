@@ -323,12 +323,14 @@ EightShapes.Blocks = {
     this.id = id;
     this.loaded = false;
     this.html = "";
-    this.designclasses = "";
+    this.embeddedclasses = "";
+		this.configclasses = "";
     this.design = "";
     this.type = "page";
     this.title = "[untitled]";
     this.doneness = "unknown";
     this.description = "";
+		this.pagefilename = id;
     this.index = EightShapes.Blocks.pc++;
     
     // Load page from a file in the project root directory into EightShapes.Blocks and the section.pages>article
@@ -339,18 +341,19 @@ EightShapes.Blocks = {
 
       $.ajax({
 				type: 'GET',
-				url: id+".html", 
+				url: page.pagefilename+".html", 
 				dataType: 'html',
 				success: function(results) {
 	        results = "<div>" + results + "</div>";
 	        page.html = results;
 	        page.design = $(results).children('section.viewport').children();
-	        page.designclasses = $(results).children('section.viewport').attr('class');
+	        page.embeddedclasses = $(results).children('section.viewport').attr('class');
 	        page.notes = $(results).children('aside.notes').children();
 	        page.loaded = true;
 	        $('#esb > section.pages > article[data-id=' + page.id + '] > section.viewport')
 	          .append($(page.design))
-	          .addClass(page.designclasses);
+						.addClass(page.configclasses)
+	          .addClass(page.embeddedclasses);
 	        $('#esb > section.pages > article[data-id=' + page.id + '] > aside.notes')
 	          .append($(page.notes));
         
@@ -462,6 +465,7 @@ EightShapes.Blocks = {
     elements.each(function (i,element) {
 
       var currentArticle = "";
+			var pagefilename = "";
       var id = $(element).attr('id');
 
       if ($(element).attr('data-id')) {
@@ -471,13 +475,20 @@ EightShapes.Blocks = {
       if (id === loadedPageID) {
         reachedLoadedPageYet = true;
       }
+			if ($(element).attr('variation')) {
+				pagefilename = id;
+				id =  id + "_" + $(element).attr('variation');
+			}
 
       // ESB Page exist?
       if (!EightShapes.Blocks.p[id]) {
         EightShapes.Blocks.p[id] = new EightShapes.Blocks.Page(id);
       }
-      
+
       // Update with Properties from Element Provided
+			if ($(element).attr('variation')) {
+				EightShapes.Blocks.p[id].pagefilename = pagefilename;
+			}
       if ($(element).attr('doneness')) {
         EightShapes.Blocks.p[id].doneness = $(element).attr('doneness');
       } 
@@ -487,7 +498,10 @@ EightShapes.Blocks = {
       if ($(element).attr('title')) {
         EightShapes.Blocks.p[id].title = $(element).attr('title');
       }
-      
+			if ($(element).attr('viewportClass')) {
+				EightShapes.Blocks.p[id].configclasses = $(element).attr('viewportClass');
+			}
+
       // ARTICLE Empty Components List
       var articleComponentsList = '<h3>Components</h3><ul class="componentlist itemstack"></ul>';      
 
