@@ -647,6 +647,9 @@ EightShapes.Blocks = {
       } else {
         if (!$component) {
           EightShapes.Blocks.c[id] = new EightShapes.Blocks.Component(id);
+					if ($(this).attr('data-source')) {
+						EightShapes.Blocks.c[id].source = $(this).attr('data-source');
+					}
           $component = EightShapes.Blocks.c[id];
         }
         $component.locationsToAddIt.push(this);
