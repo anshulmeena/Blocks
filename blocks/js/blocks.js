@@ -466,19 +466,24 @@ EightShapes.Blocks = {
 
       var currentArticle = "";
 			var pagefilename = "";
-      var id = $(element).attr('id');
 
+			// Assign ID from id (config file) or data-id (if inline for default page assigned during markup core)
+      var id = $(element).attr('id');
       if ($(element).attr('data-id')) {
         currentArticle = element;
         id = $(element).attr('data-id');
       }
+
+			// Handle variations intended to load the same page multiple times
+			pagefilename = id;
+			if ($(element).attr('variation')) {
+				id = id + "_" + $(element).attr('variation');
+			}
+			id = id.replace(/[\.\+\-\*]/g,"");
+
       if (id === loadedPageID) {
         reachedLoadedPageYet = true;
       }
-			if ($(element).attr('variation')) {
-				pagefilename = id;
-				id =  id + "_" + $(element).attr('variation');
-			}
 
       // ESB Page exist?
       if (!EightShapes.Blocks.p[id]) {
