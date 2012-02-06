@@ -228,6 +228,10 @@ html #esb.fullscreen > section > menu:hover {
 	background-repeat: no-repeat;
 	background-position: -178px -98px;
 }
+#esb > section > menu button.active,
+#esb > section > menu button.active:hover {
+	background-color: #eb6721;
+}
 #esb > section > menu button:hover {
 	background-color: #666;
 }
@@ -274,7 +278,7 @@ html #esb.fullscreen > section > menu:hover {
 #esb > section > menu > div.dropdown > button.selectionCurrent {
 	background: none repeat scroll 0 0 #444;
 	font: normal normal 15px Arial;
-	padding: 7px 30px 7px 7px;
+	padding: 7px;
 	text-indent: 0;
 	width: auto;
 	white-space: nowrap;
@@ -286,20 +290,21 @@ html #esb.fullscreen > section > menu:hover {
 	content: " ";
 	margin: 0;
 	outline: 0;
+	top: 6px;
 	width: 20px;
-	height: 20px;
+	height: 14px;
 	text-indent: -8888px;
 	background-color: none;
 	color: white;
 	cursor: pointer;
 	background-image: url("../images/icons.gif");
 	background-repeat: no-repeat;
-	background-position: -98px -41px;
-	position: absolute;
+	background-position: -98px -47px;
+	position: relative;
 	display: inline-block;
 }
 #esb > section > menu > div.dropdown.opened > button.selectionCurrent:after {
-	background-position: -136px -41px;
+	background-position: -136px -47px;
 }
 #esb > section > menu > div.dropdown > ul {
 	display: none;
@@ -700,6 +705,19 @@ html #esb.fullscreen > section > menu:hover {
 	display: block;
 }
 
+/* Maps View */
+
+#esb > section.map       > article {
+	position: absolute;
+	display: none;
+	left: 0;
+	top: 0;
+	margin: 0;
+	width: 250px;
+	white-space: normal;
+	height: 365px;
+}
+
 /* Grids View */
 
 #esb > section.grid      > section,
@@ -776,6 +794,7 @@ html #esb.fullscreen > section > menu:hover {
 #esb > section.sets.grid > section > article > header {
 	display: none;
 }
+#esb > section.maps      > article > section.viewport,
 #esb > section.grid      > section > article > section.viewport,
 #esb > section.grid      > article > section.viewport {
 	position: absolute;
@@ -798,6 +817,10 @@ html #esb.fullscreen > section > menu:hover {
 }
 #esb > section.grid      > aside {
 	display: block;
+}
+#esb > section.grid  > section > aside.notes,
+#esb > section.grid  > article > aside.notes {
+	display: none;
 }
 
 /*	Notes View */
@@ -863,10 +886,6 @@ html #esb.fullscreen > section > menu:hover {
 	-moz-box-shadow: 10px 10px 10px rgba(0,0,0,0.5);
 }
 #esb > section > article > aside.notes {
-	display: none;
-}
-#esb > section.grid  > section > aside.notes,
-#esb > section.grid  > article > aside.notes {
 	display: none;
 }
 #esb > section.notes > article > aside.notes {

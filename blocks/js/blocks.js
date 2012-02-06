@@ -27,6 +27,7 @@ EightShapes.Blocks = {
     // Default page viewed when you exit full screen
     lastView : "pages", // or "pages","components","activepage","activecomponent"
     lastViewID : "",
+		currentDisplayMode: "grid",
 		deviceprofiles : []
   },
 
@@ -72,16 +73,20 @@ EightShapes.Blocks = {
         
         // Identify and ID Current Page's Article
         var hrefsplit = window.location.href.split('/');
-        EightShapes.Blocks.metadata.currentpageid = hrefsplit[hrefsplit.length-1].substr(0,hrefsplit[hrefsplit.length-1].length-5);
+				// hrefsplit[hrefsplit.length-1].length-5
+        EightShapes.Blocks.metadata.currentpageid = hrefsplit[hrefsplit.length-1].split('.html')[0];
+				// Reset hash upon page refresh, since it may contain irrelevant hash values
+	      $.bbq.pushState({view:"fullscreen", id:EightShapes.Blocks.metadata.currentpageid});
         $('#esb > section.pages > article').attr('data-id',EightShapes.Blocks.metadata.currentpageid);
         EightShapes.Blocks.registerPage($('#esb > section.pages > article.active'));
-  
+
         // Register Pages, Components, and Sets from Config XML to EightShapes.Blocks.p, 
         // EightShapes.Blocks.c, and EightShapes.Blocks.s
         EightShapes.Blocks.registerPage($(XMLconfig).find('pages > page'));
         EightShapes.Blocks.registerComponent($(XMLconfig).find('components > component'));
         EightShapes.Blocks.registerSet($(XMLconfig).find('sets > set'));
 				EightShapes.Blocks.registerDeviceProfiles($(XMLconfig).find('deviceprofiles > profile'));
+				EightShapes.Blocks.registerMap($(XMLconfig).find('maps > map'));
         
         // Mark Embedded Components in Current Page
         EightShapes.Blocks.markComponent($('#esb > section.pages > article.active > section.viewport *.component'));
@@ -145,11 +150,19 @@ EightShapes.Blocks = {
     });
     // Toggle Grid/Thumbnail/List view mode for Pages and Components
     $('#esb > section > menu').on('click','span.viewas > button', function() {
+
+			// Get Selected Mode
+			var displayMode = $(this).html().toLowerCase();
+
+			// Set Display Preference (for memory when returning to view)
+			EightShapes.Blocks.display.currentDisplayMode = displayMode;
+
       $(this).addClass('active').siblings().removeClass('active');
       $('#esb > section.active')
-        .removeClass('list grid thumbnail notes').attr('style','').addClass($(this).html().toLowerCase())
+        .removeClass('list grid thumbnail notes map').attr('style','').addClass(displayMode)
         .children('article').attr('style','').children('section.viewport').attr('style','');
 
+			// Size Components Correctly within it's Block
       $('#esb > section.components.active.grid > article > section.variation:nth-child(3)').each( function(i,element) {
         $(element).css('width',($(element).find('section.viewport').width()/2+10)+'px');
         $(element).css('height',($(element).find('section.viewport').height()/2+60)+'px');
@@ -305,6 +318,7 @@ EightShapes.Blocks = {
 	            EightShapes.Blocks.addComponent(component.locationsToAddIt);
 	          },
 	          error: function(data) {
+							console.log('No script loaded: '+id)
 	            EightShapes.Blocks.addComponent(component.locationsToAddIt);
 	          },
 						complete: function(data) {
@@ -396,8 +410,14 @@ EightShapes.Blocks = {
       .attr('id','esb').addClass('fullscreen')
       .wrapInner('<section class="pages active" data-section="pages"><article class="page active"></article></section>')
       .append('<section class="components" data-section="components"><header><h2>Components</h2></header></section>');
-    EightShapes.Blocks.menuMarkup($('#esb > section.pages'));
-    EightShapes.Blocks.menuMarkup($('#esb > section.components'));
+
+		// Pages Menu Bar
+    $('#esb > section.pages').prepend('<menu><span class="controlset  viewas"><button class="list">List</button><button class="thumbnail">Thumbnail</button><button class="grid active">Grid</button></span><button class="exitfullscreen">Exit Full Screen</button><button class="markers">Markers</button><button class="previous">Previous</button><button class="next">Next</button></menu>');
+
+		// Sliders HTML <span class="controlset sizeslider"><h3>Size</h3><span class="icon small"></span><div class="esbgallerysize" style="width: 100px;"></div><span class="icon large"></span></span><span class="controlset heightslider"><h3>Height</h3><span class="icon short"></span><div class="esbgalleryaspectratio" style="width: 100px;"></div><span class="icon tall"></span></span>
+
+		// Components Menu Bar
+    $('#esb > section.components').prepend('<menu></menu>');
 
     // Grid's Page Sizing
     // $('body > section > menu > span.sizeslider > div.esbgallerysize').slider({
@@ -440,7 +460,7 @@ EightShapes.Blocks = {
       .append('<li class="pages" data-view="pages">Pages</a></li>')
       .append('<li class="components" data-view="components">Components</a></li>');
 
-    $('body > header > nav.primary > ul > li').click( function() {
+    $('body > header > nav.primary > ul > li').live('click', function() {
       $.bbq.pushState({view:$(this).attr("data-view"),id:"n/a"});
       return false;
     });
@@ -503,8 +523,8 @@ EightShapes.Blocks = {
       if ($(element).attr('title')) {
         EightShapes.Blocks.p[id].title = $(element).attr('title');
       }
-			if ($(element).attr('viewportClass')) {
-				EightShapes.Blocks.p[id].configclasses = $(element).attr('viewportClass');
+			if ($(element).attr('class')) {
+				EightShapes.Blocks.p[id].configclasses = $(element).attr('class');
 			}
 
       // ARTICLE Empty Components List
@@ -916,13 +936,13 @@ EightShapes.Blocks = {
 	// Device Profiles
 
 	registerDeviceProfiles : function(profiles) {
+
+    // Summary: Register zero or more device profiles from XML into the toolbar and default to the first device/orientation
+
     $('head').append('<link rel="stylesheet" href="blocks/css/blocks-devices.css"></link>');
 		profiles.each( function(i,profile) {
 			if (i === 0) {
-				// Set up the menu and specific the default selection
-				$('#esb > section > menu').append('<div class="deviceprofiles dropdown"><button class="selectionCurrent">' + $(profile).attr('name') + '</button><ul></ul></div>')
-				$('#esb > section > menu').append('<div class="deviceorientation dropdown"><button class="selectionCurrent">Portrait</button><ul><li data-value="Portrait">Portrait</li><li data-value="Landscape">Landscape</li></ul></div>')
-				$('#esb > section.pages > menu > div.deviceprofiles').after('<span class="controlset orientationtoggle"><button class="portrait active">Portrait</button><button class="landscape">Landscape</button></span>');
+				EightShapes.Blocks.deviceMenuMarkup(profile);
 			}
 			var newDevice = $('#esb > section.pages > menu > div.deviceprofiles > ul').append('<li>' + $(profile).attr('name') + '</li>').children().last();
 			$(newDevice).attr('data-value',$(profile).attr('value'));
@@ -940,6 +960,14 @@ EightShapes.Blocks = {
 				EightShapes.Blocks.setDeviceProfile(newDevice);
 			}
 		});
+	},
+	deviceMenuMarkup : function(profile) {
+
+    // Summary: Generate the markup for the device and orientation menus
+
+		$('#esb > section > menu')
+			.append('<div class="deviceprofiles dropdown"><button class="selectionCurrent">' + $(profile).attr('name') + '</button><ul></ul></div>')
+			.append('<div class="deviceorientation dropdown"><button class="selectionCurrent">Portrait</button><ul><li data-value="Portrait">Portrait</li><li data-value="Landscape">Landscape</li></ul></div>')
 	},
 	setDeviceProfile : function(option) {
 		$('#esb > section.pages > menu > div.deviceprofiles > ul > li').each( function(i,profile) {
@@ -961,6 +989,30 @@ EightShapes.Blocks = {
 			$('#esb > section.pages > menu > div.deviceorientation > button.selectionCurrent').html('Portrait');
 		}
 		$('#esb').removeClass('portrait landscape').addClass(orientation.toLowerCase());
+	},
+	
+  //======================================================================================================
+  // Maps
+
+	registerMap : function(maps) {
+		if(($('#esb > section.maps').length === 0) && ($(maps).length > 0)) {
+			$('#esb').append('<section class="maps" data-section="maps"><header><h2>Maps</h2></header></section>');
+			$('#esb > section.maps').append('<menu><button class="addmap">Add Map</button></menu>');
+	    $('body > header > nav > ul').prepend('<li class="maps" data-view="maps">Maps</a></li>')
+		}
+		
+	},
+	displayMap : function() {
+		
+	},
+	newMap : function() {
+		
+	},
+	generateMapXML : function() {
+		
+	},
+	zoomMap : function() {
+		
 	},
 	
   //======================================================================================================
@@ -994,7 +1046,8 @@ EightShapes.Blocks = {
     switch (view) {
       case "pages":
         $('body > header > nav > ul > li.pages').addClass('active');
-        $('body > section.pages').addClass('active grid');
+        $('body > section.pages').addClass('active');
+        $('body > section.pages').addClass(EightShapes.Blocks.display.currentDisplayMode);
         EightShapes.Blocks.display.lastView = "pages";
         EightShapes.Blocks.display.lastViewID = "";
         break;
@@ -1022,6 +1075,12 @@ EightShapes.Blocks = {
           });
         EightShapes.Blocks.display.lastView = "component";
         EightShapes.Blocks.display.lastViewID = id;
+        break;
+      case "maps":
+        $('body > header > nav > ul > li.maps').addClass('active');
+        $('body > section.maps').addClass('active');
+        EightShapes.Blocks.display.lastView = "maps";
+        EightShapes.Blocks.display.lastViewID = "";
         break;
       case "fullscreen":
         $('body').addClass('fullscreen');
@@ -1093,19 +1152,6 @@ EightShapes.Blocks = {
       .append('<dt>by</dt> <dd>' + EightShapes.Blocks.metadata.author + '</dd> ')
       .append('<dt>on</dt> <dd>' + EightShapes.Blocks.metadata.versiondate + '</dd> ')
       .append('<dt>for</dt> <dd>' + EightShapes.Blocks.metadata.client + '</dd> ')
-  },
-  menuMarkup : function(blocksSection) {
-
-    // Summary: Centralize the markup added for toolbar sliders, buttons, etc
-
-		if($(blocksSection).hasClass('pages')) {
-    	$(blocksSection).prepend('<menu><span class="controlset  viewas"><button class="list active">List</button><button class="thumbnail">Thumbnail</button><button class="grid">Grid</button></span><button class="exitfullscreen">Exit Full Screen</button><button class="markers">Markers</button><button class="previous">Previous</button><button class="next">Next</button></menu>');
-		} else {
-			$(blocksSection).prepend('<menu></menu>');
-		}
-
-		// Sliders HTML <span class="controlset sizeslider"><h3>Size</h3><span class="icon small"></span><div class="esbgallerysize" style="width: 100px;"></div><span class="icon large"></span></span><span class="controlset heightslider"><h3>Height</h3><span class="icon short"></span><div class="esbgalleryaspectratio" style="width: 100px;"></div><span class="icon tall"></span></span>
-
   },
   articleHeader : function(item) {
 
