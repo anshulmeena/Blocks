@@ -1,12 +1,8 @@
 == EightShapes Blocks
 
-EightShapes Blocks is the official internal code name for our HTML prototyping toolkit. This name may or may not be used for a potential public version of the toolkit.
+EightShapes Blocks is the name of the EightShapes toolkit to organize, annotate, and modularize HTML prototypes. 
 
 Documentation is available at http://blocks.eightshapes.com/
-
-== Getting Started
-
-1. Use the "Clone to Mac" button to create a local copy of this repository.
 
 == MIT Open Source License
 
