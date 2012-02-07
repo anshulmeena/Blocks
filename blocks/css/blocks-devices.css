@@ -32,6 +32,7 @@
 	overflow: scroll;
 	background-color: white;
 	-moz-transform: scale(0.8);
+	-webkit-transform: scale(0.8);
 }
 #esb.ipad > section.pages.grid > article {
     margin-bottom: 30px;
@@ -42,6 +43,7 @@
 	margin-left: 0;
 	margin-top: 0;
   -moz-transform: scale(0.32);
+  -webkit-transform: scale(0.32);
   border-width: 5px;
 }
 #esb.ipad > section.pages.notes > article > section.viewport {
@@ -50,6 +52,7 @@
 	margin-top: 0;
 	margin-left: 0;
 	-moz-transform: scale(0.5);
+	-webkit-transform: scale(0.5);
 }
 
 /* Landscape */ 
@@ -70,6 +73,7 @@
 }
 #esb.ipad.landscape > section.pages.grid > article > section.viewport {
   -moz-transform: scale(0.23);
+  -webkit-transform: scale(0.23);
 	margin-top: 30px;
 	margin-left: 0;
 	top: 0%;
@@ -78,6 +82,8 @@
 #esb.ipad.landscape > section.pages.notes > article > section.viewport {
 	-moz-transform: scale(0.45);
     -moz-transform-origin: topleft;
+		-webkit-transform: scale(0.45);
+   -webkit-transform-origin: topleft;
 	left:56px;
 	top: 98px;
     margin-left: 0;
@@ -89,6 +95,7 @@ margin-top: 0;
 #esb.fullscreen.ipad > section.pages > article:before,
 #esb.ipad > section.pages.notes > article:before {
 	-moz-transform: scale(0.8);
+	-webkit-transform: scale(0.8);
 	background-color: gray;
 	background-image: url("../images/ipad.jpg");
 	content: "";
@@ -103,24 +110,29 @@ margin-top: 0;
 }
 #esb.fullscreen.ipad.landscape > section.pages > article:before {
 	-moz-transform: rotate(90deg) scale(0.8);
+	-webkit-transform: rotate(90deg) scale(0.8);
   margin-left: -507px;
   margin-top: -610px;
 }
 #esb.ipad > section.pages.notes > article:before {
 	-moz-transform: scale(0.51);
   -moz-transform-origin: top left;
+	-webkit-transform: scale(0.51);
+  -webkit-transform-origin: top left;
 	left: 0px;
 	top: 40px;
 	margin-left: 0px;
 	margin-top: 0px;
 }
 #esb.ipad.landscape > section.pages.notes > article:before {
-    -moz-transform: scale(0.46) rotate(90deg);
+  -moz-transform: scale(0.46) rotate(90deg);
+  -webkit-transform: scale(0.46) rotate(90deg);
     margin-left: 0;
     margin-top: 43px;
     left: 590px;
     top: 0px;
 }
+
 /* ------------------------------------------------------------ 
 		iPhone
 ------------------------------------------------------------ */
