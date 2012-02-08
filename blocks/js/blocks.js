@@ -1,6 +1,7 @@
 (function(g,b,d){var c=b.head||b.getElementsByTagName("head"),D="readyState",E="onreadystatechange",F="DOMContentLoaded",G="addEventListener",H=setTimeout;
 function f(){
-   // $LAB stuff here
+  // This dynamic loading of LAB.js provided by the author of 
+  // LAB.js, Kyle Simpson (@getify): http://labjs.com/
   $LAB
   .script("blocks/js/jquery-1.7.1.min.js").wait()
   .script("blocks/js/jquery-ui-1.8.6.custom.min.js")
