@@ -1,3 +1,11 @@
+/*!
+ * EightShapes Blocks framework 2012.02.07
+ * http://eightshapes.com
+ *
+ * Copyright 2012, EightShapes LLC
+ * Terms of Use: http://unify.eightshapes.com/about-the-system/terms-of-use/
+ */
+
 var EightShapes = EightShapes || {};
 EightShapes.Blocks = {
 

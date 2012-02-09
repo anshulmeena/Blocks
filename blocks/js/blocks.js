@@ -1,3 +1,11 @@
+/*!
+ * EightShapes Blocks framework 2012.02.07
+ * http://eightshapes.com
+ *
+ * Copyright 2012, EightShapes LLC
+ * Terms of Use: http://unify.eightshapes.com/about-the-system/terms-of-use/
+ */
+
 (function(g,b,d){var c=b.head||b.getElementsByTagName("head"),D="readyState",E="onreadystatechange",F="DOMContentLoaded",G="addEventListener",H=setTimeout;
 function f(){
   // This dynamic loading of LAB.js provided by the author of 
