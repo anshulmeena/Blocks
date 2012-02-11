@@ -708,8 +708,11 @@ EightShapes.Blocks = {
       // Append Clone to Page Layout
       $(element).append($(clonedComponent).children())
 				.addClass(EightShapes.Blocks.c[id].classes)														// Component class
-				.addClass(EightShapes.Blocks.c[id].variations[variationid].classes)		// Component variation class
 				.addClass('loaded');																									// Designate as loaded
+				
+			if(EightShapes.Blocks.c[id].variations[variationid]) {
+				$(element).addClass(EightShapes.Blocks.c[id].variations[variationid].classes) // Component variation class
+			}
       
 			// Check if its a decendant component
 			containingComponentArticle = $(element).closest('#esb > section.components > article.component');
