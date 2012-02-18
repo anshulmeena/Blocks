@@ -1024,7 +1024,7 @@ EightShapes.Blocks = {
 	  if(($('#esb > section.maps').length === 0) && ($(maps).length > 0)) {
 	    $('#esb').append('<section class="maps" data-section="maps"><header><h2>Maps</h2></header></section>');
 	    $('#esb > section.maps').append('<menu><button class="addmap">Add Map</button></menu>');
-	    $('body > header > nav > ul').prepend('<li class="maps" data-view="maps">Maps</a></li>')
+//	    $('body > header > nav > ul').prepend('<li class="maps" data-view="maps">Maps</a></li>')
 	  }
 	},
 	displayMap : function() {
