@@ -74,7 +74,6 @@
 	margin-left: -512px;
 	overflow: scroll;
 	background-color: white;
-	overflow: hidden;
 }
 #esb.ipad.landscape > section.pages.grid > article {
 	height: 210px;
