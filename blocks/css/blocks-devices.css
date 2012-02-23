@@ -10,6 +10,20 @@
 		General
 ------------------------------------------------------------ */
 
+/* Make Viewport Hidden When in Blocks Modes */
+#esb.ipad > section.pages > article > section.viewport,
+#esb.fujitsu > section.pages > article > section.viewport,
+#esb.iphone > section.pages > article > section.viewport {
+	overflow: hidden;
+}
+
+/* Make Viewport Scrolled When Fullscreen */
+#esb.fullscreen.ipad > section.pages > article > section.viewport,
+#esb.fullscreen.fujitsu > section.pages > article > section.viewport,
+#esb.fullscreen.iphone > section.pages > article > section.viewport {
+	overflow: scroll;
+}
+
 /* Dark Gray Background Behind Device Image */
 
 #esb.fullscreen.ipad,
@@ -20,6 +34,8 @@
 	width: 100%;
 	background-color: #333;
 }
+
+
 
 /* ------------------------------------------------------------ 
 		iPad
@@ -37,7 +53,6 @@
 	left: 50%;
 	margin-left: -360px;
 	margin-top: -512px;
-	overflow: scroll;
 	background-color: white;
 	-moz-transform: scale(0.8);
 	-webkit-transform: scale(0.8);
@@ -72,7 +87,6 @@
 	left: 50%;
 	margin-top: -359px;
 	margin-left: -512px;
-	overflow: scroll;
 	background-color: white;
 }
 #esb.ipad.landscape > section.pages.grid > article {
@@ -157,7 +171,6 @@ margin-top: 0;
 	left: 50%;
 	margin-left: -160px;
 	margin-top: -240px;
-	overflow: scroll;
 	background-color: white;
 }
 #esb.iphone > section.pages.grid > article {
