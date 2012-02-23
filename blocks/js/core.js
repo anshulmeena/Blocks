@@ -1138,13 +1138,13 @@ EightShapes.Blocks = {
     if($(XMLconfig).find('display > property[name="componentcontainer"]')) {
       EightShapes.Blocks.display.componentcontainer = $(XMLconfig).find('display > property[name="componentcontainer"]').attr('value');
     }
-    if($(XMLconfig).find('display > property[name="markers"]').attr('value') === "true") {
+    if(($(XMLconfig).find('display > property[name="markers"]').attr('value') === "true") || ($(XMLconfig).find('display > property[name="markers"]').attr('value') === "on")) {
 			EightShapes.Blocks.display.markers = "on";
 		} else {
 			EightShapes.Blocks.display.markers = "off";
 			$('body#esb > section.pages > menu > button.markers').remove();
 		}
-    if($(XMLconfig).find('display > property[name="toolbar"]').attr('value') === "true") {
+    if(($(XMLconfig).find('display > property[name="toolbar"]').attr('value') === "true") || ($(XMLconfig).find('display > property[name="toolbar"]').attr('value') === "on")) {
 			EightShapes.Blocks.display.toolbar = "on";		
 		} else {
 			EightShapes.Blocks.display.toolbar = "off";
