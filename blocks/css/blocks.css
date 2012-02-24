@@ -220,6 +220,7 @@ html #esb.fullscreen > section > menu:hover {
 	display: none;
 }
 #esb > section > menu button {
+	display: inline-block;
 	background: none repeat scroll 0 0 transparent;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
