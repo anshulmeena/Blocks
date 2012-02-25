@@ -340,12 +340,12 @@ EightShapes.Blocks = {
               type: 'HEAD',
               url: css_resource_uri,
               success: function() {
-                if (css_request.getResponseHeader('Content-Length') > 0) {
+//                if (css_request.getResponseHeader('Content-Length') > 0) {
                   $('head').append('<link rel="stylesheet" href="' + css_resource_uri + '" />');
                   component.cssloaded = true;
-                } else {
-                  console.log('CSS resource is empty: ' + css_resource_uri);
-                }
+//                } else {
+//                  console.log('CSS resource is empty: ' + css_resource_uri);
+//                }
               },
               error: function(data) {
                console.log('CSS resource is missing: ' + css_resource_uri);
@@ -433,14 +433,22 @@ EightShapes.Blocks = {
     //    The BODY tag should have no other children
     //
 
-    if ($('body > section.viewport').length !== 1) {
-      alert('EightShapes Blocks will not function without <section class="viewport">');
+    if ((($('body > section.viewport').length !== 1) && ($('body > section.home') !== 1)) || ($('body').children('section').length > 1)) {
+      alert('EightShapes Blocks will not function without one and only one <section class="viewport"> or <section class="home">.');
       return false;
     }
-    $('body')
-      .attr('id','esb').addClass('fullscreen')
-      .wrapInner('<section class="pages active" data-section="pages"><article class="page active"></article></section>')
-      .append('<section class="components" data-section="components"><header><h2>Components</h2></header></section>');
+    $('body').attr('id','esb')
+
+		if ($('body > section.viewport').length === 1) {
+      $('body')
+				.addClass('fullscreen')
+				.wrapInner('<section class="pages active" data-section="pages"><article class="page active"></article></section>')
+				.append('<section class"home"></section>')
+		} else {
+      $('body')
+				.append('<section class="pages active" data-section="pages"><article class="page active"></article></section>')
+		}
+    $('body').append('<section class="components" data-section="components"><header><h2>Components</h2></header></section>');
 
     // Pages Menu Bar
     $('#esb > section.pages').prepend('<menu><span class="controlset  viewas"><button class="list">List</button><button class="thumbnail">Thumbnail</button><button class="grid active">Grid</button></span><button class="exitfullscreen">Exit Full Screen</button><button class="markers">Markers</button><button class="previous">Previous</button><button class="next">Next</button></menu>');
