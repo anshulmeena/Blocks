@@ -443,7 +443,7 @@ EightShapes.Blocks = {
       $('body')
 				.addClass('fullscreen')
 				.wrapInner('<section class="pages active" data-section="pages"><article class="page active"></article></section>')
-				.append('<section class"home"></section>')
+				.append('<section class="home"></section>')
 		} else {
       $('body')
 				.append('<section class="pages active" data-section="pages"><article class="page active"></article></section>')

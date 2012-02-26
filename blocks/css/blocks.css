@@ -36,7 +36,7 @@ ol{list-style:decimal}
 ul{list-style:disc}
 li{margin-left:30px}
 
-button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;font:14px/18px 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif}
+button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;font:14px/18px 'News Gothic MT','Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif}
 
 @font-face {
     font-family: 'MuseoSlab500';
@@ -96,7 +96,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb > header > dl {
 	display: block;
 	font-size: 11px;
-	font-family: Arial;
+	font-family: 'News Gothic MT',Arial;
 	font-weight: normal;
 	margin: 0px 0px 5px 20px;
 }
@@ -162,6 +162,99 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 }
 #esb > header > nav.primary > ul > li:hover {
 	color: #aaa;
+}
+
+/* EightShapes Blocks Title Page */
+
+#esb.esb-home > header {
+	background-color: rgba(0, 0, 0, 0.2);
+	border-top: 10px solid #EB6621;
+	left: 50%;
+	margin: 100px 0 0 -480px;
+	padding-bottom: 10px;
+	position: relative;
+	width: 960px;
+}
+#esb.esb-home > header > h1 {
+    font-size: 60px;
+		padding-top: 15px;
+}
+#esb.esb-home > header > dl {
+    margin-top: 20px;
+    font-size: 16px;
+}
+#esb.esb-home > header > nav.primary {
+    position: absolute;
+    right: 0px;
+    bottom: -75px;
+}
+#esb.esb-home > header > nav.primary > ul > li {
+    width: 170px;
+    margin-left: 20px;
+    text-align: left;
+    border-left: 0px;
+    background-color: rgba(0,0,0,0.2);
+    border-top: 5px solid #eb6621;
+}
+#esb.esb-home > section.pages,
+#esb.esb-home > section.components {
+	background-color: rgba(0, 0, 0, 0.1);
+	left: 50%;
+	margin-top: 75px;
+	padding: 10px;
+	position: relative;
+	width: 181px;
+	float: left;
+	margin-left: 0;
+	min-height: 325px;
+}
+#esb.esb-home > section.pages {
+	margin-left: 59px;
+}
+#esb.esb-home > section.pages > menu,
+#esb.esb-home > section.components > menu {
+    display:none;
+}
+#esb.esb-home > section.list > article {
+    border: 0px solid white;
+    margin-bottom: 3px;
+}
+#esb.esb-home > section.list > article > header {
+    padding: 0px;
+    margin-bottom: 0px;
+}
+#esb.esb-home > section.list > article > header > h2 {
+    font-size: 14px;
+		padding: 1px 0;
+		width: 170px;
+}
+#esb.esb-home > section.list > article > header > span.version,
+#esb.esb-home > section.list > article > header > span.description {
+    display: none;
+}
+#esb.esb-home > section > article > header > h2:before {
+	height: 18px;
+	width: 18px;
+}
+#esb.esb-home > section.home {
+	display: block;
+	left: 50%;
+	margin-left: -481px;
+	margin-top: 20px;
+	position: absolute;
+	width: 960px;
+}
+#esb.esb-home > section.home > article {
+	display: block;
+}
+#esb.esb-home > section.home > article > aside.notes {
+	background-color: rgba(0, 0, 0, 0.1);
+	display: block;
+	min-height: 360px;
+	left: -20px;
+	padding: 20px;
+	top: 0;
+	width: 480px;
 }
 
 /*	EightShapes Blocks Toolbar Menu, Pages (including full screen) or Components */
@@ -300,7 +393,7 @@ html #esb.fullscreen > section > menu:hover {
 }
 #esb > section > menu > div.dropdown > button.selectionCurrent {
 	background: none repeat scroll 0 0 #444;
-	font: normal normal 15px Arial;
+	font: normal normal 15px 'News Gothic MT',Arial;
 	padding: 7px;
 	text-indent: 0;
 	width: auto;
@@ -346,7 +439,7 @@ html #esb.fullscreen > section > menu:hover {
 	color: white;
 	cursor: pointer;
 	border-bottom: solid 1px #222;
-	font: normal normal 15px Arial;
+	font: normal normal 15px 'News Gothic MT',Arial;
 	white-space: nowrap;
 }
 #esb > section > menu > div.dropdown > ul > li:hover {
@@ -507,7 +600,7 @@ html #esb.fullscreen > section > menu:hover {
 }
 #esb > section > section > header > h2,
 #esb > section > article > header > h2 {
-	font: normal 16px Arial;
+	font: normal 16px 'News Gothic MT', Arial;
 	margin: 0px;
 	padding: 0px;
 	color: #888;
@@ -516,7 +609,7 @@ html #esb.fullscreen > section > menu:hover {
 #esb > section > section > header > h2 > span.count,
 #esb > section > article > header > h2 > span.count {
 	font-size: 14px;
-	font-family: Arial;
+	font-family: 'News Gothic MT', Arial;
 	color: #888;
 }
 #esb > section.list > section > header > h2:hover,
@@ -574,7 +667,7 @@ html #esb.fullscreen > section > menu:hover {
 	margin-right: 20px;
 }
 #esb > section > aside ul > li {
-	font-family: Arial;
+	font-family: 'News Gothic MT', Arial;
 	font-size: 14px;
 	margin: 0px;
 	display: inline-block;
@@ -914,7 +1007,7 @@ html #esb.fullscreen > section > menu:hover {
 #esb > section.notes > article > aside.notes {
 	color: white;
 	display: block;
-	font-family: Arial;
+	font-family: 'News Gothic MT', Arial;
 	line-height: 1.2em;
 	overflow: visible;
 	position: absolute;
@@ -935,8 +1028,9 @@ html #esb.fullscreen > section > menu:hover {
 #esb > section.notes > article > aside.notes p {
 	font-size: 15px;
 	font-weight: normal;
-	font-family: Arial;
+	font-family: 'News Gothic MT', Arial;
 	line-height: 1.2em;
+	padding-bottom: 5px;
 }
 #esb > section.notes > article > aside.notes ul {
 	list-style: disc outside none;
@@ -946,7 +1040,7 @@ html #esb.fullscreen > section > menu:hover {
 	display: inline;  
 	font-size: 14px;
 	font-weight: normal;
-	font-family: Arial;
+	font-family: 'News Gothic MT', Arial;
 	line-height: 1.2em;
 }
 #esb > section.notes > article > aside.notes ul > li {
@@ -1053,7 +1147,7 @@ html #esb.fullscreen > section > menu:hover {
 }
 #esb > section.notes > article > aside.notes   li.scenario > h4 {
 	color: white;
-	font-family: Arial;
+	font-family: 'News Gothic MT', Arial;
 	font-size: 13px;
 }
 #esb > section.notes > article > aside.notes   li.scenario > article.page {
@@ -1365,7 +1459,7 @@ html #esb.fullscreen > section > menu:hover {
 }
 #esb > section.sets.selected > section            > article.page > header > span.enumeration {
 	display: inline-block;
-	font-family: Arial;
+	font-family: 'News Gothic MT', Arial;
 	font-size: 20px;
 	font-weight: bold;
 	color: white;
