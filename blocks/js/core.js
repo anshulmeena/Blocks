@@ -775,17 +775,18 @@ EightShapes.Blocks = {
     // Description: Marks the component with a label and also embeds relevant buttons (previous/next variation, 
     //    show/hide, remove) and notations (notes available? variation id, etc)
 
-    $(componentElements).each( function (i,element) {
-      var marker = EightShapes.Blocks.m++;
-      
+    $(componentElements).each(function (i, element) {
+      var marker = EightShapes.Blocks.m++,
       // Default values
-      var componentid = "";
-      var componentname = "[Untitled]";
-      var variationTitle = "Default";
+        componentid = "",
+        componentname = "[Untitled]",
+        variationHTML = null,
+        variationTitle = "Default";
       
       if ($(element).attr('data-component')) {
         componentid = $(element).attr('data-component');
       }
+
       if ($(element).attr('title')) {
         componentname = $(element).attr('title');
       } else if (EightShapes.Blocks.c[componentid]) {
@@ -793,57 +794,89 @@ EightShapes.Blocks = {
           componentname = EightShapes.Blocks.c[componentid].title;
         } 
       }
+
       if ($(element).attr('data-variation')) {
-        var variationHTML = $(EightShapes.Blocks.c[componentid].html).find('[data-variation='+$(element).attr('data-variation')+']');
+        variationHTML = $(EightShapes.Blocks.c[componentid].html)
+                          .find('[data-variation='+$(element)
+                          .attr('data-variation')+']');
         variationTitle = ($(variationHTML).attr('title')) ? $(variationHTML).attr('title') : $(variationHTML).attr('data-variation');
       }
       
       // Ensure Component has Component Class
       $(element).addClass('component');
-      $(element).attr('data-marker',marker);
+      $(element).attr('data-marker', marker);
 
       // Add Marker to Design
-      if(EightShapes.Blocks.display.markers === "on") {
-        $(element).prepend(' <div class="esbmarker-wrapper"><section class="esbmarker"><div><button class="esb remove"></button><button class="esb showhide"></button>' + componentname + '</div></section></div>');
+      if (EightShapes.Blocks.display.markers === "on") {
+        $(element).prepend(' <div class="esbmarker-wrapper"><section class="esbmarker" data-marker="' + marker + '"><div><button class="esb remove"></button><button class="esb showhide"></button>' + componentname + '</div></section></div>');
+
         // Notes
-        if(EightShapes.Blocks.c[componentid] && (EightShapes.Blocks.c[componentid].hasNotes || EightShapes.Blocks.c[componentid].variationCount > 1)) {
-          $(element).find('section.esbmarker > div:first-child').append('<button class="esb notes"></button>')
+        if (EightShapes.Blocks.c[componentid] && 
+            (EightShapes.Blocks.c[componentid].hasNotes || 
+             EightShapes.Blocks.c[componentid].variationCount > 1)) {
+          $(element).find('section.esbmarker > div:first-child').append('<button class="esb notes"></button>');
         }
         /* 
         $(element).find('section.esbmarker').click( function() {
           $('#esb > section').removeClass('active');
           $('#esb > section.components').addClass('active').addClass('notes');
-        })
+        });
         */
-        $(element).find('section.esbmarker button.showhide').click( function(event) { EightShapes.Blocks.toggleComponentDisplay(event); event.stopPropagation(); })
-        $(element).find('section.esbmarker button.remove').click( function(event) { EightShapes.Blocks.removeComponent(event); event.stopPropagation(); })
+        $(element).find('section.esbmarker button.showhide').click( function(event) { 
+          EightShapes.Blocks.toggleComponentDisplay(event); 
+          event.stopPropagation(); 
+        });
+        $(element).find('section.esbmarker button.remove').click( function(event) { 
+          EightShapes.Blocks.removeComponent(event); 
+          event.stopPropagation(); 
+        });
       }
       
       // Add Marker to Notes
-      var noteElement = $(element).closest('article.page').children('aside.notes').find('ul.componentlist').append('<li class="esbmarker" data-marker="' + marker + '" data-id="' + componentid + '"></li>').find('li:last-child');
+      var noteElement = $(element)
+        .closest('article.page')
+        .children('aside.notes')
+        .find('ul.componentlist')
+        .append('<li class="esbmarker" data-marker="' + marker + '" data-id="' + componentid + '"></li>')
+        .find('li:last-child');
+
       $(noteElement).append('<div><button class="esb remove"></button><button class="esb showhide"></button>' + componentname + '</div>')
-      $(noteElement).find('button.remove').click( function(event) { EightShapes.Blocks.removeComponent(event) })
-      $(noteElement).find('button.showhide').click( function(event) { EightShapes.Blocks.toggleComponentDisplay(event) })
+      $(noteElement).find('button.remove').click( function(event) { 
+        EightShapes.Blocks.removeComponent(event) 
+      });
+      $(noteElement).find('button.showhide').click( function(event) { 
+        EightShapes.Blocks.toggleComponentDisplay(event) 
+      });
       $(noteElement).click( function() {
         if ($(this).attr('data-id') !== "") {
 //	Function call needs to be revised based on state-machine	
 //         EightShapes.Blocks.gtC($(this).attr('data-id'));
         }
-      })
+      });
 
 			// If variations exist, add Previous & Next buttons.
-      if(EightShapes.Blocks.c[componentid] && (EightShapes.Blocks.c[componentid].variationCount>1)) {
-        $(noteElement).find('button.showhide').after('<button class="esb next"></button><button class="esb previous"></button>')
-        $(noteElement).find('button.previous').click( function(event) { EightShapes.Blocks.previousComponent(event) })
-        $(noteElement).find('button.next').click( function(event) { EightShapes.Blocks.nextComponent(event) })
+      if (EightShapes.Blocks.c[componentid] && 
+          (EightShapes.Blocks.c[componentid].variationCount > 1)) {
+
+        $(noteElement)
+          .find('button.showhide')
+          .after('<button class="esb next"></button><button class="esb previous"></button>');
+
+        $(noteElement).find('button.previous').click(function(event) { 
+          EightShapes.Blocks.previousComponent(event) 
+        });
+
+        $(noteElement).find('button.next').click(function(event) { 
+          EightShapes.Blocks.nextComponent(event) 
+        });
       }
 
     });
   },
 	loadComponentJSandAddToLocations : function(component) {
-    $.ajax( {
+    $.ajax({
       type: 'GET',
-      url: EightShapes.Blocks.sourceURL(component.source)+"js/"+component.id+".js",
+      url: EightShapes.Blocks.sourceURL(component.source) + "js/" + component.id + ".js",
       dataType: 'script',
 			complete: function(data) {
         EightShapes.Blocks.addComponent(component.locationsToAddIt);
@@ -860,9 +893,11 @@ EightShapes.Blocks = {
     // Summary: Toggles the visible display of a component element in BODY>SECTION.pages>ARTICLE>section.viewport
 
     event.stopPropagation();
+
     var marker = $(event.target).closest('.esbmarker[data-marker]').attr('data-marker');
     var notesItem = $('body').find('aside.notes li[data-marker='+marker+']');
     var designItem = $('body').find('section.viewport .component[data-marker='+marker+']');
+
     if ($(notesItem).hasClass('hidden')) {
       $(notesItem).removeClass('hidden');
       $(designItem).slideDown(1000);
