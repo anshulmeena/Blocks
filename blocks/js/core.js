@@ -340,12 +340,15 @@ EightShapes.Blocks = {
               type: 'HEAD',
               url: css_resource_uri,
               success: function() {
-//                if (css_request.getResponseHeader('Content-Length') > 0) {
+                // Note: Content-Length isn't present when Blocks is loaded via file://
+                // and responseText isn't present when Blocks is loaded via http://.
+                if (css_request.getResponseHeader('Content-Length') > 0 ||
+                    css_request.responseText.length > 0) {
                   $('head').append('<link rel="stylesheet" href="' + css_resource_uri + '" />');
                   component.cssloaded = true;
-//                } else {
-//                  console.log('CSS resource is empty: ' + css_resource_uri);
-//                }
+                } else {
+                  console.log('CSS resource is empty: ' + css_resource_uri);
+                }
               },
               error: function(data) {
                console.log('CSS resource is missing: ' + css_resource_uri);
