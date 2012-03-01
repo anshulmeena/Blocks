@@ -2,3 +2,4 @@
 
 EightShapes Blocks is a toolkit to organize, annotate, and modularize HTML prototypes created by EightShapes, LLC (http://www.eightshapes.com).. 
 
+You are welcome to fork this repository. However, we are responding to pull requests from the community to update the master at our own discretion, and may not incorporate all extensions produced by the community. 
