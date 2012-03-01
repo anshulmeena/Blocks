@@ -12,7 +12,6 @@ function f(){
   // LAB.js, Kyle Simpson (@getify): http://labjs.com/
   $LAB
   .script("blocks/js/jquery-1.7.1.min.js").wait()
-  .script("blocks/js/jquery-ui-1.8.6.custom.min.js")
   .script("blocks/js/jquery-bbq.js")
   .script("blocks/js/core.js")
   .wait(function(){
