@@ -722,7 +722,9 @@ EightShapes.Blocks = {
       var id = $(this).attr('data-component');
       var $component = EightShapes.Blocks.c[id];
       if ($component && $component.loaded) {
-        EightShapes.Blocks.addComponent(this);
+				if ($(this).hasClass('loaded') === false) {
+        	EightShapes.Blocks.addComponent(this);
+				}
       } else {
         if (!$component) {
           EightShapes.Blocks.c[id] = new EightShapes.Blocks.Component(id);
