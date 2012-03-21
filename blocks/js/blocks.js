@@ -58,8 +58,9 @@ EightShapes.Blocks = {
     // (pending idea) Does a related library exist? (and thus, expand Blocks views for accessing library assets)
     library : false,
     projects : true,
-    // (pending idea) Does a prototype Blocks homepage exist, and if so, default to it?
+    // Does a prototype Blocks homepage exist, and if so, default to it?
     homepage : false,
+		startpage : "page",
     // Default sizing for Grid items
     aspectratio : 1.25,
     galleryscale : 0.28,
@@ -75,6 +76,28 @@ EightShapes.Blocks = {
   p : {},              // Pages  
   c : {},              // Components
   s : {},              // Sets
+	home : {
+		load : function() {
+      $.ajax({
+				type: 'GET',
+				url: "index.html", 
+				dataType: 'html',
+				success: function(results) {
+	        EightShapes.Blocks.home.loaded = true;
+	        results = "<div>" + results + "</div>";
+	        $('#esb > section.home').append($(results).children('section.home').children())
+					EightShapes.Blocks.home.wrap();
+				}	// end success
+      }); // end ajax
+		},
+		wrap : function() {
+			$('#esb > section.home')
+				.wrapInner(document.createElement("aside"))
+				.wrapInner(document.createElement("article"));
+			$('#esb > section.home > article > aside').addClass('notes');
+		},
+		loaded : false
+	},					// Home Page
   m : 0,              // Marker Count (enumerated to relate marked components in layouts and ASIDE.notes lists)
   pc : 0,             // Page Count (enumerated because...I don't remember)
   metadata : {},      // Prototype Metadata (eventually, author, last updated, version, etc)
@@ -117,12 +140,16 @@ EightShapes.Blocks = {
 //RM        EightShapes.Blocks.metadata.currentpageid = hrefsplit[hrefsplit.length-1].substr(0,hrefsplit[hrefsplit.length-1].length-5);
         // hrefsplit[hrefsplit.length-1].length-5
         EightShapes.Blocks.metadata.currentpageid = hrefsplit[hrefsplit.length-1].split('.html')[0];
-        // Reset hash upon page refresh, since it may contain irrelevant hash values
-        $.bbq.pushState({view:"fullscreen", id:EightShapes.Blocks.metadata.currentpageid});
 
-        $('#esb > section.pages > article').attr('data-id',EightShapes.Blocks.metadata.currentpageid);
-        EightShapes.Blocks.registerPage($('#esb > section.pages > article.active'));
-  
+        // Reset hash upon page refresh, since it may contain irrelevant hash values
+				if (EightShapes.Blocks.display.startpage === "page") {
+        	$.bbq.pushState({view:"fullscreen", id:EightShapes.Blocks.metadata.currentpageid});
+        	$('#esb > section.pages > article').attr('data-id',EightShapes.Blocks.metadata.currentpageid);
+        	EightShapes.Blocks.registerPage($('#esb > section.pages > article.active'));
+				} else {
+        	$.bbq.pushState({view:"home", id:""});
+				}
+
         // Register Pages, Components, and Sets from Config XML to EightShapes.Blocks.p, 
         // EightShapes.Blocks.c, and EightShapes.Blocks.s
         EightShapes.Blocks.registerPage($(XMLconfig).find('pages > page'));
@@ -155,16 +182,6 @@ EightShapes.Blocks = {
 			} else {
 	      $.bbq.pushState({ view : EightShapes.Blocks.display.lastView, id : EightShapes.Blocks.display.lastViewID });
 			}
-      for(componentid in EightShapes.Blocks.c) {
-        if(!EightShapes.Blocks.c[componentid].loaded) {
-          EightShapes.Blocks.c[componentid].load();
-        }
-      }
-      for(pageid in EightShapes.Blocks.p) {
-        if(!EightShapes.Blocks.p[pageid].loaded) {
-          EightShapes.Blocks.p[pageid].load();
-        }
-      }
     });
     // Go From Article to Article
     $('#esb > section > menu').on('click','button.next', function() {
@@ -456,21 +473,31 @@ EightShapes.Blocks = {
     //    The BODY tag should have no other children
     //
 
-    if ((($('body > section.viewport').length !== 1) && ($('body > section.home') !== 1)) || ($('body').children('section').length > 1)) {
-      alert('EightShapes Blocks will not function without one and only one <section class="viewport"> or <section class="home">.');
-      return false;
-    }
+		// Add ESB ID to BODY tag
     $('body').attr('id','esb')
 
+		// If Page Viewport, then Set Up Full Screen
 		if ($('body > section.viewport').length === 1) {
+			EightShapes.Blocks.display.startpage = "page";
       $('body')
 				.addClass('fullscreen')
-				.wrapInner('<section class="pages active" data-section="pages"><article class="page active"></article></section>')
-				.append('<section class="home"></section>')
-		} else {
+				.wrapInner('<section class="pages active" data-section="pages"><article class="page active"></article></section>');
+
+		// If Home, then Setup Home Start Page
+		} else if ($('body > section.home').length === 1) {
+			EightShapes.Blocks.display.startpage = "home";
+			EightShapes.Blocks.home.loaded = true;
+			EightShapes.Blocks.home.wrap();
       $('body')
 				.append('<section class="pages active" data-section="pages"><article class="page active"></article></section>')
+
+		// Else Return Failed Load
+		} else {
+      alert('EightShapes Blocks will not function without one and only one <section class="viewport"> or <section class="home">.');
+      return false;
 		}
+
+		// Add Empty Components Element
     $('body').append('<section class="components" data-section="components"><header><h2>Components</h2></header></section>');
 
     // Pages Menu Bar
@@ -1157,19 +1184,35 @@ EightShapes.Blocks = {
     }
     
     // Flush View Classes
-    $('body').removeClass('fullscreen');
+    $('body').removeClass('fullscreen esb-home');
     $('body > header > nav > ul > li').removeClass('active');
     $('body > section').removeClass('active notes grid list thumbnail').attr('style','');
     $('body > section > article').removeClass('active list thumbnail grid inlineflow').attr('style','').children('section.viewport').attr('style','');
 
     // Set View Classes for Current View
     switch (view) {
+			case "home":
+				$('body').addClass('esb-home');
+				$('body > section.home').addClass('notes');
+				$('body > section.pages').addClass('list');
+				$('body > section.components').addClass('list');
+        EightShapes.Blocks.display.lastView = "home";
+        EightShapes.Blocks.display.lastViewID = "";
+        if(!EightShapes.Blocks.home.loaded) {
+          EightShapes.Blocks.home.load();
+        }
+				break;
       case "pages":
         $('body > header > nav > ul > li.pages').addClass('active');
 				$('body > section.pages').addClass('active');
 				$('body > section.pages').addClass(EightShapes.Blocks.display.currentDisplayMode);
         EightShapes.Blocks.display.lastView = "pages";
         EightShapes.Blocks.display.lastViewID = "";
+	      for(pageid in EightShapes.Blocks.p) {
+	        if(!EightShapes.Blocks.p[pageid].loaded) {
+	          EightShapes.Blocks.p[pageid].load();
+	        }
+	      }
         break;
       case "page":
         $('body > header > nav > ul > li.pages').addClass('active');
@@ -1177,12 +1220,20 @@ EightShapes.Blocks = {
         $('body > section.pages > article[data-id="' + id + '"]').addClass('active')
         EightShapes.Blocks.display.lastView = "page";
         EightShapes.Blocks.display.lastViewID = id;
+        if(!EightShapes.Blocks.p[id].loaded) {
+          EightShapes.Blocks.p[id].load();
+        }
         break;
       case "components":
         $('body > header > nav > ul > li.components').addClass('active');
         $('body > section.components').addClass('active grid');
         EightShapes.Blocks.display.lastView = "components";
         EightShapes.Blocks.display.lastViewID = "";
+	      for(componentid in EightShapes.Blocks.c) {
+	        if(!EightShapes.Blocks.c[componentid].loaded) {
+	          EightShapes.Blocks.c[componentid].load();
+	        }
+	      }
         break;
       case "component":
         $('body > header > nav > ul > li.components').addClass('active');
@@ -1195,6 +1246,9 @@ EightShapes.Blocks = {
           });
         EightShapes.Blocks.display.lastView = "component";
         EightShapes.Blocks.display.lastViewID = id;
+        if(!EightShapes.Blocks.c[id].loaded) {
+          EightShapes.Blocks.c[id].load();
+        }
         break;
       case "fullscreen":
         $('body').addClass('fullscreen');
@@ -1224,6 +1278,14 @@ EightShapes.Blocks = {
 		} else {
 			EightShapes.Blocks.display.markers = "off";
 			$('body#esb > section.pages > menu > button.markers').remove();
+		}
+    if(($(XMLconfig).find('display > property[name="homepage"]').attr('value') === "on") || (EightShapes.Blocks.display.homepage === "on")) {
+			EightShapes.Blocks.display.homepage = "on";
+			$('body#esb > header > nav.primary > ul')
+				.prepend('<li class="home" data-view="home"></li>');
+			if($('body').children('section.home').length === 0) {
+				$('body').append('<section class="home"></section>');
+			}
 		}
     if(($(XMLconfig).find('display > property[name="toolbar"]').attr('value') === "true") || ($(XMLconfig).find('display > property[name="toolbar"]').attr('value') === "on")) {
 			EightShapes.Blocks.display.toolbar = "on";		
