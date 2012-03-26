@@ -296,7 +296,9 @@ EightShapes.Blocks = {
     $(document).on('click','#esb > section.active.selected > header > h2, #esb > section.active.notes > header > h2', function() {
       $('#esb > header > nav.primary > ul > li.' + $(this).children('h2').html().toLowerCase()).click();
     });
-
+		$(document).on('click','#esb > section.notes > article > aside.notes > h3.collapsible', function() {
+			$(this).toggleClass('collapsed');
+		})
   },
 
   //======================================================================================================
@@ -615,7 +617,7 @@ EightShapes.Blocks = {
 			}
 
       // ARTICLE Empty Components List
-      var articleComponentsList = '<h3>Components</h3><ul class="componentlist itemstack"></ul>';      
+      var articleComponentsList = '<h3 class="collapsible">Components</h3><ul class="componentlist itemstack"></ul>';      
 
       // Section > Article exist?
       if ($('#esb > section.pages > article[data-id="' + id + '"]').length === 0) {
@@ -696,7 +698,7 @@ EightShapes.Blocks = {
       var articleHeader = '<header><button class="esb remove"></button><h2 class="' + EightShapes.Blocks.c[id].doneness + '">' + EightShapes.Blocks.c[id].title + '</h2><span class="description">' + EightShapes.Blocks.c[id].description + '</span></header>';
 
       // Article Notes Default
-      var articleNotes = '<h3>Variations</h3><ul class="variationlist itemstack"></ul>';      
+      var articleNotes = '<h3 class="collapsible">Variations</h3><ul class="variationlist itemstack"></ul>';      
       // Append Notes from Component File
       if (EightShapes.Blocks.c[id].hasNotes) {
         articleNotes += EightShapes.Blocks.c[id].notes;
