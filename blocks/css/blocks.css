@@ -199,6 +199,9 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
     background-color: rgba(0,0,0,0.2);
     border-top: 5px solid #eb6621;
 }
+#esb.esb-home > header > nav.primary > ul > li.home {
+	display: none;
+}
 #esb.esb-home > section.pages,
 #esb.esb-home > section.components {
 	background-color: rgba(0, 0, 0, 0.1);
