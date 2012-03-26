@@ -231,7 +231,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 }
 #esb.esb-home > section.list > article > header > h2 {
     font-size: 14px;
-		padding: 1px 0;
+		padding: 1px 0 0 20px;
 		width: 170px;
 }
 #esb.esb-home > section.list > article > header > span.version,
@@ -241,6 +241,8 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb.esb-home > section > article > header > h2:before {
 	height: 18px;
 	width: 18px;
+	left: 7px;
+	position: absolute;
 }
 #esb.esb-home > section.home {
 	display: block;
